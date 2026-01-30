@@ -1,0 +1,15 @@
+.img-animate{
+
+    transition: all 1s ease-out;
+}
+
+/* @keyframes zoom-in-zoom-out {
+    0% {
+        opacity: 0;
+        visibility: hidden;
+    }
+    100% {
+        opacity: 1;
+        visibility: visible;
+    }
+  } */

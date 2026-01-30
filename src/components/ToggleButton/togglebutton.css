@@ -1,0 +1,131 @@
+.wrg-toggle {
+    touch-action: pan-x;
+    display: inline-block;
+    position: relative;
+    cursor: pointer;
+    background-color: transparent;
+    border: 0;
+    padding: 0;
+    margin-top: 0.5rem;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    -webkit-tap-highlight-color: transparent;
+  }
+  
+  .wrg-toggle-input {
+    border: 0;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+  }
+  
+  .wrg-toggle-check,
+  .wrg-toggle-uncheck {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    top: 10px;
+    bottom: 0;
+    margin-top: auto;
+    margin-bottom: auto;
+    line-height: 0;
+    opacity: 0;
+    transition: opacity 0.25s ease;
+    font-size: 0.7rem;
+    right: 5px;
+  }
+  .wrg-toggle-check {
+    left: 8px;
+  }
+  .wrg-toggle-uncheck {
+    opacity: 1;
+    right: 20px;
+  }
+  
+  .wrg-toggle-uncheck span,
+  .wrg-toggle-check span {
+    align-items: center;
+    display: flex;
+    height: 10px;
+    justify-content: center;
+    position: relative;
+    width: 10px;
+  }
+  
+  .wrg-toggle-container {
+    width: 60px;
+    height: 24px;
+    padding: 0;
+    border-radius: 30px;
+    background-color: #262938;
+  
+    transition: all 0.2s ease;
+  }
+  .wrg-toggle-container-black {
+    width: 60px;
+    height: 24px;
+    padding: 0;
+    border-radius: 30px;
+    background-color: #151929;
+    transition: all 0.2s ease;
+  }
+  .orange_border {
+    border: none;
+  }
+  .gray_border {
+    border: none;
+  }
+  
+  .wrg-toggle-circle {
+    /* transition: all .5s cubic-bezier(.23,1,.32,1) 0ms; */
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    right: 2px;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    box-sizing: border-box;
+    transition: all 0.25s ease;
+  }
+  
+  .bg-orange {
+    background: linear-gradient(90deg, #07a1c0 0%, #99d592 101.6%);
+  }
+  .bg-gray {
+    background-color: #333748;
+  }
+  
+  .wrg-toggle--checked .wrg-toggle-check {
+    opacity: 1;
+  }
+  .wrg-toggle--checked .wrg-toggle-uncheck {
+    opacity: 0;
+    
+  }
+  .wrg-toggle--checked .wrg-toggle-circle {
+    left: 37px;
+  }
+  
+  .wrg-toggle--disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+    -webkit-transition: opacity 0.25s;
+    transition: opacity 0.25s;
+  }
+  
+  @keyframes App-logo-spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }

@@ -1,0 +1,65 @@
+.connect_form {
+    font-family: Audiowide;
+    /* background-color: #99bcf8 */
+
+}
+
+.contact-form{
+    background: linear-gradient(158.56deg, #1E417C 15.19%, #FFFFFF 174.16%);
+  /* box-shadow: 0px 101px 80px rgba(0, 0, 0, 0.11), 0px 42.1954px 33.4221px rgba(0, 0, 0, 0.079074), 0px 22.5597px 17.869px rgba(0, 0, 0, 0.0655718), 0px 12.6468px 10.0172px rgba(0, 0, 0, 0.055), 0px 6.7166px 5.32008px rgba(0, 0, 0, 0.0444282), 0px 2.79493px 2.21381px rgba(0, 0, 0, 0.030926); */
+  }
+.contact_info_div {
+    background-image: url(../assets/background/bg-logo.png);
+    background-repeat: no-repeat;
+    background-size: 85%;
+    background-position: center;
+}
+
+.form_div {
+    z-index: 2;
+    box-shadow: 0px 15px 15px -10px grey;  
+
+
+}
+
+.white_div {
+    z-index: 1;
+    box-shadow: 0px 0px 10px 1px #0000002a;
+}
+
+.form select,
+input {
+    background-color: transparent;
+
+    border-bottom: 1px solid white;
+}
+
+.form input::placeholder {
+    color: white;
+}
+
+.form select option {
+    color: black;
+}
+
+.form select:focus,
+input:focus {
+
+    outline: none;
+}
+
+
+
+
+
+
+.form select {
+    border-bottom: 1px solid white;
+}
+
+
+
+.custom-input-field{
+    margin-top: 8px !important;
+}
+  

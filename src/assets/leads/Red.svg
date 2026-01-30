@@ -1,0 +1,24 @@
+<svg
+                        width="34"
+                        height="34"
+                        viewBox="0 0 34 34"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <rect
+                          y="0.816406"
+                          width="34"
+                          height="32.4545"
+                          rx="16"
+                          fill="#EF4949"
+                          fill-opacity="0.15"
+                        />
+                        <circle
+                          cx="17"
+                          cy="17.043"
+                          r="6.27778"
+                          fill="#EF4949"
+                          stroke="#151929"
+                          stroke-width="1.44444"
+                        />
+                      </svg>

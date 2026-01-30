@@ -1,0 +1,87 @@
+@use "mixins.derrived.scss";
+@use "functions";
+@use "mixins" as mixins2;
+@use "variables";
+
+  .input-box {
+    @include mixins.input-style-1();
+  }
+
+  .desktop-view {
+    @include mixins2.breakpointmax(variables.$end-small) {
+      display: none !important;
+    }
+  }
+
+  .mobile-view {
+    @include mixins2.breakpoint(variables.$end-small) {
+      display: none !important;
+    }
+  }
+
+  .hide {
+    display: none !important;
+  }
+
+  .btn, .btn-vote {
+    @include mixins2.btn(variables.$clr-3);
+    will-change: transform;
+    transform: translateZ(0);
+    outline: none;
+    &.primary{
+      background: variables.$clr-5;
+      border-color: variables.$clr-5;
+      @include mixins2.hover(){
+        background: variables.$clr-1;
+        border-color: variables.$clr-5;
+        color: variables.$clr-5;
+      }
+    }
+    @include mixins2.breakpointmax(variables.$end-small){
+      @include mixins2.set-typography(14, 21);
+    }
+  }
+  .blinker {
+    width: functions.rem(11);
+    height: functions.rem(11);
+    background-color: variables.$clr-3;
+    border-radius: 50%;
+    position: relative;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    animation: pulse 1.5s infinite alternate ease-in-out;
+    @include mixins2.breakpointmax(variables.$end-small){
+      width: functions.rem(6);
+      height: functions.rem(6);
+      animation: pulse-min 1.5s infinite alternate ease-in-out;
+    }
+}
+.button-group{
+  display: flex;
+  gap: functions.rem(10);
+  justify-content: center;
+  button{
+    @include mixins2.set-typography(14, 21);
+    font-weight: 700;
+    font-family: variables.$font-comfortaa;
+    border: 2px solid rgba(61, 87, 126, 0.2);
+    padding: functions.rem(10) functions.rem(16);
+    background: transparent;
+    border-radius: functions.rem(10);
+  }
+  .cancel-button{
+    color: variables.$clr-2;
+  }
+  .submit-button{
+    color: variables.$clr-3;
+    border-image-source: linear-gradient(97.01deg, #EE1113 0.91%, #7403FA 96.74%);
+    border-image-slice: 0;
+    background: linear-gradient(white, white) padding-box, linear-gradient(97.01deg, #EE1113 0.91%, #7403FA 96.74%) border-box;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    border-radius: 7px;
+  }
+}
+
+   
+
+  
+

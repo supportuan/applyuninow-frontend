@@ -1,0 +1,29 @@
+*{
+    /* border: 1px solid  red; */
+}
+
+.bg_container_big {
+    background-size: cover;
+    background-repeat: no-repeat;
+    
+}
+
+.bg_container_small {
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.transparent_big{
+    background: linear-gradient(to right,rgba(255, 255, 255, 0.144),rgba(0, 0, 0, 0.199));
+    backdrop-filter: blur(10px);
+}
+
+.transparent_small{
+    background: linear-gradient(to right,rgba(255, 255, 255, 0.082),rgba(0, 0, 0, 0.157));
+    backdrop-filter: blur(10px);
+}
+
+.details_darkblue{
+    background: linear-gradient(155.03deg, #1E417C 11.02%, #6296EF 94.53%);
+}
+

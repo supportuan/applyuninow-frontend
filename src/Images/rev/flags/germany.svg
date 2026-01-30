@@ -1,0 +1,35 @@
+<svg width="437" height="437" viewBox="0 0 437 437" fill="none" xmlns="http://www.w3.org/2000/svg">
+<mask id="mask0_58711_36589" style="mask-type:luminance" maskUnits="userSpaceOnUse" x="0" y="288" width="437" height="149">
+<path d="M0 288.896H436.755V436.803H0V288.896Z" fill="white"/>
+</mask>
+<g mask="url(#mask0_58711_36589)">
+<mask id="mask1_58711_36589" style="mask-type:luminance" maskUnits="userSpaceOnUse" x="0" y="0" width="437" height="437">
+<path d="M0 99.9694V336.923C0 392.126 44.75 436.876 99.9531 436.876H336.906C392.104 436.876 436.854 392.126 436.854 336.923V99.9694C436.854 44.7715 392.104 0.0214844 336.906 0.0214844H99.9531C44.75 0.0214844 0 44.7715 0 99.9694Z" fill="white"/>
+</mask>
+<g mask="url(#mask1_58711_36589)">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M-33.834 289.84H470.583V436.803H-33.834V289.84Z" fill="#FFD000"/>
+</g>
+</g>
+<mask id="mask2_58711_36589" style="mask-type:luminance" maskUnits="userSpaceOnUse" x="0" y="143" width="437" height="148">
+<path d="M0 143.562H436.755V290.229H0V143.562Z" fill="white"/>
+</mask>
+<g mask="url(#mask2_58711_36589)">
+<mask id="mask3_58711_36589" style="mask-type:luminance" maskUnits="userSpaceOnUse" x="0" y="0" width="437" height="437">
+<path d="M0 99.9694V336.923C0 392.126 44.75 436.876 99.9531 436.876H336.906C392.104 436.876 436.854 392.126 436.854 336.923V99.9694C436.854 44.7715 392.104 0.0214844 336.906 0.0214844H99.9531C44.75 0.0214844 0 44.7715 0 99.9694Z" fill="white"/>
+</mask>
+<g mask="url(#mask3_58711_36589)">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M-33.9316 144.84H470.485V289.84H-33.9316V144.84Z" fill="#DE2C25"/>
+</g>
+</g>
+<mask id="mask4_58711_36589" style="mask-type:luminance" maskUnits="userSpaceOnUse" x="0" y="0" width="437" height="145">
+<path d="M0 0.03125H436.755V144.896H0V0.03125Z" fill="white"/>
+</mask>
+<g mask="url(#mask4_58711_36589)">
+<mask id="mask5_58711_36589" style="mask-type:luminance" maskUnits="userSpaceOnUse" x="0" y="0" width="437" height="437">
+<path d="M0 99.9694V336.923C0 392.126 44.75 436.876 99.9531 436.876H336.906C392.104 436.876 436.854 392.126 436.854 336.923V99.9694C436.854 44.7715 392.104 0.0214844 336.906 0.0214844H99.9531C44.75 0.0214844 0 44.7715 0 99.9694Z" fill="white"/>
+</mask>
+<g mask="url(#mask5_58711_36589)">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M-31.6504 0.03125H472.766V144.833H-31.6504V0.03125Z" fill="black"/>
+</g>
+</g>
+</svg>

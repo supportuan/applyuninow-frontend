@@ -1,0 +1,39 @@
+.apply {
+  text-align: end;
+  border: 1px solid red;
+  float: right;
+}
+.clear {
+  clear: both;
+}
+.fontChange{
+  font-family: audiowide;
+  font-size: 16px;
+}
+
+@media only screen and (max-width: 768px) {
+  .applyMobileView {
+    display: none;
+  }
+  .uninowMobileView {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    
+  }
+  .uninowMobileView > img {
+    width: 50%;
+    padding: 0;
+  }
+  .wrapper{
+    width:130%;
+    white-space: nowrap;
+    animation: movel 10s linear infinite
+  }
+  @keyframes movel {
+    0%{transform: translate(130%);}
+    100%{transform: translate(-130%);}
+  }
+}

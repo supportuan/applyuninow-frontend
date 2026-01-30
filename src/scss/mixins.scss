@@ -1,0 +1,227 @@
+@use "functions";
+@use "variables";
+
+@mixin breakpoint($break) {
+	@media screen and (min-width:$break) {
+		@content;
+	}
+}
+
+@mixin breakpointmax($break) {
+	@media screen and (max-width:$break) {
+		@content;
+	}
+}
+
+@mixin breakpointmintomax($breakmin, $breakmax) {
+	@media screen and (min-width:$breakmin) and (max-width:$breakmax) {
+		@content;
+	}
+}
+
+@mixin breakpointheightmax($break) {
+	@media screen and (max-height:$break) {
+		@content;
+	}
+}
+
+@mixin placeholder($color) {
+	&::-webkit-input-placeholder {
+	   color: $color;  
+	}
+	&::-moz-placeholder {
+	   color: $color;  
+	}
+	&:-ms-input-placeholder {
+	   color: $color;  
+	} 
+}
+
+@mixin browser-support($property, $value){
+	-ms-#{$property}: $value;
+	-webkit-#{$property}: $value;
+	#{$property}: $value;
+}
+
+@mixin flex-property($property, $value) {
+	@include browser-support($property, $value);
+}
+
+// To cover focus styles similar to hover styles
+@mixin hover {
+    &:hover,
+    &:focus {
+        @content;
+    }
+}
+
+@mixin btn($bg) {
+	padding: functions.rem(11) functions.rem(30);
+	background: $bg;
+	color: #fff;
+	border: 1px solid $bg;
+	border-radius: 40px;
+	width: auto;
+	font-family: variables.$font-comfortaa;
+	font-size: functions.rem(19);
+	font-weight: 400;
+	line-height: functions.rem(24);
+	text-align: center;
+	transition: all ease 0.5s;
+
+	@include hover {
+		background: #fff;
+		color: $bg;
+	}
+}
+
+@mixin btn-invert($bg) {
+	@include btn($bg);
+	background: #fff;
+	color: $bg;
+	cursor: pointer;
+
+
+	@include hover {
+		background: $bg;
+		color: #fff;
+		&::after{
+			background-position: -623px -218px;
+		}
+	}
+}
+
+// @mixin container($w: 1520) {
+//     margin-left: auto;
+// 	margin-right: auto;
+// 	max-width: #{$w}px;
+// 	padding-left: 30px;
+// 	padding-right: 30px;
+// }
+
+// @mixin container-min($w: 910) {
+//     margin-left: auto;
+// 	margin-right: auto;
+// 	max-width: #{$w}px;
+// 	padding-left: 30px;
+// 	padding-right: 30px;
+// }
+
+// @mixin container-mid($w: 1720) {
+//     margin-left: auto;
+// 	margin-right: auto;
+// 	max-width: #{$w}px;
+// 	padding-left: 30px;
+// 	padding-right: 30px;
+// }
+
+// @mixin container-max($w: 1920) {
+//     margin-left: auto;
+// 	margin-right: auto;
+// 	max-width: #{$w}px;
+// 	padding-left: 30px;
+// 	padding-right: 30px;
+// 	@include breakpointmax($end-small){
+// 		padding-left: 16px;
+// 		padding-right: 16px;
+// 	}
+// }
+
+@mixin define-font($font){
+	@font-face {
+		font-family: #{$font};
+		font-display: swap;
+		src: url('#{$font-path}#{$font}.woff2'),
+			 url('#{$font-path}#{$font}.woff')
+	}
+}
+
+@mixin custom-scrollbar {
+	/* width */
+	&::-webkit-scrollbar {
+		width: 4px;
+		}
+		
+	/* Track */
+	&::-webkit-scrollbar-track {
+	background: #f1f1f1; 
+	}
+	
+	/* Handle */
+	&::-webkit-scrollbar-thumb {
+	background: #D7D0CE; 
+	}
+	
+	/* Handle on hover */
+	&::-webkit-scrollbar-thumb:hover {
+	background: #555; 
+	}
+}
+@mixin custom-scrollbar-light {
+	/* width */
+	&::-webkit-scrollbar {
+		width: 4px;
+		}
+		
+	/* Track */
+	&::-webkit-scrollbar-track {
+	background: transparent; 
+	}
+	
+	/* Handle */
+	&::-webkit-scrollbar-thumb {
+		background: transparent; 
+	}
+	
+	/* Handle on hover */
+	&::-webkit-scrollbar-thumb:hover {
+		background: transparent; 
+	}
+}
+
+@mixin set-typography($fs:12, $lh:16) {
+	font-size: functions.rem(#{$fs});
+	line-height: functions.rem(#{$lh});
+}
+
+@mixin set-border-radius($m: 12, $d: 20) {
+	border-radius: functions.rem(#{$m});
+
+	@include breakpoint(variables.$end-small){
+		border-radius: functions.rem(#{$d});
+	}
+}
+
+@mixin set-line-clamp($count: 3) {
+	display: -webkit-box;
+	-webkit-line-clamp: #{$count};
+	-webkit-box-orient: vertical;  
+	overflow: hidden;	  
+}
+
+@mixin set-flex-box($jc: space-between, $ai: flex-start, $fd: row){
+	@include flex-property(display, flex);
+    @include flex-property(justify-content, #{$jc});
+    @include flex-property(align-items, #{$ai});
+    @include flex-property(flex-direction, #{$fd});
+}
+
+@mixin insert-box-shadow($value: 0px 4px 20px) {
+	box-shadow: #{$value} rgba(0, 0, 0, 0.1);
+}
+
+@mixin set-children-dib ($va: middle) {
+	> * {
+		display: inline-block;
+		vertical-align: #{$va};
+	}
+}
+
+
+@mixin clearfix {
+	&:after {
+		content: "";
+		clear: both;
+		display: table;
+	}
+}
