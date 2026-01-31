@@ -1,0 +1,85 @@
+.pagination-container {
+    display: flex;
+    list-style-type: none;
+
+    .pagination-item {
+        padding: 0 4px;
+        height: 30px;
+        text-align: center;
+        margin: auto 5px;
+        color: #ffffff;
+        display: flex;
+        box-sizing: border-box;
+        align-items: center;
+        justify-content: center;
+        letter-spacing: 0.01071em;
+        border-radius: 5px;
+        line-height: 1.43;
+        font-size: 16px;
+        min-width: 30px;
+
+        
+
+        &:hover {
+            background: linear-gradient(99.06deg, #07a1c0 5.35%, #99d592 123.96%), #07a1c0;
+            cursor: pointer;
+            color: #151929;
+        }
+
+        &.selected {
+            background: linear-gradient(99.06deg, #07a1c0 5.35%, #99d592 123.96%), #07a1c0;
+            color: #151929;
+        }
+        
+    }
+}
+
+.pagination-bar {
+    justify-content: center;
+    margin: 20px 0;
+}
+
+.dots:hover {
+    background-color: transparent !important;
+    color: #ffffff;
+    cursor: default;
+}
+
+.disabled {
+    pointer-events: none;
+    svg path{
+        opacity: 0.5;
+    }
+    &:hover {
+        background-color: transparent;
+        cursor: default;
+    }
+}
+
+.arrow {
+    width: 35px;
+    height: 35px;
+    border-radius: 35px;
+    background-color: #2F3344;
+    margin: auto 8px;
+    &:hover {
+        background: linear-gradient(99.06deg, #07a1c0 5.35%, #99d592 123.96%), #07a1c0;
+        cursor: pointer;
+    }
+}
+
+.pagination-goto{
+    .pagination-input-sec{
+          &::after {
+              content: '';
+              background-image: url('../../../assets/user/Right2Light.svg');
+              background-position: center;
+              background-repeat: no-repeat;
+              width: 10px;
+              height: 10px;
+              position: absolute;
+              right: 10px;
+              top: 15px;
+          }
+      }
+  }

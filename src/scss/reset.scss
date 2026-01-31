@@ -1,0 +1,101 @@
+@use "variables.scss";
+@use "animations.scss";
+@use "mixins.scss";
+@use "mixins.derrived.scss" as mixins2;
+@use "globals.scss";
+@use "functions";
+
+// Register Fonts
+// @include define-font($font-sangBVer-regular);
+// @include define-font($font-sangBVer-regular-italic );
+// @include define-font($font-sangBVer-medium);
+// @include define-font($font-sangBVer-medium-italic );
+// @include define-font($font-sangBVer-bold);
+// @include define-font($font-sangBVer-bold-italic);
+// @include define-font($font-sangBVer-book);
+// @include define-font($font-sangBVer-book-italic);
+
+
+* {
+    @extend %reset-block;
+    word-wrap: break-word;
+  }
+  
+  html {
+    width: 100vw;
+    overflow-x: hidden;
+}
+  
+  html, body {
+    @extend %reset-block;
+    width: 100%;
+    font-size: functions.rem(16);
+    font-family: variables.$font-montserrat;
+    -webkit-tap-highlight-color: transparent;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    /*-webkit-user-select: none; 
+    -moz-user-select: none; 
+    -ms-user-select: none; 
+    user-select: none; */ 
+    padding: 0!important;
+  }
+  
+  header, footer, aside, main, section, fieldset, nav {
+    display: block;
+  }
+  
+  ul, ol {list-style: none;}
+  
+  img, 
+  picture, 
+  source {
+    display: inline-block;
+  }
+  img{
+    max-width: 100%;
+  }
+  a {text-decoration: none; cursor: pointer;}
+  
+  button,
+  [role="button"] 
+  
+  {cursor: pointer;}
+  
+  
+  // ::selection {
+  //   background: $primary;
+  //   color: $clr-1
+  // }
+
+  #skiptocontent {
+    a {
+      padding: 0 25px;
+      color: variables.$clr-1;
+      background: variables.$primary;
+      border: none;
+      font-size: functions.rem(14);
+      font-weight: variables.$bold;
+      line-height: 40px;
+      position: absolute;
+      top: -40px;
+      left: 0px;
+      z-index: 100;
+      transition: all ease 0.5s;
+      
+      &:focus {
+        left: 0px;
+        top: 0px;
+        text-decoration: underline;
+        outline: none;
+      }
+    }
+  }
+
+  #maincontent{
+    position: relative;
+    z-index: 99;
+    @include mixins.breakpointmax(variables.$end-small){  
+      z-index: 2;
+    }
+  }

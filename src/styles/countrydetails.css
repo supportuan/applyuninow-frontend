@@ -1,0 +1,25 @@
+.audioWide{
+    font-family: audiowide;
+}
+
+@media only screen and (max-width:1024px){
+    .mobileViews{
+        display: none;
+    }
+}
+@media only screen and (max-width:768px){
+    .mobileViews{
+        display: none;
+    }
+    .bottom{
+        display:none
+    }
+}
+.active{
+    @apply relative text-slider ;
+    
+}
+.active:before{
+    content: '';
+    @apply absolute left-0 right-0 w-full h-2 rounded-t-lg -bottom-4 bg-slider;
+}

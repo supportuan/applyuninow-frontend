@@ -1,0 +1,276 @@
+@use "variables.scss";
+@use "functions.scss";
+@use "extends.scss";
+@use "mixins.scss";
+
+@mixin heading-1() {
+  @include mixins.set-typography($fs: 80, $lh: 95);
+  font-family: variables.$font-poppins;
+  font-weight: 400;
+  color: variables.$clr-4;
+}
+
+
+@mixin heading-2() {
+  @include mixins.set-typography($fs: 20, $lh: 30);
+  font-family: variables.$font-comfortaa;
+  font-weight: 400;
+  color: variables.$primary;
+}
+@mixin heading-3() {
+  @include mixins.set-typography($fs: 24, $lh: 30);
+  font-family: variables.$font-gentium;
+  font-weight: 500;
+  color: variables.$clr-3;
+}
+@mixin heading-4() {
+  @include mixins.set-typography($fs: 45, $lh: 60);
+  font-family: variables.$font-poppins;
+  font-weight: 400;
+  color: variables.$clr-2;
+  font-style: italic;
+}
+@mixin heading-5() {
+  @include mixins.set-typography($fs: 50, $lh: 60);
+  font-family: variables.$font-poppins;
+  font-weight: 500;
+  color: variables.$clr-2;
+}
+
+@mixin heading-6() {
+  @include mixins.set-typography($fs: 24, $lh: 36);
+  font-family: variables.$font-poppins;
+  font-weight: 600;
+  color: variables.$clr-4;
+}
+
+
+
+@mixin desc-1() {
+  @include mixins.set-typography($fs: 16, $lh: 19.5);
+  font-family: variables.$font-comfortaa;
+  font-weight: variables.$semi-bold;
+  color: variables.$clr-3;
+}
+@mixin desc-2() {
+  @include mixins.set-typography($fs: 10, $lh: 12);
+  font-family: variables.$font-comfortaa;
+  font-weight: 400;
+  color: variables.$clr-3;
+}
+@mixin desc-3() {
+  @include mixins.set-typography($fs: 14, $lh: 21);
+  font-family: variables.$font-comfortaa;
+  font-weight: 400;
+  color: variables.$clr-2;
+}
+@mixin desc-4() {
+  @include mixins.set-typography($fs: 14, $lh: 21);
+  font-family: variables.$font-poppins;
+  font-weight: 600;
+  color: variables.$clr-3;
+}
+@mixin desc-5() {
+  @include mixins.set-typography($fs: 18, $lh: 28);
+  font-family: variables.$font-comfortaa;
+  font-weight: 400;
+  color: variables.$clr-6;
+}
+@mixin desc-6() {
+  @include mixins.set-typography($fs: 14, $lh: 21);
+  font-family: variables.$font-comfortaa;
+  font-weight: 500;
+  color: variables.$clr-3;
+}
+@mixin desc-7() {
+  @include mixins.set-typography($fs: 26, $lh: 32);
+  font-family: variables.$font-comfortaa;
+  font-weight: 400;
+  color: variables.$clr-2;
+}
+@mixin desc-8() {
+  @include mixins.set-typography($fs: 20, $lh: 30);
+  font-family: variables.$font-poppins;
+  font-weight: 400;
+  color: #C22032;
+}
+
+@mixin input-style-1() {
+  background: variables.$clr-1;
+  border: 1px solid variables.$clr-5;
+  padding: functions.rem(16) functions.rem(24);
+  width: 100%;
+  @include mixins.set-border-radius($m: 36, $d: 36);
+
+  @include mixins.breakpoint(variables.$end-small){
+    padding: functions.rem(12) functions.rem(20);
+  }
+}
+
+@mixin set-more-link(){
+  @include mixins.set-typography($fs: 14, $lh: 17);
+  font-family: variables.$font-montserrat;
+  font-weight: variables.$semi-bold;
+  color: variables.$primary;
+  text-decoration: none;
+  background: none;
+  border: none;
+
+  @include mixins.hover {
+    text-decoration: underline;
+  }
+}
+
+@mixin set-dot(){
+  position: relative;
+  padding-left: functions.rem(8);
+
+  &:before {
+    content: '';
+    width: functions.rem(2);
+    height: functions.rem(2);
+    background: variables.$clr-5;
+    border-radius: 50%;
+    display: inline-block;;
+    position: absolute;
+    left: 0%;
+    top: 45%;
+  }
+}
+
+@mixin set-slash(){
+  position: relative;
+  padding-left: functions.rem(12);
+
+  &:before {
+    content: '/';   
+    display: inline-block;;
+    position: absolute;
+    left: 0%;
+    top: 6%;
+  }
+}
+
+
+@mixin set-labels() {
+  @include mixins.set-flex-box($jc: flex-start, $ai: center);
+  @include mixins.flex-property(flex-wrap, wrap);
+
+  li {
+    margin-right: functions.rem(8);
+    text-transform: capitalize;
+    
+    @include desc-6();
+    //color: $clr-30;
+    
+    @include mixins.breakpoint(variables.$end-small){
+      // @include set-typography($fs: 12, $lh: 15);
+      // font-weight: $medium;
+    }
+
+    &+li {
+     @include set-dot();
+    }    
+  }
+
+}
+
+@mixin set-breadcrum() {
+  @include mixins.set-flex-box($jc: flex-start, $ai: center);
+  @include mixins.flex-property(flex-wrap, wrap);
+
+  li {
+    margin-right: functions.rem(8);
+    text-transform: capitalize;
+    
+    @include desc-23();
+    
+    @include mixins.breakpoint(variables.$end-small){
+      // @include set-typography($fs: 12, $lh: 20);
+      // font-weight: $medium;      
+    }
+
+    &+li {
+     @include set-slash();
+    }
+  }
+
+}
+
+@mixin set-curvy-pic-frame(
+  $m: 62, 
+  $d: 80, 
+  $m-radius: 4px 8px 4px 20px, 
+  $d-radius: 4px 16px 4px 40px){
+
+      width: functions.rem(#{$m});
+      height: functions.rem(#{$m});
+      border-radius: $m-radius;
+      background: transparent;
+      overflow: hidden;
+
+      @include mixins.breakpoint(variables.$end-small){
+        width: functions.rem(#{$d});
+        height: functions.rem(#{$d});
+        border-radius: #{$d-radius};
+      }
+
+      img {
+        display: block;
+        //object-fit: cover; 
+        width: functions.rem(#{$m});
+        height: functions.rem(#{$m}); 
+        @include mixins.breakpoint(variables.$end-small){
+          width: functions.rem(#{$d});
+          height: functions.rem(#{$d});
+        }      
+      }
+}
+
+@mixin insert-section-partition($param: 60) {
+  padding-top: functions.rem(#{$param});
+  margin-top: functions.rem(#{$param});
+  border-top: 1px solid #cccccc;
+  // max-width: 992px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+@mixin insert-section-partition-bottom-side($param: 20) {
+  &:after{
+    margin: functions.rem(25) auto functions.rem(15) auto;
+    content: "";
+    display: block;
+    border-bottom: 1px solid #cccccc;
+    max-width: 992px;    
+    @include mixins.breakpointmax(variables.$end-small){  
+      margin: functions.rem(20) auto 30px auto;
+    }
+  }
+}
+
+@mixin nav-hover-data-news {
+  display: flex;
+  position: relative;
+  min-width:functions.rem(180);
+  top: 0;
+  border-radius: 12px 12px;
+}
+@mixin nav-hover-data {
+  display: flex;
+  position: relative;
+  width:functions.rem(980);
+  margin:0 auto;
+  top: 0;
+  border-radius: 12px 12px;
+}
+
+@mixin sprite-icon-img {
+  background-image: url(#{$img-path}sprite-icons.svg?mod=28);
+  background-repeat: no-repeat;
+}
+
+@mixin sprite-icon-play-img {
+  background-image: url(#{$img-path}spriteBlack.svg?mod=28);
+  background-repeat: no-repeat;
+}

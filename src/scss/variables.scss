@@ -1,0 +1,48 @@
+//Screen Sizes
+$xs-screen: 320px;
+$xs-small: 360px;
+$mid-small: 550px;
+$end-small: 1000px;
+$lg-screen: 1200px;
+$lgx-screen: 1480px;
+$xlg-screen: 1600px;
+
+//screen height
+
+$md-medium: 800px;
+
+//Font Weights
+$light: 300;
+$regular: 400;
+$medium: 500;
+$semi-bold: 600;
+$bold: 700;
+$black: 900;
+
+//Font Colours
+$primary: #c22032;
+
+$clr-1: #FFF;
+$clr-2: #000;
+$clr-3: rgba(30, 65, 124, 1);
+$clr-4: #191b1f;
+$clr-5: rgba(194, 32, 50, 1);
+$clr-6: rgba(154, 154, 154, 1);
+$clr-7: rgba(83, 83, 83, 1);
+
+
+// Font Family
+$font-montserrat                    : 'Montserrat', sans-serif;
+$font-gentium                       : "Gentium Plus", serif;
+$font-sfpro                         : "Lato", sans-serif;
+$font-openSans                      : "Open Sans", sans-serif;
+$font-dmserif                       : "DM Serif Display", serif;
+$font-roboto                        : "Roboto", sans-serif;
+$font-average                       : "Average Sans", sans-serif;
+$font-poppins                       : "Poppins", sans-serif;
+$font-albert                        : "Albert Sans", sans-serif;
+$font-times                         : "Tinos", serif;
+$font-tenorSans                     : "Tenor Sans", sans-serif;
+$font-comfortaa                     : "Comfortaa", sans-serif;
+
+$common-transition: 0.5s;

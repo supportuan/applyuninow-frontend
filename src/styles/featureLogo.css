@@ -1,0 +1,26 @@
+.feature_gray_div {
+    font-family: audiowide;
+}
+.tab-list{
+    background: #e8ecf2;
+}
+
+@media screen and (max-width: 767px) {
+    .gray_box {
+        font-size: 0.4rem;
+        padding: 0.5rem;
+        
+    }
+}
+
+.list:before{
+    content:'';
+    position: absolute;
+    background-color: rgba(55, 56, 88, 0.2);
+    width: 3px;
+    height: 4rem;
+    right: -9px;
+}
+.list:last-child:before{
+    display: none;
+}
