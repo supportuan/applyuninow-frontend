@@ -1,7 +1,10 @@
 {
-  "extends": ["eslint:recommended", "next", "prettier"],
-  "plugins": ["prettier"],
+  "extends": ["eslint:recommended"],
+  "env": {
+    "browser": true,
+    "es2021": true
+  },
   "rules": {
-    "prettier/prettier": "error"
+    "no-unused-vars": "off"
   }
 }
