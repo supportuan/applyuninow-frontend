@@ -21,7 +21,7 @@ const PageLabelUpdater = () => {
 
   useEffect(() => {
     const updateDeviceType = () => {
-      setDeviceType(window.innerWidth >= 780 ? "desktop" : "mobile");
+      setDeviceType(window.innerWidth >= 768 ? "desktop" : "mobile");
     };
 
     updateDeviceType();
