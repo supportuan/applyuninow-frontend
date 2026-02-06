@@ -57,6 +57,7 @@
     "socket.io-client": "^4.6.0",
     "spring": "^0.0.0",
     "styled-components": "^5.3.8",
+    "swiper": "^12.1.0",
     "tsparticles": "^1.41.5",
     "tsparticles-preset-links": "^1.41.5",
     "validatorjs": "^3.22.1",
