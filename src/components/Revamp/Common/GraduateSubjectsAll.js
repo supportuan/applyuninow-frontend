@@ -374,7 +374,7 @@ const GraduateSubjectsAll = () => {
                                 <div className='filter_data_container__left--inner' 
                                 style={{
                                     position: deviceType !== 'mobile' ? isInView ? 'relative' : undefined : null,
-                                    top: deviceType !== 'mobile' ? isInView ? (typeof window !== 'undefined' ? `${window.scrollY - 150}px` : undefined) : undefined : null,
+                                    top: deviceType !== 'mobile' ? isInView ? (typeof window !== 'undefined' ? `${Math.max(0, window.scrollY - 150)}px` : undefined) : undefined : null,
                                     bottom: 'auto',
                                   }} 
                                 >

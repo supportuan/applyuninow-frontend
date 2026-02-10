@@ -33,14 +33,25 @@ const FilterTypes = ({ applyFilters, reset, setReset }) => {
     }
 
     if (reset) {
-      // Reset is already handled by handledReset in GraduateSubjectsAll.js
-      // No navigation needed - just clear the reset flag
       setReset(false)
-      // The handledReset function in GraduateSubjectsAll.js already:
-      // - Clears filters (or preserves URL-based filters)
-      // - Resets current page to 1
-      // - Triggers a new fetch with updated filters
-      // No need for router.push or window.location.reload()
+
+      // Clear all select DOM values and remove .valid classes to fix floating label overlap
+      const allSelects = document.querySelectorAll('.form-group select.dropdown-items');
+      allSelects.forEach(select => {
+        select.value = '';
+        select.classList.remove('valid');
+      });
+
+      // Reset local state
+      setSelectedFilter({ countryId: '', industryId: '', SubjectId: '' });
+      setEngVal([]);
+      setCity([]);
+      setCountry('');
+      setIndustry('');
+      setYearApplicationFee([]);
+      setActiveStyles({});
+
+      // previousPageIds() will run above (line 31) and re-apply any URL-based preselections
     }
     
   }, [router.isReady, router.query, reset])
