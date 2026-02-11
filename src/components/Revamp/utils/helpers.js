@@ -1,7 +1,7 @@
 import mason from "../../../Images/rev/university/George-Mason.svg";
 import Nottingham from "../../../Images/rev/university/Nottingham.svg";
 import Texas from "../../../Images/rev/university/Texas.svg";
-import Lancaster from "../../../Images/rev/university/Lancaster.svg";
+const Lancaster = "/rev/university/Lancaster.svg";
 import temple from "../../../Images/rev/university/temple.svg";
 import California from "../../../Images/rev/university/California.svg";
 import Nanyang from "../../../Images/rev/university/Nanyang.svg";
@@ -10,9 +10,9 @@ import humber from "../../../Images/rev/university/humber.svg";
 import Purdue from "../../../Images/rev/university/purdue.svg";
 import Stanford from "../../../Images/rev/university/standford.svg";
 import Calgary from "../../../Images/rev/university/calgary.svg";
-import Cambridge from "../../../Images/rev/university/Cambridge.svg";
+const Cambridge = "/rev/university/Cambridge.svg";
 import Princeton from "../../../Images/rev/university/Princeton.svg";
-import Birmingham from "../../../Images/rev/university/Birmingham.svg";
+const Birmingham = "/rev/university/Birmingham.svg";
 
 import firstImg from "../../../Images/rev/digital/1.svg";
 import secondImg from "../../../Images/rev/digital/2.svg";
@@ -158,7 +158,7 @@ export const reasonForData = [
 import clothe1 from '../../../Images/rev/shop/clothe1.svg';  
 import clothe2 from '../../../Images/rev/shop/clothe2.svg';  
 import clothe3 from '../../../Images/rev/shop/clothe3.svg';
-import blog1 from '../../../Images/rev/news_blog/blog1.svg';
+const blog1 = "/rev/news_blog/blog1.svg";
 import clothe4 from '../../../Images/rev/shop/clothe4.jpeg';
 
 export const shop_products = [
@@ -1778,14 +1778,14 @@ import c4 from "../../../Images/rev/university/canada/mcmaster.svg";
 import c5 from "../../../Images/rev/university/canada/toranto.svg";
 import c6 from "../../../Images/rev/university/canada/utowa.svg";
 import c7 from "../../../Images/rev/university/canada/waterloo.svg";
-import c8 from "../../../Images/rev/university/canada/western.svg";
+const c8 = "/rev/university/canada/western.svg";
 
 import a1 from "../../../Images/rev/university/australia/a1.svg";
 import a2 from "../../../Images/rev/university/australia/a2.svg";
-import a3 from "../../../Images/rev/university/australia/a3.svg";
+const a3 = "/rev/university/australia/a3.svg";
 import a4 from "../../../Images/rev/university/australia/a4.svg";
 import a5 from "../../../Images/rev/university/australia/a5.svg";
-import a6 from "../../../Images/rev/university/australia/a6.svg";
+const a6 = "/rev/university/australia/a6.svg";
 import a7 from "../../../Images/rev/university/australia/a7.svg";
 import a8 from "../../../Images/rev/university/australia/a8.svg";
 import a9 from "../../../Images/rev/university/australia/a9.svg";
@@ -1825,7 +1825,7 @@ import uk2 from "../../../Images/rev/university/uk/uk2.svg";
 import uk3 from "../../../Images/rev/university/uk/uk3.svg";
 import uk4 from "../../../Images/rev/university/uk/uk4.svg";
 import uk5 from "../../../Images/rev/university/uk/uk5.svg";
-import uk6 from "../../../Images/rev/university/uk/uk6.svg";
+const uk6 = "/rev/university/uk/uk6.svg";
 import uk7 from "../../../Images/rev/university/uk/uk7.svg";
 import uk8 from "../../../Images/rev/university/uk/uk8.svg";
 import uk9 from "../../../Images/rev/university/uk/uk9.svg";

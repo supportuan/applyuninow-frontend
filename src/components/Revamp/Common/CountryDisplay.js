@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import WorldMap from "../../../Images/rev/flags/world-map.svg";
 import LogoStar from "../../../Images/rev/logo/logo-with-star.svg";
 import Image from 'next/image';
 import Link from 'next/link';
@@ -16,7 +15,7 @@ const CountryDisplay = () => {
         </div>
 
         <div className="world-map">
-            <Image src={WorldMap} alt="World Map" />
+            <Image src="/rev/flags/world-map.svg" alt="World Map" width={1200} height={600} />
             {countries.map((country, index) => 
             index < 7 ? (
               <div key={'img_'+index} className={`blinker country_loc_${index}`}></div>

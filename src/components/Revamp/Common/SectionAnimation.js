@@ -11,7 +11,6 @@ import fifthImg from "../../../Images/rev/digital/5.svg";
 import sixthImg from "../../../Images/rev/digital/6.svg";
 import seventhImg from "../../../Images/rev/digital/7.svg";
 import img15 from "../../../Images/rev/digital/15.svg";
-import img16 from "../../../Images/rev/digital/16.svg";
 import { usePageContext } from '../context/PageContext';
 
 const SectionAnimation = ({ info: imgDetail }) => {
@@ -298,28 +297,28 @@ const SectionAnimation = ({ info: imgDetail }) => {
           <div className="photo">
           {/* {deviceType == 'desktop' ? ( */}
               <div id="livePhoneScrollTrigger">
-                <div className="livePhone imgEf"><Image src={firstImg} width={200} alt="" /> </div>
+                <div className="livePhone imgEf"><Image src={firstImg} width={200} height={400} alt="" /> </div>
               </div>
             {/* ): null} */}
             
-            <div className="imgEf"><Image src={firstImg} width={200} alt="" /></div>
-            <div className="imgEf"><Image src={firstImg} width={200} alt="" /></div>
-            <div className="imgEf"><Image src={firstImg} width={200} alt="" /></div>
-            <div className="imgEf"><Image src={firstImg} width={200} alt="" /></div>
-            <div className="imgEf"><Image src={firstImg} width={200} alt="" /></div>
-            <div className="imgEf"><Image src={firstImg} width={200} alt="" /></div>
-            <div className="imgEf"><Image src={firstImg} width={200} alt="" /></div>
-            <div className="imgEf"> <Image src={firstImg} width={200} alt="" /></div>
-            <div className="imgEf"><Image src={firstImg} width={200} alt="" /></div>
-            <div className="imgEf"><Image src={firstImg} width={200} alt="" /></div>
-            <div className="imgEf slideImg"><Image src={firstImg} alt="" /></div>
+            <div className="imgEf"><Image src={firstImg} width={200} height={400} alt="" /></div>
+            <div className="imgEf"><Image src={firstImg} width={200} height={400} alt="" /></div>
+            <div className="imgEf"><Image src={firstImg} width={200} height={400} alt="" /></div>
+            <div className="imgEf"><Image src={firstImg} width={200} height={400} alt="" /></div>
+            <div className="imgEf"><Image src={firstImg} width={200} height={400} alt="" /></div>
+            <div className="imgEf"><Image src={firstImg} width={200} height={400} alt="" /></div>
+            <div className="imgEf"><Image src={firstImg} width={200} height={400} alt="" /></div>
+            <div className="imgEf"> <Image src={firstImg} width={200} height={400} alt="" /></div>
+            <div className="imgEf"><Image src={firstImg} width={200} height={400} alt="" /></div>
+            <div className="imgEf"><Image src={firstImg} width={200} height={400} alt="" /></div>
+            <div className="imgEf slideImg"><Image src={firstImg} width={200} height={400} alt="" /></div>
             <div className="lastImgEF grid-container1">
               <div className="section3 grid-item">
                 {/* <Image src={firstImg} alt="" /> */}
                 {/* <a href="#">Watch Video ▶</a> */}
               </div>
               <div className="imgEf2 grid-item"><Image src={img15} width={428} height={263} alt="" /> </div>
-              <div className="imgEf3 grid-item"><Image src={img16} width={684} height={387} alt="" /> </div>
+              <div className="imgEf3 grid-item"><Image src="/rev/digital/16.svg" width={684} height={387} alt="" /> </div>
             </div>
           </div>
         </div>

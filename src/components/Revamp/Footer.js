@@ -36,7 +36,6 @@ const footerIcons = [
 const footerNav = [
   { name: "About Us", link: '/about'},
   { name: "Careers", link: '/careers'},
-  // { name: "Shop", link: 'javascript:void(0)', clname:'nav_explore'},
   { name: "Countries", link: '/countries'},
   { name: "AI Student Advisor", link: '/industry'},
   { name: "T&C", link: '/terms-conditions'},
@@ -63,7 +62,7 @@ const Footer = () => {
     deviceType == 'desktop' ? window.open("https://web.whatsapp.com/send?phone=" + mnum + "&text=" + msg, "_blank", "noopener") : window.open("https://wa.me/" + mnum + "?text=" + msg, "_blank", "noopener");
   };
 
-  const initEmpty = () => {}
+  const initEmpty = (e) => { e.preventDefault(); }
 
   return (
     <div className='container mid-width footer_section'>

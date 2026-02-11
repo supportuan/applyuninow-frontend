@@ -1,7 +1,6 @@
 import React from 'react';
 import HorizontalCarousel from './HorizontalCarousel';
 import { digitalImg } from '../utils/helpers';
-import tabMob from "../../../Images/rev/tab_mob.svg";
 //import { useNavigate } from 'react-router-dom';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
@@ -37,7 +36,7 @@ const TechJourney = () => {
                             <div className='module-desc'>ApplyUniNow’s Counselling App offers unparalleled convenience to efficiently manage your shortlist, submit applications, and connect with your dedicated counsellor.</div>
                             <div className='module-desc maroon-color'>Get a personalized university shortlist from our certified Counsellors. They’ll answer your application process, exam preparation, and shortlisted university questions. Get real-time updates on your application journey via our web and mobile apps.</div>
                             <div className='marginT20'>
-                            <Image className='tabMob-icon' src={tabMob} alt='tech_tab' width={876} height={387} />
+                            <Image className='tabMob-icon' src="/rev/tab_mob.svg" alt='tech_tab' width={876} height={387} />
                             </div>
                         </>
                     {/* ) : null } */}
