@@ -8162,77 +8162,125 @@ h2.page-heading {
   max-width: 90%;
 }
 
-.payment-failed {
+/* --- Payment Failed Card (Screenshot Design) --- */
+.payment-failed-card {
+  background: #fff;
+  border-radius: 12px;
+  border-top: 4px solid #c22032;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  width: 100%;
+  max-width: 450px;
+  margin: 0 auto;
+}
+
+.payment-failed-header {
   display: flex;
-  flex-direction: column;
   align-items: center;
-  padding: 20px 0;
+  justify-content: space-between;
+  padding: 18px 24px;
 }
 
-.payment-failed h2 {
-  font-family: 'Poppins', sans-serif;
-  color: #c22032;
-  font-size: 26px;
-  font-weight: 700;
-  margin-bottom: 12px;
-}
-
-.payment-failed p {
-  font-family: 'Comfortaa', sans-serif;
-  color: #4b5563;
-  font-size: 16px;
-  line-height: 1.5;
-  margin-bottom: 30px;
-  max-width: 340px;
-}
-
-.payment-failed .button-group {
+.payment-failed-header-left {
   display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.payment-failed-header-left h2 {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 700;
+  font-size: 20px;
+  color: #1a1a1a;
+  margin: 0;
+}
+
+.payment-failed-close-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
   justify-content: center;
-  gap: 16px;
+  transition: background 0.2s ease;
+}
+
+.payment-failed-close-btn:hover {
+  background: #f1f1f1;
+}
+
+.payment-failed-divider {
+  height: 1px;
+  background: #e5e7eb;
   width: 100%;
 }
 
-.payment-failed .button-group button {
+.payment-failed-body {
+  padding: 20px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.payment-failed-message {
+  font-family: 'Comfortaa', sans-serif;
+  font-size: 15px;
+  color: #4b5563;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.payment-failed-reason {
   display: flex;
   align-items: center;
-  justify-content: center;
-  padding: 12px 28px;
-  font-size: 15px;
-  border-radius: 12px;
-  cursor: pointer;
-  font-family: 'Poppins', sans-serif;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  font-weight: 600;
-  border: none;
+  gap: 10px;
+  background: #fef3cd;
+  border: 1px solid #f5deb3;
+  border-radius: 8px;
+  padding: 12px 16px;
+  font-family: 'Comfortaa', sans-serif;
+  font-size: 14px;
+  color: #333;
 }
 
-.retry-btn {
-  background: linear-gradient(135deg, #c22032 0%, #a01a29 100%);
+.payment-failed-reason-icon {
+  font-size: 18px;
+  line-height: 1;
+}
+
+.payment-failed-retry-btn {
+  width: 100%;
+  padding: 14px;
+  background: #2563eb;
   color: #fff;
-  box-shadow: 0 4px 12px rgba(194, 32, 50, 0.3);
+  border: none;
+  border-radius: 8px;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.15s ease;
 }
 
-.retry-btn:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 8px 20px rgba(194, 32, 50, 0.4);
-  background: linear-gradient(135deg, #d42438 0%, #b21d2d 100%);
-}
-
-.retry-btn:active {
+.payment-failed-retry-btn:hover {
+  background: #1d4ed8;
   transform: translateY(-1px);
 }
 
-.close-btn {
-  background-color: #f1f5f9;
-  color: #475569;
-  border: 1px solid #e2e8f0 !important;
+.payment-failed-retry-btn:active {
+  transform: translateY(0);
+  background: #1e40af;
 }
 
-.close-btn:hover {
-  background-color: #e2e8f0;
-  color: #1e293b;
-  border-color: #cbd5e1 !important;
+.payment-failed-footer {
+  font-family: 'Comfortaa', sans-serif;
+  font-size: 14px;
+  color: #6b7280;
+  text-align: center;
+  padding: 14px 24px;
+  margin: 0;
 }
 
 /* Plan Label */

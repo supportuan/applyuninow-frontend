@@ -4,7 +4,7 @@ import SuccessModal from './SuccessModal';
 import api from "../../../api/index";
 import { useAppContext } from "../../../context/Appcontext";
 import useRazorpay from '../Hooks/useRazorpay';
-import { HighlightOff, Refresh, Close } from '@mui/icons-material';
+import { HighlightOff, Close } from '@mui/icons-material';
 import { motion, AnimatePresence } from 'framer-motion';
 
 
@@ -147,23 +147,32 @@ const EnquiryModal = ({ isOpen, onClose, planTitle, planPrice }) => {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -20 }}
                   transition={{ duration: 0.4, ease: "easeOut" }}
-                  className="payment-status-container"
+                  className="payment-failed-card"
                 >
-                  <div className="payment-failed">
-                    <HighlightOff style={{ fontSize: 90, color: '#c22032', marginBottom: '10px' }} />
-                    <h2>Payment Failed</h2>
-                    <p>{paymentError || 'Something went wrong with your payment.'}</p>
-                    <div className="button-group">
-                      <button type="button" onClick={handleRetry} className="submit-button retry-btn">
-                        <Refresh style={{ fontSize: 22, marginRight: '10px' }} />
-                        Retry Payment
-                      </button>
-                      <button type="button" onClick={handleClose} className="cancel-button close-btn">
-                        <Close style={{ fontSize: 22, marginRight: '10px' }} />
-                        Close
-                      </button>
+                  <div className="payment-failed-header">
+                    <div className="payment-failed-header-left">
+                      <HighlightOff style={{ fontSize: 32, color: '#c22032' }} />
+                      <p>Payment Failed</p>
                     </div>
+                    <button type="button" onClick={handleClose} className="payment-failed-close-btn" aria-label="Close">
+                      <Close style={{ fontSize: 20, color: '#999' }} />
+                    </button>
                   </div>
+                  <div className="payment-failed-divider" />
+                  <div className="payment-failed-body">
+                    <p className="payment-failed-message">We couldn’t complete your payment because it was cancelled.
+                      No amount was charged. Your order is safe.
+                      Please try again</p>
+                    <div className="payment-failed-reason">
+                      <span className="payment-failed-reason-icon">⚠</span>
+                      <span><strong>Reason:</strong> {paymentError || 'Network issue'}</span>
+                    </div>
+                    <button type="button" onClick={handleRetry} className="payment-failed-retry-btn">
+                      Retry Now
+                    </button>
+                  </div>
+                  <div className="payment-failed-divider" />
+                  <p className="payment-failed-footer">Your payment is safe.</p>
                 </motion.div>
               ) : (
                 <motion.div
