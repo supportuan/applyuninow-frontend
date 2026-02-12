@@ -145,8 +145,9 @@ function MyApp({ Component, pageProps }) {
         <meta name="keywords" content="Scholarships, Visa, Admissions, Universities, Tuition, Funding, Exchange, Overseas, Education, Application, Study Abroad, Student Visa, Global Education, University Rankings, Tuition Fees, Scholarship Programs, Admission Process, International Students, Visa Requirements, Affordable Universities, Study Budget, Abroad Study Finance, Global Study Journey" />
         <meta itemprop="description" content="ApplyUniNow – Your Study Abroad Dream Is Our Commitment. Secure early guaranteed visa and 100% scholarship opportunities for your overseas education journey." />
         <meta name="description" content="ApplyUniNow – Your Study Abroad Dream Is Our Commitment. Secure early guaranteed visa and 100% scholarship opportunities for your overseas education journey." />
-       
+
       </Head>
+      <Script src="https://checkout.razorpay.com/v1/checkout.js" strategy="lazyOnload" />
       <Provider store={store}>
         <div className="app-container">
           <PageProvider>
