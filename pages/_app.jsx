@@ -169,12 +169,12 @@ function MyApp({ Component, pageProps }) {
     <AppContextProvider>
       <Head>
         <title>ApplyUniNow | ApplyUniNow guides you through the best career upskilling selection and university enrollment. Book a free consultation.</title>
-        <meta charset="utf-8" />
+        <meta charSet="utf-8" />
         <link rel="icon" type="image/x-icon" href="/favicon.svg" />
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"></meta>
         <meta name="google-site-verification" content="mEBDJKtdTSmhcou56Z7QZKbJ5cU6I8sVelYfxQ_aTfM" />
         <meta name="keywords" content="Scholarships, Visa, Admissions, Universities, Tuition, Funding, Exchange, Overseas, Education, Application, Study Abroad, Student Visa, Global Education, University Rankings, Tuition Fees, Scholarship Programs, Admission Process, International Students, Visa Requirements, Affordable Universities, Study Budget, Abroad Study Finance, Global Study Journey" />
-        <meta itemprop="description" content="ApplyUniNow – Your Study Abroad Dream Is Our Commitment. Secure early guaranteed visa and 100% scholarship opportunities for your overseas education journey." />
+        <meta itemProp="description" content="ApplyUniNow – Your Study Abroad Dream Is Our Commitment. Secure early guaranteed visa and 100% scholarship opportunities for your overseas education journey." />
         <meta name="description" content="ApplyUniNow – Your Study Abroad Dream Is Our Commitment. Secure early guaranteed visa and 100% scholarship opportunities for your overseas education journey." />
        
       </Head>
