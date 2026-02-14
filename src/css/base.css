@@ -8283,6 +8283,58 @@ h2.page-heading {
   margin: 0;
 }
 
+/* --- Payment Processing Card Variant --- */
+.payment-processing-card {
+  border-top-color: #2563eb;
+}
+
+.payment-failed-header-left p {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 700;
+  font-size: 20px;
+  color: #1a1a1a;
+  margin: 0;
+}
+
+.processing-spinner-row {
+  display: flex;
+  justify-content: center;
+  padding: 10px 0;
+}
+
+.spinner-container-sm {
+  position: relative;
+  width: 56px;
+  height: 56px;
+}
+
+.spinner-container-sm .premium-spinner {
+  width: 100%;
+  height: 100%;
+  border: 3px solid rgba(37, 99, 235, 0.1);
+  border-top: 3px solid #2563eb;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  box-sizing: border-box;
+}
+
+.spinner-container-sm .premium-spinner-inner {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  right: 8px;
+  bottom: 8px;
+  border: 3px solid rgba(30, 65, 124, 0.1);
+  border-top: 3px solid #1e417c;
+  border-radius: 50%;
+  animation: spin 1.5s linear infinite reverse;
+  box-sizing: border-box;
+}
+
+.processing-icon-spin {
+  animation: spin 2s linear infinite;
+}
+
 /* Plan Label */
 .plan-label {
   text-align: center;

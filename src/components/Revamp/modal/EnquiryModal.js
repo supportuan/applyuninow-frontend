@@ -4,7 +4,7 @@ import SuccessModal from './SuccessModal';
 import api from "../../../api/index";
 import { useAppContext } from "../../../context/Appcontext";
 import useRazorpay from '../Hooks/useRazorpay';
-import { HighlightOff, Close } from '@mui/icons-material';
+import { HighlightOff, Close, HourglassTop } from '@mui/icons-material';
 import { motion, AnimatePresence } from 'framer-motion';
 
 
@@ -125,20 +125,33 @@ const EnquiryModal = ({ isOpen, onClose, planTitle, planPrice }) => {
               {(paymentLoading || paymentStatus === 'processing') && !paymentError ? (
                 <motion.div
                   key="processing"
-                  initial={{ opacity: 0, scale: 0.95 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.95 }}
-                  transition={{ duration: 0.3 }}
-                  className="payment-status-container"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  transition={{ duration: 0.4, ease: "easeOut" }}
+                  className="payment-failed-card payment-processing-card"
                 >
-                  <div className="payment-processing">
-                    <div className="spinner-container">
-                      <div className="premium-spinner"></div>
-                      <div className="premium-spinner-inner"></div>
+                  <div className="payment-failed-header">
+                    <div className="payment-failed-header-left">
+                      <HourglassTop style={{ fontSize: 32, color: '#2563eb' }} className="processing-icon-spin" />
+                      <p>Processing Payment</p>
                     </div>
-                    <h2>Processing Payment</h2>
-                    <p>Please complete the payment in the Razorpay window. Do not close this page.</p>
+                    <button type="button" onClick={handleClose} className="payment-failed-close-btn" aria-label="Close">
+                      <Close style={{ fontSize: 20, color: '#999' }} />
+                    </button>
                   </div>
+                  <div className="payment-failed-divider" />
+                  <div className="payment-failed-body">
+                    <div className="processing-spinner-row">
+                      <div className="spinner-container-sm">
+                        <div className="premium-spinner"></div>
+                        <div className="premium-spinner-inner"></div>
+                      </div>
+                    </div>
+                    <p className="payment-failed-message">Please complete the payment in the Razorpay window. Do not close this page.</p>
+                  </div>
+                  <div className="payment-failed-divider" />
+                  <p className="payment-failed-footer">Your payment is being processed securely.</p>
                 </motion.div>
               ) : paymentStatus === 'failed' || paymentError ? (
                 <motion.div
