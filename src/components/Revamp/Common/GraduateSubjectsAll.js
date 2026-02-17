@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, useCallback } from 'react';
 import TopStrip from './TopStrip';
 import { useRouter } from 'next/router';
 import BackButton from './BackButton';
@@ -23,7 +23,7 @@ const GraduateSubjectsAll = () => {
     const [allCourses, setAllCourses] = useState([]);
     const [pagedCourses, setPagedCourses] = useState([]);
     const [filteredCourses, setFilteredCourses] = useState([]);
-    const [filters, setFilters] = useState([]);
+    const [filters, setFilters] = useState({});
     const [metaInfo, setMetaInfo] = useState(null);
     const [currentPage, setCurrentPage] = useState(1);
     const [query, setQuery] = useState('');
@@ -33,45 +33,49 @@ const GraduateSubjectsAll = () => {
     const [isSticky, setIsSticky] = useState(false);
     const [isInView, setIsInView] = useState(false);
     const [filterSticky, setFilterSticky] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState(null);
 
     const filterRef = useRef();
     const filterBtnRef = useRef();
     const rightFilterRef = useRef();
     const bottomRef = useRef(null);
     
+    // Guards to prevent double API calls
+    const fetchInProgress = useRef(false);
+    const lastFetchParams = useRef(null);
+    const debounceTimer = useRef(null);
 
-    useEffect(() => {
-
-        if (isFirstRender.current && router.isReady) {
-            setPreviousePageFilters()
-            isFirstRender.current = false;
-            i++
-        }else{
-            fetchCourses(1, false);
-            i++
+    const fetchCourses = useCallback(async (page = 1, isFilterApplied = false) => {
+        // Prevent duplicate calls with same params
+        const fetchKey = JSON.stringify({ filters, recordSort, page });
+        
+        // If same request is already in progress or was just made, skip
+        if (fetchInProgress.current) {
+            return;
         }
-     
-        // const filter_cart_container = document.querySelector('.filter_cart_container')?.clientHeight;
-        // filter_cart_container > 700 ? setFilterSticky(true) : setFilterSticky(false);
-
-    }, [filters, recordSort]);
-    
-    //CONDITION TO CHECK PAGE IS RELOADED
-    if( Object.keys(router.query).length>0 && isFirstRender.current){ 
-        setTimeout(() => {
-            if(i===1) setPreviousePageFilters()
-            i++
-        }, 500);
-        //console.log(router,'rrrrrrrrrrrrrrrrrrrr',i)
-    }
-
-    const fetchCourses = async (page = 1, isFilterApplied = false) => {
+        
+        if (lastFetchParams.current === fetchKey) {
+            return;
+        }
+        
+        fetchInProgress.current = true;
+        lastFetchParams.current = fetchKey;
+        setIsLoading(true);
+        setError(null);
+        
         try { 
-            const filtersMain = { ...filters, page: page }
+            // Clean filters - remove empty strings, null, undefined, and 0 values
+            const cleanedFilters = Object.entries(filters).reduce((acc, [key, value]) => {
+                if (value !== null && value !== undefined && value !== '' && value !== 0) {
+                    acc[key] = value;
+                }
+                return acc;
+            }, {});
+            
+            const filtersMain = { ...cleanedFilters, page: page }
             let filterData = { filters: filtersMain, order: recordSort }
-            const url = filterData
-                ? `${BASE_URL}/course/courseCart`
-                : `${BASE_URL}/course/courseCart?page=${page}`;
+            const url = `${BASE_URL}/course/courseCart`;
 
             const res = await api.post(url, filterData);
             const courses = res?.data?.data?.data;
@@ -89,13 +93,67 @@ const GraduateSubjectsAll = () => {
                 setMetaInfo(null);
             }
         } catch (err) {
-            console.error('Error fetching courses:', err);
+            // Set error state for user feedback
+            setError(err?.response?.data?.message || 'Failed to load courses. Please try again.');
             setAllCourses([]);
             setPagedCourses([]);
             setFilteredCourses([]);
             setMetaInfo(null);
+        } finally {
+            setIsLoading(false);
+            fetchInProgress.current = false;
         }
-    };
+    }, [filters, recordSort, BASE_URL]);
+
+    useEffect(() => {
+        // Clear any pending debounced calls
+        if (debounceTimer.current) {
+            clearTimeout(debounceTimer.current);
+        }
+
+        if (isFirstRender.current && router.isReady) {
+            // Set filters from URL first, then fetch
+            setPreviousePageFilters();
+            isFirstRender.current = false;
+            i++;
+            // Don't return early - let the filters update trigger the fetch
+            return;
+        }
+        
+        // Only fetch if filters are actually set (not empty object)
+        const hasFilters = Object.keys(filters).length > 0;
+        if (!hasFilters && router.isReady) {
+            // If no filters but router is ready, try to set them from URL
+            setPreviousePageFilters();
+            return;
+        }
+        
+        // Debounce to prevent rapid successive calls
+        debounceTimer.current = setTimeout(() => {
+            if (hasFilters || router.query.industryId === 'All') {
+                fetchCourses(1, false);
+            }
+        }, 150);
+        
+        return () => {
+            if (debounceTimer.current) {
+                clearTimeout(debounceTimer.current);
+            }
+        };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [filters, recordSort, router.isReady]);
+    
+    //CONDITION TO CHECK PAGE IS RELOADED
+    useEffect(() => {
+        if (Object.keys(router.query).length > 0 && isFirstRender.current && router.isReady) {
+            setTimeout(() => {
+                if (i === 1) {
+                    setPreviousePageFilters();
+                }
+                i++;
+            }, 500);
+        }
+    }, [router.isReady, router.query]);
 
     const handleSearch = (e) => {
         const queryValue = e.currentTarget.value;
@@ -126,8 +184,41 @@ const GraduateSubjectsAll = () => {
     }
 
     const handledReset = () => {
-        setReset(true)
-        setFilters({});
+        setReset(true);
+        lastFetchParams.current = null; // Clear fetch cache to allow new request
+        
+        // Preserve URL-based filters if they exist
+        const { industryId, subjectId } = router.query || {};
+        
+        if (industryId && industryId !== 'All') {
+            // Keep URL-based filters, only clear user-applied filters
+            const [slug, industId, countryId] = industryId.split("--") || [];
+            const [subName, subId] = subjectId?.split("--") || [];
+            
+            // Rebuild filters from URL only
+            const urlFilters = {};
+            if (industId) urlFilters.INDUSTRY_ID = industId;
+            if (subId) urlFilters.SUBJECT_AREA_ID = subId;
+            
+            // Get country ID if exists and prerequisiteData is loaded
+            if (countryId && prerequisiteData?.data?.study_destination) {
+                let cname = countryId;
+                if(countryId === 'usa') cname = 'UNITED STATES OF AMERICA';
+                if(countryId === 'uk') cname = 'UNITED KINGDOM';
+                const urlcountry = prerequisiteData.data.study_destination.find(
+                    dest => dest.name === cname.toUpperCase()
+                );
+                if (urlcountry?.id) {
+                    urlFilters.country_id = urlcountry.id;
+                }
+            }
+            
+            setFilters(urlFilters);
+        } else {
+            // Complete reset - clear everything
+            setFilters({});
+        }
+        
         setCurrentPage(1);
     }
 
@@ -136,27 +227,57 @@ const GraduateSubjectsAll = () => {
     }
  
     const setPreviousePageFilters = async () => {
-        const { industryId, subjectId } = router.query || [];
+        const { industryId, subjectId } = router.query || {};
         if(industryId == 'All' && isFirstRender.current) {
+            setFilters({});
             fetchCourses(1, false);
             return 
         }
-        if (!industryId || industryId == 'All') return;
-        //console.log('ddd')
+        if (!industryId || industryId == 'All') {
+            setFilters({});
+            return;
+        }
+        
         let [slug, industId, countryId] = industryId.split("--") || [];
-        const [subName, subId] = subjectId.split("--") || [];
-        let urlcountry = ''
-        if (countryId) {
-            let cname = countryId
-            if(countryId=='usa') cname = 'UNITED STATES OF AMERICA';
-            if(countryId=='uk') cname = 'UNITED KINGDOM';
-            urlcountry = await prerequisiteData?.data?.study_destination.find(dest => dest.name == cname.toUpperCase());
+        const [subName, subId] = subjectId?.split("--") || [];
+        let urlcountry = null;
+        
+        // Wait for prerequisiteData to be loaded if countryId exists
+        if (countryId && prerequisiteData?.data?.study_destination) {
+            let cname = countryId;
+            if(countryId === 'usa') cname = 'UNITED STATES OF AMERICA';
+            if(countryId === 'uk') cname = 'UNITED KINGDOM';
+            urlcountry = prerequisiteData.data.study_destination.find(
+                dest => dest.name === cname.toUpperCase()
+            );
         }
 
-        setFilters({ country_id: urlcountry?.id, INDUSTRY_ID: industId, SUBJECT_AREA_ID: subId })
+        // Convert to numbers and ensure they're valid
+        const industryIdNum = industId ? parseInt(industId, 10) : null;
+        const subjectAreaIdNum = subId ? parseInt(subId, 10) : null;
+        const countryIdNum = urlcountry?.id ? parseInt(urlcountry.id, 10) : null;
+
+        // Only set filters if we have valid IDs
+        const newFilters = {};
+        if (industryIdNum && !isNaN(industryIdNum) && industryIdNum > 0) {
+            newFilters.INDUSTRY_ID = industryIdNum;
+        }
+        if (subjectAreaIdNum && !isNaN(subjectAreaIdNum) && subjectAreaIdNum > 0) {
+            newFilters.SUBJECT_AREA_ID = subjectAreaIdNum;
+        }
+        if (countryIdNum && !isNaN(countryIdNum) && countryIdNum > 0) {
+            newFilters.country_id = countryIdNum;
+        }
+
+        setFilters(newFilters);
+        
+        // Return the filters so they can be used immediately if needed
+        return newFilters;
     }
 
     useEffect(() => {
+        if (typeof window === 'undefined') return;
+        
         const handleFilterClickOutside = (event) => {
             if(filterRef.current &&
                 !filterRef.current.contains(event.target) &&
@@ -168,9 +289,15 @@ const GraduateSubjectsAll = () => {
         }
 
         document.addEventListener('mousedown', handleFilterClickOutside);
+        
+        return () => {
+            document.removeEventListener('mousedown', handleFilterClickOutside);
+        };
     }, []);
 
     useEffect(() => {
+        if (typeof window === 'undefined') return;
+        
         const handleScroll = () => {
             const filter_cart_container = document.querySelector('.filter_cart_container')?.clientHeight;
             const screenWidth = window.innerWidth;
@@ -178,24 +305,28 @@ const GraduateSubjectsAll = () => {
 
             if (screenWidth <= mediaBreakpoint) return;
 
-            if(rightFilterRef.current){
-                //debugger;
+            if(rightFilterRef.current && typeof window !== 'undefined'){
                 const scrollY = window.scrollY;
                 const offsetTop = 150; 
 
                 if (scrollY > offsetTop && filter_cart_container > 700) {
-                    //debugger;
                     setIsSticky(true);
-                    // setIsInView(false);
                 } else {
                     setIsSticky(false);
                 }
             }
 
             if(filter_cart_container > 700){
-                const refsToObserve = [bottomRef, rightFilterRef];
-                if (typeof window === 'undefined') return; 
-                const observer = new IntersectionObserver(
+                setIsInView(false);
+            } else {
+                setIsInView(false);
+            }
+        }
+
+        // Set up IntersectionObserver separately for proper cleanup
+        let observer = null;
+        if (typeof window !== 'undefined' && window.IntersectionObserver) {
+            observer = new IntersectionObserver(
                 ([entry]) => {
                     setIsInView(entry.isIntersecting);
                 },
@@ -204,37 +335,28 @@ const GraduateSubjectsAll = () => {
                     rootMargin: '0px',
                     threshold: 0.2,
                 }
-                );
-                
-                // if (bottomRef.current) {
-                //     observer.observe(bottomRef.current);
-                // }
-                // if (rightFilterRef.current) {
-                //     observer.observe(rightFilterRef.current);
-                // }
-                refsToObserve.forEach(ref => {
-                    if (ref.current) {
-                        observer.observe(ref.current);
-                    }
-                });
+            );
             
-        
-                return () => {
-                // if (bottomRef.current) {
-                //     observer.unobserve(bottomRef.current);
-                // }
+            const refsToObserve = [bottomRef, rightFilterRef];
+            refsToObserve.forEach(ref => {
+                if (ref.current) {
+                    observer.observe(ref.current);
+                }
+            });
+        }
+
+        // Cleanup function
+        return () => {
+            if (observer) {
+                const refsToObserve = [bottomRef, rightFilterRef];
                 refsToObserve.forEach(ref => {
                     if (ref.current) {
                         observer.unobserve(ref.current);
                     }
                 });
-                };
-            } else{
-                setIsInView(false);
+                observer.disconnect();
             }
-        }
-        //window.addEventListener('scroll', handleScroll);
-        //return () => window.removeEventListener('scroll', handleScroll);
+        };
     }, []);
 
     return (
@@ -250,7 +372,7 @@ const GraduateSubjectsAll = () => {
                                 <div className='filter_data_container__left--inner' 
                                 style={{
                                     position: deviceType !== 'mobile' ? isInView ? 'relative' : undefined : null,
-                                    top: deviceType !== 'mobile' ? isInView ? `${window.scrollY - 150}px` : undefined : null,
+                                    top: deviceType !== 'mobile' ? isInView ? (typeof window !== 'undefined' ? `${Math.max(0, window.scrollY - 150)}px` : undefined) : undefined : null,
                                     bottom: 'auto',
                                   }} 
                                 >
@@ -297,9 +419,35 @@ const GraduateSubjectsAll = () => {
                                     <h4 className='term_statement'>*This information is for reference only, we do not endorse any specific Universities or Courses. This information is provided solely for educational reference and we’d love to help you.</h4>
                                 </div>
                                 <div className="filter_data_container__right--bottom">
-                                    <div className="filter_cart_container">
-                                        <FilterCart filterDataAll={filteredCourses} />
-                                    </div>
+                                    {isLoading && (
+                                        <div style={{ padding: '2rem', textAlign: 'center' }}>
+                                            <p>Loading courses...</p>
+                                        </div>
+                                    )}
+                                    {error && !isLoading && (
+                                        <div style={{ padding: '2rem', textAlign: 'center', color: '#d32f2f' }}>
+                                            <p>{error}</p>
+                                            <button 
+                                                onClick={() => fetchCourses(currentPage)}
+                                                style={{ 
+                                                    marginTop: '1rem', 
+                                                    padding: '0.5rem 1rem', 
+                                                    cursor: 'pointer',
+                                                    backgroundColor: '#0070f3',
+                                                    color: 'white',
+                                                    border: 'none',
+                                                    borderRadius: '4px'
+                                                }}
+                                            >
+                                                Retry
+                                            </button>
+                                        </div>
+                                    )}
+                                    {!isLoading && !error && (
+                                        <div className="filter_cart_container">
+                                            <FilterCart filterDataAll={filteredCourses} />
+                                        </div>
+                                    )}
                                 </div>
                                 <div className='' ref={bottomRef} >
                                 {metaInfo && (

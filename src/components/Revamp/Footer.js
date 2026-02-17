@@ -36,7 +36,7 @@ const footerIcons = [
 const footerNav = [
   { name: "About Us", link: '/about'},
   { name: "Careers", link: '/careers'},
-  // { name: "Shop", link: 'javascript:void(0)', clname:'nav_explore'},
+
   { name: "Countries", link: '/countries'},
   { name: "AI Student Advisor", link: '/industry'},
   { name: "T&C", link: '/terms-conditions'},
@@ -63,7 +63,7 @@ const Footer = () => {
     deviceType == 'desktop' ? window.open("https://web.whatsapp.com/send?phone=" + mnum + "&text=" + msg, "_blank", "noopener") : window.open("https://wa.me/" + mnum + "?text=" + msg, "_blank", "noopener");
   };
 
-  const initEmpty = () => {}
+  const initEmpty = (e) => { e.preventDefault(); }
 
   return (
     <div className='container mid-width footer_section'>
@@ -73,8 +73,8 @@ const Footer = () => {
         <h3>Our affiliations with esteemed industry leaders, accreditations, and partnerships validate our credibility and standing.</h3>
         <div className='footer_icons'>
           {footerIcons.map((item, index) => 
-            <figure>
-              <Image key={item?.name+'_'+index} src={item?.icon} width={item?.width} height={item?.height} alt={item?.name} />
+            <figure key={item?.name+'_'+index}>
+              <Image src={item?.icon} width={item?.width} height={item?.height} alt={item?.name} />
             </figure>
         )}
         </div>
@@ -129,7 +129,7 @@ const Footer = () => {
             <ul>
               {social.map((item, index) => 
                 <li key={index}>
-                  <a href={item?.link ? item?.link : 'javascript:void(0)'} onClick={item?.click ? initWhatsApp : initEmpty}>
+                  <a href={item?.link ? item?.link : '#'} onClick={item?.click ? (e) => { e.preventDefault(); initWhatsApp(); } : initEmpty}>
                     <Image src={item?.icon} width={30} height={30} alt={item?.name} />
                     {item?.detail ? (
                       <span>{item?.detail}</span>
