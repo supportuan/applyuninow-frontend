@@ -1,6 +1,7 @@
-import React, { useEffect } from "react";
-import WorldMap from "../../../Images/rev/flags/world-map.svg";
+import React from "react";
+
 import LogoStar from "../../../Images/rev/logo/logo-with-star.svg";
+import worldMap from "../../../Images/rev/flags/world-map.svg";
 import Image from 'next/image';
 import Link from 'next/link';
 import { countries } from "../utils/helpers";
@@ -16,7 +17,7 @@ const CountryDisplay = () => {
         </div>
 
         <div className="world-map">
-            <Image src={WorldMap} alt="World Map" />
+            <Image src={worldMap} alt="World Map" width={1200} height={600} />
             {countries.map((country, index) => 
             index < 7 ? (
               <div key={'img_'+index} className={`blinker country_loc_${index}`}></div>
@@ -27,7 +28,7 @@ const CountryDisplay = () => {
             {countries.map((country) => (
             <Link key={country.code} href={'country/' + country.code} passHref legacyBehavior>
               <div className="flag">
-                <Image src={country.flag} aria-label={country.code} alt={country.code} width="100" height="100" />
+                <Image src={country.flag} aria-label={country.code} alt={country.code || 'Country flag'} width="100" height="100" />
                 <label>{country?.title}</label>
                 </div>
             </Link>

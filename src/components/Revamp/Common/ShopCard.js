@@ -17,7 +17,7 @@ const ShopCard = ({ product, isSelected, onSelect }) => {
                     onChange={() => onSelect(product.id)}
                     className="select-checkbox"
                 />
-                <Image src={product.image} alt={product.title} className="product-image" />
+                <Image src={product.image} alt={product.title} className="product-image" width={300} height={300} />
             </div>
             <div className="product-info">
                 <div className=''>

@@ -9,7 +9,6 @@ const CategoryGrid = (props) => {
   const { countryId, industryId } = router.query;
   const url = (countryId) ? '--' + countryId : ''
 
-  console.log(props?.categoryDetails);
   return (
     <React.Fragment>
       {props?.categoryDetails?.map((item, index) =>
@@ -18,7 +17,7 @@ const CategoryGrid = (props) => {
             {props?.slugCat ? (
               <span className={props?.slugCat + ' icon_' + index}></span>
             ) : (
-              <Image src={item?.iconName} alt={item?.name} width={40} height={40} />
+              <Image src={item?.iconName} alt={item?.name || item?.title || 'Category'} width={40} height={40} />
             )}
             <p>{(item?.name) ? item?.name : item?.title}</p>
           </div>

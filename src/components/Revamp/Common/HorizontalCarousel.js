@@ -38,7 +38,7 @@ const HorizontalCarousel = (props) => {
               index === visibleSides ? "active" : "inactive"
             }`}
           >
-            <Image src={items[slideIndex]?.icon} alt={`slide-${index}`} />
+            <Image src={items[slideIndex]?.icon} alt={`slide-${index}`} width={200} height={200} />
           </div>
         ))}
       </div>

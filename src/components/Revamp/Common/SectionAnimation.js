@@ -298,21 +298,21 @@ const SectionAnimation = ({ info: imgDetail }) => {
           <div className="photo">
           {/* {deviceType == 'desktop' ? ( */}
               <div id="livePhoneScrollTrigger">
-                <div className="livePhone imgEf"><Image src={firstImg} width={200} alt="" /> </div>
+                <div className="livePhone imgEf"><Image src={firstImg} width={200} height={400} alt="" /> </div>
               </div>
             {/* ): null} */}
             
-            <div className="imgEf"><Image src={firstImg} width={200} alt="" /></div>
-            <div className="imgEf"><Image src={firstImg} width={200} alt="" /></div>
-            <div className="imgEf"><Image src={firstImg} width={200} alt="" /></div>
-            <div className="imgEf"><Image src={firstImg} width={200} alt="" /></div>
-            <div className="imgEf"><Image src={firstImg} width={200} alt="" /></div>
-            <div className="imgEf"><Image src={firstImg} width={200} alt="" /></div>
-            <div className="imgEf"><Image src={firstImg} width={200} alt="" /></div>
-            <div className="imgEf"> <Image src={firstImg} width={200} alt="" /></div>
-            <div className="imgEf"><Image src={firstImg} width={200} alt="" /></div>
-            <div className="imgEf"><Image src={firstImg} width={200} alt="" /></div>
-            <div className="imgEf slideImg"><Image src={firstImg} alt="" /></div>
+            <div className="imgEf"><Image src={firstImg} width={200} height={400} alt="" /></div>
+            <div className="imgEf"><Image src={firstImg} width={200} height={400} alt="" /></div>
+            <div className="imgEf"><Image src={firstImg} width={200} height={400} alt="" /></div>
+            <div className="imgEf"><Image src={firstImg} width={200} height={400} alt="" /></div>
+            <div className="imgEf"><Image src={firstImg} width={200} height={400} alt="" /></div>
+            <div className="imgEf"><Image src={firstImg} width={200} height={400} alt="" /></div>
+            <div className="imgEf"><Image src={firstImg} width={200} height={400} alt="" /></div>
+            <div className="imgEf"> <Image src={firstImg} width={200} height={400} alt="" /></div>
+            <div className="imgEf"><Image src={firstImg} width={200} height={400} alt="" /></div>
+            <div className="imgEf"><Image src={firstImg} width={200} height={400} alt="" /></div>
+            <div className="imgEf slideImg"><Image src={firstImg} width={200} height={400} alt="" /></div>
             <div className="lastImgEF grid-container1">
               <div className="section3 grid-item">
                 {/* <Image src={firstImg} alt="" /> */}

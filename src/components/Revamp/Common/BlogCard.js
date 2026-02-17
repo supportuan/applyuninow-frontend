@@ -1,4 +1,3 @@
-
 import Image from "next/image";
 import React, { useState } from "react";
 import InfoModal from "../modal/InfoModal";
@@ -11,7 +10,7 @@ const BlogCard = ({ image, author, date, description, link }) => {
     }
     return (
         <div className="blog-card">
-            <Image src={image} alt="Blog" className="card-image" />
+            <Image src={image} alt="Blog" className="card-image" width={400} height={250} />
             <div className="card-content">
                 <div className="card-header">
                     <span className="author">{author}</span>

@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
-import { useRouter } from "next/router";
-import { usePageContext } from "./context/PageContext";
+import React, { useState, useEffect } from 'react';
+import { usePageContext } from './context/PageContext';
+import { useRouter } from 'next/router';
 
 const PageLabelUpdater = () => {
   const context = usePageContext();
@@ -11,29 +11,28 @@ const PageLabelUpdater = () => {
     setMounted(true);
   }, []);
 
-  const { setPageLabelName, setDeviceType } = context || {};
-
   useEffect(() => {
-    if (!mounted || !setPageLabelName) return;
-
+    if (!mounted || !context) return;
+    const { setPageLabelName } = context;
     let label = "home";
     if (router.pathname !== "/") {
       label = router.pathname.replace(/^\//, "").replace("/", "-");
     }
     setPageLabelName(label);
-  }, [router.pathname, setPageLabelName, mounted]);
+  }, [mounted, context, router.pathname]);
 
   useEffect(() => {
-    if (!mounted || !setDeviceType) return;
+    if (!mounted || !context) return;
+    const { setDeviceType } = context;
 
     const updateDeviceType = () => {
-      setDeviceType(window.innerWidth >= 780 ? "desktop" : "mobile");
+      setDeviceType(window.innerWidth >= 768 ? "desktop" : "mobile");
     };
 
     updateDeviceType();
     window.addEventListener("resize", updateDeviceType);
     return () => window.removeEventListener("resize", updateDeviceType);
-  }, [setDeviceType, mounted]);
+  }, [mounted, context]);
 
   if (!mounted || !context) return null;
 
@@ -41,4 +40,3 @@ const PageLabelUpdater = () => {
 };
 
 export default PageLabelUpdater;
-
