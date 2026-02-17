@@ -1585,7 +1585,7 @@ export const pricingData = [
     ],
     bgColor: "#C9DEF5",
     benefits: "Suitable for individuals who possess confidence in managing most of the application process independently. This basic service offers comprehensive guidance, including a detailed checklist of necessary documents and access to collaborating universities. This cost-effective option caters to those seeking minimal support.",
-    cta: "Proceed to Pay",
+    cta: "Proceed for validation",
   },
   {
     title: "STANDARD",
@@ -1599,7 +1599,7 @@ export const pricingData = [
     ],
     bgColor: "#C7FF81",
     benefits: "Provides personalized support, including customized counseling, assistance in drafting documents such as SOP’s and resumes, financial planning guidance, and pre-departure advice. It caters to students seeking a balance between affordability and comprehensive assistance.",
-    cta: "Proceed to Pay",
+    cta: "Proceed for validation",
   },
   {
     title: "PREMIUM",
@@ -1613,7 +1613,7 @@ export const pricingData = [
     ],
     bgColor: "#FFD7FE",
     benefits: "Offers comprehensive support, encompassing all Standard benefits and augmenting them with services such as scholarship application assistance, alumni mentorship, webinars on cultural adaptation, and profile development. This package is ideally suited for students seeking holistic guidance and aspiring to prestigious universities or highly competitive scholarships.",
-    cta: "Proceed for Pay",
+    cta: "Proceed for validation",
   }
 ];
 

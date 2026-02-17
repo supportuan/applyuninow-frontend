@@ -120,220 +120,96 @@ body {
 }
 
 .section_header {
-    // APPLE-STYLE: Center all items as a compact group on desktop
-    display: flex;
+    @include mixins.set-flex-box();
+    padding: functions.rem(30) 0 20px 0;
     align-items: center;
-    justify-content: center; // All items centered as a compact group
-    gap: functions.rem(40); // Consistent gap matching nav items spacing
+    position: relative;
     transition: .3s all ease-in-out;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    background-color: rgba(255, 255, 255, 0.8);
-    backdrop-filter: saturate(180%) blur(20px);
-    -webkit-backdrop-filter: saturate(180%) blur(20px);
-    
-    // Apple-style height and spacing
-    height: variables.$header-height-desktop;
-    padding: 0 functions.rem(22);
-    
-    // MOBILE: Switch to space-between (logo left, icons right)
-    @include mixins.breakpointmax(variables.$header-breakpoint) {
-        justify-content: space-between;
-        gap: 0; // Remove gap, rely on space-between
-        height: variables.$header-height-mobile;
-        padding: 0 variables.$header-spacing-unit;
-    }
 
     &.mob_log_shift {
         margin-bottom: functions.rem(25);
     }
-    
-    // Logo - Part of centered group on desktop, left-aligned on mobile
-    .logo {
-        display: flex;
-        align-items: center;
-        flex-shrink: 0; // Prevent logo from shrinking
-        
-        a {
-            display: flex;
-            align-items: center;
-        }
-    }
 
     .nav {
-        display: flex;
-        align-items: center;
-        flex-shrink: 0; // Prevent nav from shrinking
-        
         ul {
             @include mixins.set-flex-box($ai: center);
-            gap: functions.rem(40); // Apple-style gap between nav items
+            gap: functions.rem(35);
 
             li {
                 a {
                     @include mixins2.desc-1();
-                    // Apple uses ~12px font, tight letter-spacing
-                    font-size: functions.rem(12);
-                    line-height: 1;
-                    font-weight: 400;
-                    letter-spacing: -0.01em;
-                    color: variables.$clr-2;
-                    opacity: 0.8;
-                    // Apple-style nav link base - minimal padding
-                    padding: 4px 8px;
-                    border-radius: 4px;
-                    transition: background-color 0.2s ease, opacity 0.2s ease;
-                    
-                    // Apple-style hover - only on devices that support hover
-                    @media (hover: hover) {
-                        &:hover {
-                            opacity: 1;
-                            background-color: rgba(0, 0, 0, 0.04);
-                        }
-                    }
+                    @include mixins.set-typography(11, 21);
                 }
 
                 &.nav_explore {
                     a {
-                        font-weight: 600;
+                        font-weight: 700;
                         background: linear-gradient(90deg, #C22032 0%, #2323FF 100%);
                         -webkit-background-clip: text;
-                        background-clip: text;
                         -webkit-text-fill-color: transparent;
-                        // Match nav size, slightly larger for emphasis
-                        font-size: functions.rem(12);
-                        line-height: 1;
-                        opacity: 1; // Full opacity for gradient
-                        position: relative;
-                        
-                        // Apple-style hover for gradient link - use pseudo-element for background
-                        @media (hover: hover) {
-                            &::before {
-                                content: '';
-                                position: absolute;
-                                top: 0;
-                                left: 0;
-                                right: 0;
-                                bottom: 0;
-                                border-radius: 4px;
-                                background-color: transparent;
-                                transition: background-color 0.2s ease;
-                                z-index: -1;
-                            }
-                            
-                            &:hover::before {
-                                background-color: rgba(0, 0, 0, 0.04);
-                            }
+                        @include mixins.set-typography(16, 26);
+                        @include mixins.breakpointmax(variables.$lg-screen) {
+                            @include mixins.set-typography(22, 30);
                         }
                     }
                 }
             }
 
             @include mixins.breakpointmax(variables.$lg-screen) {
-                gap: functions.rem(20); // Tighter on smaller desktops
-                align-items: center;
+                gap: functions.rem(20);
+                align-items: flex-start;
 
                 li {
                     a {
-                        font-size: functions.rem(11);
-                        font-weight: 400;
+                        font-size: functions.rem(12);
+                        font-weight: 600;
                         white-space: nowrap;
                     }
                 }
             }
         }
 
-        // Apple-style mobile menu overlay - slides down from header
-        @include mixins.breakpointmax(variables.$header-breakpoint) {
-            // Full-screen overlay positioning
-            position: fixed;
-            top: variables.$header-height-mobile;
-            left: 0;
-            right: 0;
-            bottom: 0;
+        @include mixins.breakpointmax(variables.$end-small) {
+            background-color: variables.$clr-1;
+            position: absolute;
+            top: 0;
             z-index: 99;
-            
-            // Apple-style background with blur
-            background-color: rgba(255, 255, 255, 0.95);
-            backdrop-filter: saturate(180%) blur(20px);
-            -webkit-backdrop-filter: saturate(180%) blur(20px);
-            
-            // Slide-down animation (Apple pattern)
-            transform: translateY(-100%);
-            opacity: 0;
-            visibility: hidden;
-            transition: transform 300ms ease-out, 
-                        opacity 300ms ease-out, 
-                        visibility 300ms ease-out;
+            width: 100%;
+            height: 100%;
+            left: functions.rem(-1000);
+            transition: all .2s ease-in-out;
 
             ul {
                 flex-direction: column;
-                padding: variables.$header-spacing-large;
-                padding-top: functions.rem(40);
-                gap: 0; // Reset gap, use padding on items instead
+                padding: functions.rem(60);
 
                 li {
-                    // Large touch targets for mobile (Apple guideline: 44px min)
-                    width: 100%;
-                    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
-                    
-                    &:last-child {
-                        border-bottom: none;
-                    }
-                    
                     a {
-                        @include mixins.set-typography(20, 28);
-                        display: block;
-                        padding: functions.rem(16) 0;
-                        font-weight: 500;
-                        color: variables.$clr-2;
-                        
-                        // Remove gradient on mobile for consistency
-                        background: none;
-                        background-clip: unset;
-                        -webkit-background-clip: unset;
-                        -webkit-text-fill-color: inherit;
+                        @include mixins.set-typography(22, 30);
                     }
                 }
             }
 
-            // Active state - slide down into view
             &.active {
-                transform: translateY(0);
-                opacity: 1;
-                visibility: visible;
+                left: 0;
+                position: fixed;
             }
 
             .nav-close {
                 position: absolute;
-                right: variables.$header-spacing-unit;
-                top: variables.$header-spacing-unit;
+                right: functions.rem(20);
+                top: functions.rem(40);
                 background: transparent;
                 border: none;
-                height: 44px;
-                width: 44px;
-                font-size: 24px;
+                height: 20px;
+                width: 20px;
+                font-size: 20px;
                 cursor: pointer;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                border-radius: 50%;
-                transition: background-color 0.2s ease;
-                
-                &:hover {
-                    background-color: rgba(0, 0, 0, 0.04);
-                }
             }
         }
     }
 
     .setting-login {
-        // Part of centered group on desktop, right-aligned on mobile
-        display: flex;
-        align-items: center;
-        flex-shrink: 0; // Prevent from shrinking
-        
         .desktop-support {
             @include mixins.set-flex-box();
             gap: functions.rem(10);
@@ -411,22 +287,9 @@ body {
         .user-login-section {
             cursor: pointer;
             position: relative;
-            
-            // Apple-style icon hover effect
-            > img {
-                padding: 8px;
-                border-radius: 50%;
-                transition: background-color 0.2s ease;
-                
-                @media (hover: hover) {
-                    &:hover {
-                        background-color: rgba(0, 0, 0, 0.04);
-                    }
-                }
-            }
 
             &__inner {
-                @include mixins.breakpoint(variables.$header-breakpoint) {
+                @include mixins.breakpoint(variables.$end-small) {
                     display: none;
                     position: absolute;
                     right: 0;
@@ -442,7 +305,7 @@ body {
                     }
                 }
 
-                @include mixins.breakpointmax(variables.$header-breakpoint) {
+                @include mixins.breakpointmax(variables.$end-small) {
                     position: absolute;
                     gap: functions.rem(10);
                     top: functions.rem(80);
@@ -539,7 +402,7 @@ body {
             background-size: cover;
 
             .homepage & {
-                min-height: functions.rem(380);
+                height: functions.rem(520);
             }
         }
     }
@@ -710,11 +573,6 @@ body {
         display: flex;
         align-items: center;
         justify-content: center;
-
-        // Hidden state - controlled via JS/React state
-        &--hidden {
-            display: none;
-        }
 
         .search-box {
             width: functions.rem(420);

@@ -33,25 +33,13 @@ const FilterTypes = ({ applyFilters, reset, setReset }) => {
     }
 
     if (reset) {
+      router.push('../All/All'); 
       setReset(false)
-
-      // Clear all select DOM values and remove .valid classes to fix floating label overlap
-      const allSelects = document.querySelectorAll('.form-group select.dropdown-items');
-      allSelects.forEach(select => {
-        select.value = '';
-        select.classList.remove('valid');
-      });
-
-      // Reset local state
-      setSelectedFilter({ countryId: '', industryId: '', SubjectId: '' });
-      setEngVal([]);
-      setCity([]);
-      setCountry('');
-      setIndustry('');
-      setYearApplicationFee([]);
-      setActiveStyles({});
-
-      // previousPageIds() will run above (line 31) and re-apply any URL-based preselections
+      //applyFilters({ key:'country_id', selectedValue:'' });
+      //setSelectedFilter({countryId:1})
+      setTimeout(() => {
+        window.location.reload();
+      }, 0);
     }
     
   }, [router.isReady, router.query, reset])

@@ -3,15 +3,6 @@ $xs-screen: 320px;
 $xs-small: 360px;
 $mid-small: 550px;
 $end-small: 1000px;
-
-// Header-specific breakpoint (isolated to avoid regression in 140+ $end-small usages)
-$header-breakpoint: 768px;
-
-// Apple-style header spacing variables
-$header-height-mobile: 44px;
-$header-height-desktop: 48px;
-$header-spacing-unit: 16px;
-$header-spacing-large: 24px;
 $lg-screen: 1200px;
 $lgx-screen: 1480px;
 $xlg-screen: 1600px;
