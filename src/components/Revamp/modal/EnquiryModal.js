@@ -3,30 +3,26 @@ import { usePageContext } from '../context/PageContext';
 import SuccessModal from './SuccessModal';
 import api from "../../../api/index";
 import { useAppContext } from "../../../context/Appcontext";
+import useRazorpay from '../Hooks/useRazorpay';
+import { HighlightOff, Close, HourglassTop } from '@mui/icons-material';
+import { motion, AnimatePresence } from 'framer-motion';
 
 
-const EnquiryModal = ({ isOpen, onClose }) => {
+const EnquiryModal = ({ isOpen, onClose, planTitle, planPrice }) => {
 
   const { pageLabelName, prerequisiteData } = usePageContext();
   const { BASE_URL } = useAppContext();
+  const { loading: paymentLoading, paymentStatus, error: paymentError, initiatePayment, resetPayment } = useRazorpay();
+
   const initialForm = {
     fullName: '',
     email: '',
     contact: '',
-    country: '',
   }
   const [formData, setFormData] = useState(initialForm);
   const [errors, setErrors] = useState({});
   const [showModal, setShowModal] = useState(false);
-  const [data, setData] = useState({
-    study_destination: [],
-    study_level: [],
-    study_industry: [],
-    study_intake: [],
-    intake_month: [],
-    intake_year: [],
-    study_area: [],
-  });
+  const [submitting, setSubmitting] = useState(false);
 
   const validate = () => {
     let tempErrors = {};
@@ -39,14 +35,12 @@ const EnquiryModal = ({ isOpen, onClose }) => {
       formData.contact && formData.contact.length === 10
         ? ''
         : 'Contact must be 10 digits';
-    tempErrors.country = formData.country ? '' : 'Country is required';
 
     setErrors({ ...tempErrors });
     return tempErrors;
   };
 
   const handleChange = (e) => {
-
     const { name, value } = e.target;
     if (value !== '') {
       e.target.classList.add('valid');
@@ -60,6 +54,7 @@ const EnquiryModal = ({ isOpen, onClose }) => {
 
   const handleClose = () => {
     setFormData(initialForm);
+    resetPayment();
     onClose();
   }
 
@@ -78,26 +73,45 @@ const EnquiryModal = ({ isOpen, onClose }) => {
         return false;
       } else if (objectCount === Object.keys(newErrors).length) {
         formData.pageLabelName = pageLabelName;
-        contectUsSave(formData)
+        if (planPrice) {
+          startPayment();
+        } else {
+          setFormData(initialForm);
+          onClose();
+        }
       }
     })
   };
 
-  const contectUsSave = (formData) => {
-    let obj = { email: formData.email, phone: formData.contact, name: formData.fullName, country_id: formData.country, sourceType: formData.pageLabelName }
-    api
-      .post(`${BASE_URL}/contact-us`, obj)
-      .then((res) => {
-        setFormData(initialForm);
-        console.log("submitted:");
-        onClose();
-        setShowModal(true);
-      })
-      .catch((err) => {
-        console.log("submitted:", err);
-      });
+  const startPayment = async () => {
+    const metadata = {
+      product_id: planTitle,
+      user_email: formData.email,
+      user_name: formData.fullName,
+      user_phone: formData.contact,
+      description: `${planTitle} - Study Abroad Package`,
+    };
+
+    const result = await initiatePayment(planPrice, metadata);
+    setSubmitting(false);
+
+    if (result === 'captured') {
+      setFormData(initialForm);
+      onClose();
+      setShowModal(true);
+    }
   };
 
+  const handleRetry = () => {
+    resetPayment();
+    startPayment();
+  };
+
+  useEffect(() => {
+    if (!isOpen) {
+      resetPayment();
+    }
+  }, [isOpen]);
 
 
   //if (!isOpen) return null;
@@ -107,50 +121,116 @@ const EnquiryModal = ({ isOpen, onClose }) => {
       {isOpen ? (
         <div className="modal-overlay">
           <div className="modal-container">
-            <h2 className='hide'>Enter Your Details</h2>
-            <form onSubmit={handleSubmit}>
-              {['fullName', 'email', 'contact'].map((field) => (
-                <div key={field} className="form-group">
+            <AnimatePresence mode="wait">
+              {(paymentLoading || paymentStatus === 'processing') && !paymentError ? (
+                <motion.div
+                  key="processing"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  transition={{ duration: 0.4, ease: "easeOut" }}
+                  className="payment-failed-card payment-processing-card"
+                >
+                  <div className="payment-failed-header">
+                    <div className="payment-failed-header-left">
+                      <HourglassTop style={{ fontSize: 32, color: '#2563eb' }} className="processing-icon-spin" />
+                      <p>Processing Payment</p>
+                    </div>
+                    <button type="button" onClick={handleClose} className="payment-failed-close-btn" aria-label="Close">
+                      <Close style={{ fontSize: 20, color: '#999' }} />
+                    </button>
+                  </div>
+                  <div className="payment-failed-divider" />
+                  <div className="payment-failed-body">
+                    <div className="processing-spinner-row">
+                      <div className="spinner-container-sm">
+                        <div className="premium-spinner"></div>
+                        <div className="premium-spinner-inner"></div>
+                      </div>
+                    </div>
+                    <p className="payment-failed-message">Please complete the payment in the Razorpay window. Do not close this page.</p>
+                  </div>
+                  <div className="payment-failed-divider" />
+                  <p className="payment-failed-footer">Your payment is being processed securely.</p>
+                </motion.div>
+              ) : paymentStatus === 'failed' || paymentError ? (
+                <motion.div
+                  key="failed"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  transition={{ duration: 0.4, ease: "easeOut" }}
+                  className="payment-failed-card"
+                >
+                  <div className="payment-failed-header">
+                    <div className="payment-failed-header-left">
+                      <HighlightOff style={{ fontSize: 32, color: '#c22032' }} />
+                      <p>Payment Failed</p>
+                    </div>
+                    <button type="button" onClick={handleClose} className="payment-failed-close-btn" aria-label="Close">
+                      <Close style={{ fontSize: 20, color: '#999' }} />
+                    </button>
+                  </div>
+                  <div className="payment-failed-divider" />
+                  <div className="payment-failed-body">
+                    <p className="payment-failed-message">We couldn’t complete your payment because it was cancelled.
+                      No amount was charged. Your order is safe.
+                      Please try again</p>
+                    <div className="payment-failed-reason">
+                      <span className="payment-failed-reason-icon">⚠</span>
+                      <span><strong>Reason:</strong> {paymentError || 'Network issue'}</span>
+                    </div>
+                    <button type="button" onClick={handleRetry} className="payment-failed-retry-btn">
+                      Retry Now
+                    </button>
+                  </div>
+                  <div className="payment-failed-divider" />
+                  <p className="payment-failed-footer">Your payment is safe.</p>
+                </motion.div>
+              ) : (
+                <motion.div
+                  key="form"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <h2 className='hide'>Enter Your Details</h2>
+                  {planTitle && (
+                    <p className="plan-label">
+                      Plan: <strong>{planTitle}</strong> — {planPrice}
+                    </p>
+                  )}
+                  <form onSubmit={handleSubmit}>
+                    {['fullName', 'email', 'contact'].map((field) => (
+                      <div key={field} className="form-group">
+                        <input
+                          type="text"
+                          name={field}
+                          value={formData[field]}
+                          onChange={handleChange}
+                          className={errors[field] ? 'input-error' : '' + 'input_txt_box'}
+                        />
+                        <label>{field.replace(/([A-Z])/g, ' $1')}</label>
+                        {errors[field] && <small>{errors[field]}</small>}
+                      </div>
+                    ))}
 
-                  <input
-                    type="text"
-                    name={field}
-                    value={formData[field]}
-                    onChange={handleChange}
-                    className={errors[field] ? 'input-error' : '' + 'input_txt_box'}
-                  />
-                  <label>{field.replace(/([A-Z])/g, ' $1')}</label>
-                  {errors[field] && <small>{errors[field]}</small>}
-                </div>
-              ))}
-              
-              <div key="country" className="form-group">
-                  <select
-                    name="country"
-                    value={formData["country"]}
-                    onChange={handleChange}
-                    className={errors["country"] ? 'input-error' : '' + 'input_txt_box'}
-                  >
-                  <option key="" value=""> </option>
-                  {prerequisiteData?.data?.study_destination?.map((destination, index) => (
-                    <option key={destination?.id} value={destination?.id}>{destination?.name}</option>
-                  ))}
-                  </select>
-                  <label className=''>country</label>
-                  {errors["country"] && <small>{errors["country"]}</small>}
-              </div>
-              <div className='content_msg'>
-                I agree to receive Communications from ApplyUniNow. Any data collected with be processed in accordance with our <a href='/terms-conditions'>Terms! & Conditions</a> + <a href='/terms-conditions'>Privacy Policy</a>
-              </div>
-              <div className="button-group">
-                <button type="button" onClick={handleClose} className="cancel-button">
-                  X
-                </button>
-                <button type="submit" className="submit-button">
-                  Submit
-                </button>
-              </div>
-            </form>
+                    <div className='content_msg'>
+                      I agree to receive Communications from ApplyUniNow. Any data collected with be processed in accordance with our <a href='/terms-conditions'>Terms! & Conditions</a> + <a href='/terms-conditions'>Privacy Policy</a>
+                    </div>
+                    <div className="button-group">
+                      <button type="button" onClick={handleClose} className="cancel-button">
+                        <Close style={{ fontSize: 20 }} />
+                      </button>
+                      <button type="submit" className="submit-button" disabled={submitting || paymentLoading}>
+                        {submitting || paymentLoading ? 'Processing...' : (planPrice ? `Pay ${planPrice}` : 'Submit')}
+                      </button>
+                    </div>
+                  </form>
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
         </div>
       ) : (

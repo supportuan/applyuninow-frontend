@@ -28,14 +28,14 @@ const PricingCard = ({ title, price, features, desc, bgColor, cta, benefits }) =
             ))}
           </ul>
         </div>
-        </div>
-        <div className="bottom_section">
-          <button className="btn" onClick={() => setModalOpen(true)}>{cta} →</button>
-          <p className="benefits">{benefits}</p>
-        </div>
-      
+      </div>
+      <div className="bottom_section">
+        <button className="btn" onClick={() => setModalOpen(true)}>{cta} →</button>
+        <p className="benefits">{benefits}</p>
+      </div>
 
-      <EnquiryModal isOpen={modalOpen} onClose={() => setModalOpen(false)}></EnquiryModal>
+
+      <EnquiryModal isOpen={modalOpen} onClose={() => setModalOpen(false)} planTitle={title} planPrice={price}></EnquiryModal>
     </div>
   );
 };
