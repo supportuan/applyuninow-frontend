@@ -2,5 +2,5 @@ const environment = {
   API_BASE_URL:
     process.env.REACT_APP_API_BASE_URL ||
     process.env.NEXT_PUBLIC_API_BASE_URL ||
-    "http://localhost:3337",
+    "https://api.applyuninow.com",
 };
