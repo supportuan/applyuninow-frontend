@@ -119,104 +119,196 @@ body {
     }
 }
 
-.section_header {
-    @include mixins.set-flex-box();
-    padding: functions.rem(30) 0 20px 0;
-    align-items: center;
+.header-container {
+    padding-top: functions.rem(30);
+    z-index: 100;
     position: relative;
+}
+
+.section_header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
     transition: .3s all ease-in-out;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background-color: transparent;
+    height: variables.$header-height-desktop;
+    padding: 0 22px;
+
+    @include mixins.breakpointmax(variables.$header-breakpoint) {
+        justify-content: space-between;
+        gap: 0;
+        height: variables.$header-height-mobile;
+        padding: 0 16px;
+    }
 
     &.mob_log_shift {
-        margin-bottom: functions.rem(25);
+        margin-bottom: 25px;
+    }
+    
+    .logo {
+        display: flex;
+        align-items: center;
+        flex-shrink: 0;
+        margin-left: 10px;
+        
+        a {
+            display: flex;
+            align-items: center;
+        }
     }
 
     .nav {
+        display: flex;
+        align-items: center;
+        flex-shrink: 0;
+
+        .nav-close {
+            display: none;
+        }
+
         ul {
             @include mixins.set-flex-box($ai: center);
-            gap: functions.rem(35);
+            gap: functions.rem(28);
 
             li {
                 a {
                     @include mixins2.desc-1();
-                    @include mixins.set-typography(11, 21);
-                }
+                    font-size: 12px;
+                    line-height: 1;
+                    font-weight: 400;
+                    letter-spacing: -0.01em;
+                    color: variables.$clr-2;
+                    opacity: 0.8;
+                    padding: 4px 8px;
+                    border-radius: 4px;
+                    font-family: variables.$font-comfortaa;
 
-                &.nav_explore {
-                    a {
-                        font-weight: 700;
-                        background: linear-gradient(90deg, #C22032 0%, #2323FF 100%);
-                        -webkit-background-clip: text;
-                        -webkit-text-fill-color: transparent;
-                        @include mixins.set-typography(16, 26);
-                        @include mixins.breakpointmax(variables.$lg-screen) {
-                            @include mixins.set-typography(22, 30);
-                        }
+                    &:hover {
+                            opacity: 1;
                     }
                 }
             }
 
+            li.nav_explore a {
+                font-weight: 600;
+                font-size: 12px;
+                line-height: 1;
+                opacity: 1;
+                position: relative;
+                background: linear-gradient(90deg, #C22032 0%, #2323FF 100%);
+                -webkit-background-clip: text;
+                background-clip: text;
+                -webkit-text-fill-color: transparent;
+
+            }
+
             @include mixins.breakpointmax(variables.$lg-screen) {
-                gap: functions.rem(20);
-                align-items: flex-start;
+                gap: 12px;
+                align-items: center;
 
                 li {
                     a {
-                        font-size: functions.rem(12);
-                        font-weight: 600;
+                        font-size: 11px;
+                        font-weight: 400;
                         white-space: nowrap;
                     }
                 }
             }
         }
 
-        @include mixins.breakpointmax(variables.$end-small) {
-            background-color: variables.$clr-1;
-            position: absolute;
-            top: 0;
+        @include mixins.breakpointmax(variables.$header-breakpoint) {
+            position: fixed;
+            top: variables.$header-height-mobile;
+            left: 0;
+            right: 0;
+            bottom: 0;
             z-index: 99;
-            width: 100%;
-            height: 100%;
-            left: functions.rem(-1000);
-            transition: all .2s ease-in-out;
+            background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: saturate(180%) blur(20px);
+            -webkit-backdrop-filter: saturate(180%) blur(20px);
+            transform: translateY(-100%);
+            opacity: 0;
+            visibility: hidden;
+            transition: transform 300ms ease-out,
+                        opacity 300ms ease-out,
+                        visibility 300ms ease-out;
+
+            &.active {
+                transform: translateY(0);
+                opacity: 1;
+                visibility: visible;
+            }
 
             ul {
                 flex-direction: column;
-                padding: functions.rem(60);
+                padding: 24px;
+                padding-top: 40px;
+                gap: 0;
 
                 li {
+                    width: 100%;
+                    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+
+                    &:last-child {
+                        border-bottom: none;
+                    }
+
                     a {
-                        @include mixins.set-typography(22, 30);
+                        font-size: 20px;
+                        line-height: 28px;
+                        display: block;
+                        padding: 16px 0;
+                        font-weight: 500;
+                        color: #000000;
+                        background: none;
+                        background-clip: unset;
+                        -webkit-background-clip: unset;
+                        -webkit-text-fill-color: inherit;
                     }
                 }
             }
 
-            &.active {
-                left: 0;
-                position: fixed;
-            }
-
             .nav-close {
                 position: absolute;
-                right: functions.rem(20);
-                top: functions.rem(40);
+                right: 16px;
+                top: 16px;
                 background: transparent;
                 border: none;
-                height: 20px;
-                width: 20px;
-                font-size: 20px;
+                height: 44px;
+                width: 44px;
+                font-size: 24px;
                 cursor: pointer;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                border-radius: 50%;
+                transition: background-color 0.2s ease;
+
             }
         }
     }
 
     .setting-login {
+        display: flex;
+        align-items: center;
+        flex-shrink: 0;
+        margin-right: 10px;
+
+        @include mixins.breakpointmax(variables.$header-breakpoint) {
+            margin-right: 0;
+        }
+
         .desktop-support {
             @include mixins.set-flex-box();
-            gap: functions.rem(10);
+            gap: 10px;
 
             li {
-                padding: functions.rem(5) functions.rem(16);
-                border-radius: functions.rem(7);
+                padding: 5px 16px;
+                border-radius: 7px;
                 @include mixins2.desc-1();
                 display: flex;
                 flex-direction: column;
@@ -232,32 +324,11 @@ body {
                     color: variables.$clr-3;
                 }
 
-                // &:first-child {
-                //     border-color: $clr-3;
-                //     padding: rem(10) rem(16);
-
-                //     @include hover() {
-                //         background-color: $clr-3;
-
-                //         span {
-                //             background-image: url('../../src/Images/rev/setting_icon_wht.svg');
-                //         }
-                //     }
-
-                //     span {
-                //         background-image: url('../../src/Images/rev/setting_icon.svg');
-                //         background-repeat: no-repeat;
-                //         width: rem(24);
-                //         height: rem(24);
-                //     }
-                // }
-
                 border-image-source: linear-gradient(97.01deg, #EE1113 0.91%, #7403FA 96.74%);
                 border-image-slice: 0;
                 background: linear-gradient(white, white) padding-box,
                 linear-gradient(97.01deg, #EE1113 0.91%, #7403FA 96.74%) border-box;
                 box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-                border-radius: functions.rem(7);
 
                 @include mixins.hover() {
                     background: variables.$clr-3;
@@ -276,24 +347,51 @@ body {
                     @include mixins2.desc-2();
                 }
             }
+        }
 
+        .desktop-icons-group {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+
+            .header-icon-link {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: 4px;
+            }
         }
 
         .mob-support {
-            @include mixins.set-flex-box();
-            gap: functions.rem(20);
+            @include mixins.set-flex-box($ai: center);
+            justify-content: flex-end;
+            gap: 10px;
+
+            li {
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                min-width: 24px;
+                min-height: 24px;
+            }
         }
 
         .user-login-section {
             cursor: pointer;
             position: relative;
 
+            > img {
+                padding: 8px;
+                border-radius: 50%;
+            }
+
             &__inner {
-                @include mixins.breakpoint(variables.$end-small) {
+                @include mixins.breakpoint(variables.$header-breakpoint) {
                     display: none;
                     position: absolute;
                     right: 0;
-                    top: functions.rem(35);
+                    top: 35px;
                     z-index: 2;
 
                     &::before {
@@ -305,10 +403,10 @@ body {
                     }
                 }
 
-                @include mixins.breakpointmax(variables.$end-small) {
+                @include mixins.breakpointmax(variables.$header-breakpoint) {
                     position: absolute;
-                    gap: functions.rem(10);
-                    top: functions.rem(80);
+                    gap: 10px;
+                    top: 80px;
                     left: 50%;
                     transform: translateX(-50%);
                     z-index: 2;
@@ -319,8 +417,8 @@ body {
                     }
 
                     li {
-                        padding: functions.rem(5) functions.rem(16);
-                        border-radius: functions.rem(7);
+                        padding: 5px 16px;
+                        border-radius: 7px;
                         @include mixins2.desc-1();
                         display: flex;
                         flex-direction: column;
@@ -333,7 +431,6 @@ body {
                         background: linear-gradient(white, white) padding-box,
                             linear-gradient(97.01deg, #EE1113 0.91%, #7403FA 96.74%) border-box;
                         box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-                        border-radius: functions.rem(7);
 
                         a {
                             display: flex;
@@ -358,11 +455,12 @@ body {
     }
 }
 
+
 .hero_section {
     padding: 0;
 
     &__bg {
-        background: url(../../src/Images/rev/heroImg.png) 0 0 no-repeat;
+        background: url(../../src/Images/rev/heroImg.png) 0 0 no-repeat, linear-gradient(180deg, rgba(195,215,245,0.3) 0%, rgba(210,222,245,0.15) 45%, rgba(255,255,255,0) 75%);
         position: absolute;
         height: 100%;
         width: 100%;
@@ -389,7 +487,7 @@ body {
     &__inner {
 
         min-height: functions.rem(200);
-        padding-bottom: functions.rem(30);
+        padding-bottom: 0;
         display: flex;
         flex-direction: column;
         gap: functions.rem(50);
@@ -398,12 +496,8 @@ body {
         @include mixins.breakpointmax(variables.$end-small) {
             padding: 0 20px;
             max-width: 100%;
-            gap: functions.rem(35);
+            gap: functions.rem(25);
             background-size: cover;
-
-            .homepage & {
-                height: functions.rem(520);
-            }
         }
     }
 
@@ -434,6 +528,15 @@ body {
             }
 
             @include mixins.breakpointmax(variables.$end-small) {
+                @include mixins.set-typography(38, 52);
+                margin-top: functions.rem(15);
+
+                span {
+                    @include mixins.set-typography(44, 56);
+                }
+            }
+
+            @include mixins.breakpointmax(variables.$tablet-small) {
                 @include mixins.set-typography(30, 42);
 
                 span {
@@ -480,11 +583,11 @@ body {
 
         ul {
             display: flex;
-            gap: functions.rem(20);
+            gap: functions.rem(30);
             align-items: center;
 
             @include mixins.breakpointmax(variables.$end-small) {
-                gap: functions.rem(10);
+                gap: functions.rem(20);
             }
 
             li {
@@ -573,6 +676,11 @@ body {
         display: flex;
         align-items: center;
         justify-content: center;
+
+        // Hidden state - controlled via JS/React state
+        &--hidden {
+            display: none;
+        }
 
         .search-box {
             width: functions.rem(420);
@@ -1182,7 +1290,7 @@ body {
         }
 
         @include mixins.breakpointmax(variables.$end-small) {
-            width: 100%;
+            width: 48%;
         }
     }
     @include mixins.breakpointmax(variables.$end-small){
@@ -1230,7 +1338,7 @@ h2 {
         }
 
         .module-head {
-            padding-top: functions.rem(90);
+            padding-top: functions.rem(50);
 
             @include mixins.breakpointmax(variables.$end-small) {
                 padding-top: functions.rem(40);
@@ -1425,7 +1533,7 @@ h2 {
         display: flex;
         flex-direction: column;
         gap: functions.rem(10);
-        cursor: pointer;
+        cursor: default;
         position: relative;
         min-height: functions.rem(260);
 

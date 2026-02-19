@@ -419,11 +419,7 @@ const Explore = () => {
     useEffect(() => {
         if (isPrerequisiteLoaded) {
             getMetaList(prerequisiteData.data);
-            // setMeta(prerequisiteData.data);
-            // setPrerequisite(prerequisiteData.data);
-            // setFilteredData(prerequisiteData.data);
         }
-        //console.log(prerequisiteData);
     }, [isPrerequisiteLoaded, prerequisiteData]);
 
 
@@ -529,11 +525,8 @@ const Explore = () => {
         study_durations: [],
         study_sub_industry: [],
     });
-    console.log(meta);
     const getMetaList = (response) => {
-        // axios
-        //     .get(`${environment.API_BASE_URL}/prerequisite`)
-        //     .then((res) => {
+        if (!response) return;
 
         let {
             study_destination,
@@ -1068,7 +1061,6 @@ const Explore = () => {
     };
 
     function onstudyAreaSelect(item, id) {
-        console.log(item, 'ggggggg')
         let list = study_area_list;
         for (let data of list) {
             data.checked = false;
@@ -1626,8 +1618,7 @@ const Explore = () => {
                                                         <div className="card-view ">
                                                             <div className="study-level">
                                                                 <ul className="">
-                                                                    {console.log(meta.type_of_degree_category) ||
-                                                                        meta.type_of_degree_category.map((x) => (
+                                                                    {meta.type_of_degree_category.map((x) => (
 
                                                                             <li
                                                                                 onClick={(e) => selectOrDeselect(x)}

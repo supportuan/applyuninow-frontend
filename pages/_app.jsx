@@ -14,7 +14,8 @@ import api from "../src/api/index.js";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Script from 'next/script';
-const GA_ID = 'G-FVM5WF3HZ3';
+
+const GA_ID = process.env.NEXT_PUBLIC_GA_ID || 'G-FVM5WF3HZ3';
 
 const PageLabelUpdater = () => {
   const { setPageLabelName, setDeviceType, setPrerequisiteData, setIsPrerequisiteLoaded, setWindowType } = usePageContext();
@@ -64,6 +65,7 @@ const PageLabelUpdater = () => {
   }, [setWindowType]);
 
   useEffect(() => {
+    if (typeof window === 'undefined') return;
 
     if (!window.gtag) {
       // Load external GA script
@@ -90,37 +92,64 @@ const PageLabelUpdater = () => {
 
     // Track route changes
     const handleRouteChange = (url) => {
-      if (window.gtag) { //console.log('dddddddddd')
+      if (window.gtag) {
         window.gtag('config', GA_ID, {
           page_path: url,
         });
       }
     };
 
-    fetchPrerequisite();
-
     router.events.on('routeChangeComplete', handleRouteChange);
     return () => {
       router.events.off('routeChangeComplete', handleRouteChange);
     };
 
-  }, [])
+  }, [router.events, GA_ID])
 
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
 
-
-
-  const fetchPrerequisite = async () => {
-    try {
-      const url = `${BASE_URL}/prerequisite`;
-      const res = await api.get(url, {});
-      const perequisiteData = res?.data;
-      setPrerequisiteData(perequisiteData);
-    } catch (err) {
-      console.error("Failed to fetch prerequisite data", err);
-    } finally {
-      setIsPrerequisiteLoaded(true);
+    const fetchedKey = 'prerequisiteFetched';
+    const dataKey = 'prerequisiteData';
+    
+    // Check if data is already in sessionStorage
+    const cachedData = sessionStorage.getItem(dataKey);
+    if (cachedData && sessionStorage.getItem(fetchedKey)) {
+      try {
+        const parsedData = JSON.parse(cachedData);
+        setPrerequisiteData(parsedData);
+        setIsPrerequisiteLoaded(true);
+        return;
+      } catch (e) {
+        // If parsing fails, clear cache and fetch fresh data
+        sessionStorage.removeItem(fetchedKey);
+        sessionStorage.removeItem(dataKey);
+      }
     }
-  }
+
+    const fetchData = async () => {
+      try {
+        const url = `${BASE_URL}/prerequisite`;
+        const res = await api.get(url, {});
+        const prerequisiteData = res?.data;
+        setPrerequisiteData(prerequisiteData);
+        // Store in sessionStorage for future use
+        sessionStorage.setItem(fetchedKey, 'true');
+        sessionStorage.setItem(dataKey, JSON.stringify(prerequisiteData));
+      } catch (err) {
+        // Reset on error to allow retry
+        if (typeof window !== 'undefined') {
+          sessionStorage.removeItem(fetchedKey);
+          sessionStorage.removeItem(dataKey);
+        }
+      } finally {
+        setIsPrerequisiteLoaded(true);
+      }
+    };
+    
+    fetchData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [BASE_URL])
 
   return null;
 };
@@ -138,12 +167,12 @@ function MyApp({ Component, pageProps }) {
     <AppContextProvider>
       <Head>
         <title>ApplyUniNow | ApplyUniNow guides you through the best career upskilling selection and university enrollment. Book a free consultation.</title>
-        <meta charset="utf-8" />
+        <meta charSet="utf-8" />
         <link rel="icon" type="image/x-icon" href="/favicon.svg" />
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"></meta>
         <meta name="google-site-verification" content="mEBDJKtdTSmhcou56Z7QZKbJ5cU6I8sVelYfxQ_aTfM" />
         <meta name="keywords" content="Scholarships, Visa, Admissions, Universities, Tuition, Funding, Exchange, Overseas, Education, Application, Study Abroad, Student Visa, Global Education, University Rankings, Tuition Fees, Scholarship Programs, Admission Process, International Students, Visa Requirements, Affordable Universities, Study Budget, Abroad Study Finance, Global Study Journey" />
-        <meta itemprop="description" content="ApplyUniNow – Your Study Abroad Dream Is Our Commitment. Secure early guaranteed visa and 100% scholarship opportunities for your overseas education journey." />
+        <meta itemProp="description" content="ApplyUniNow – Your Study Abroad Dream Is Our Commitment. Secure early guaranteed visa and 100% scholarship opportunities for your overseas education journey." />
         <meta name="description" content="ApplyUniNow – Your Study Abroad Dream Is Our Commitment. Secure early guaranteed visa and 100% scholarship opportunities for your overseas education journey." />
 
       </Head>
