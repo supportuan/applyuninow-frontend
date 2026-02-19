@@ -39,7 +39,7 @@ const GraduateSubjects = () => {
             const url = `${BASE_URL}/study-areas?industry_id=${id}`;
             const res = await axios.get(url);
             const studyData = res?.data?.data;
-            setEngVal(studyData);
+            setEngVal(Array.isArray(studyData) ? studyData : []);
         } catch (error) {
             console.error("Failed to fetch study areas:", error);
         } finally {

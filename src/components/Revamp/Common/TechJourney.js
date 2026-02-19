@@ -1,10 +1,11 @@
 import React from 'react';
 import HorizontalCarousel from './HorizontalCarousel';
 import { digitalImg } from '../utils/helpers';
-import tabMob from "../../../Images/rev/tab_mob.svg";
+
 //import { useNavigate } from 'react-router-dom';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
+import tabMob from "../../../Images/rev/tab_mob.svg";
 import VerticalCarousel from './VerticalCarousel';
 import SectionAnimation from './SectionAnimation';
 import { usePageContext } from '../context/PageContext';

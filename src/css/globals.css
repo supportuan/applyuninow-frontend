@@ -45,13 +45,15 @@
   line-height: 24px;
   text-align: center;
   transition: all ease 0.5s;
-  will-change: transform;
-  transform: translateZ(0);
-  outline: none;
 }
 .btn:hover, .btn:focus, .btn-vote:hover, .btn-vote:focus {
   background: #fff;
   color: rgb(30, 65, 124);
+}
+.btn, .btn-vote {
+  will-change: transform;
+  transform: translateZ(0);
+  outline: none;
 }
 .btn.primary, .btn-vote.primary {
   background: rgb(194, 32, 50);

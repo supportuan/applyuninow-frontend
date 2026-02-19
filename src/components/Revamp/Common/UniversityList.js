@@ -45,11 +45,15 @@ const UniversityList = (props) => {
             <div className='university-list__inner'>
                 <div className="module-divider"></div>
                 <div className='university-list__container'>
-                    {universities.map((item, index) =>
-                        <div key={item?.name + '_' + index} className='university-list__item'>
-                            <Image alt={item?.detail} src={item?.icon?.src} width={218} height={124} />
-                        </div>
-                    )}
+                    {universities.map((item, index) => {
+                        const iconSrc = typeof item?.icon === 'string' ? item.icon : item?.icon?.src;
+                        if (!iconSrc) return null;
+                        return (
+                            <div key={item?.name + '_' + index} className='university-list__item'>
+                                <Image alt={item?.detail} src={iconSrc} width={218} height={124} />
+                            </div>
+                        );
+                    })}
                 </div>
             </div>
         </div>
