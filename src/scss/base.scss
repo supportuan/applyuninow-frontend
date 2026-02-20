@@ -123,6 +123,7 @@ body {
     padding-top: functions.rem(30);
     z-index: 100;
     position: relative;
+    padding-bottom: functions.rem(16);
 }
 
 .section_header {
@@ -155,9 +156,31 @@ body {
         flex-shrink: 0;
         margin-left: 10px;
         
+        @include mixins.breakpointmax(variables.$header-breakpoint) {
+            position: relative;
+            z-index: 102;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
         a {
             display: flex;
             align-items: center;
+        }
+    }
+
+    &.nav-open {
+        @include mixins.breakpointmax(variables.$header-breakpoint) {
+            .logo {
+                opacity: 0;
+                visibility: hidden;
+                pointer-events: none;
+            }
+
+            .setting-login .mob-support > li:not(:last-child) {
+                opacity: 0;
+                visibility: hidden;
+                pointer-events: none;
+            }
         }
     }
 
@@ -222,72 +245,70 @@ body {
 
         @include mixins.breakpointmax(variables.$header-breakpoint) {
             position: fixed;
-            top: variables.$header-height-mobile;
+            top: 0;
             left: 0;
             right: 0;
             bottom: 0;
-            z-index: 99;
-            background-color: rgba(255, 255, 255, 0.95);
+            z-index: 101;
+            background-color: rgba(255, 255, 255, 0.97);
             backdrop-filter: saturate(180%) blur(20px);
             -webkit-backdrop-filter: saturate(180%) blur(20px);
+            align-items: flex-start;
             transform: translateY(-100%);
-            opacity: 0;
             visibility: hidden;
-            transition: transform 300ms ease-out,
-                        opacity 300ms ease-out,
-                        visibility 300ms ease-out;
+            pointer-events: none;
+            transition: transform 0.5s cubic-bezier(0.32, 0.72, 0, 1),
+                        visibility 0s linear 0.5s;
 
             &.active {
                 transform: translateY(0);
-                opacity: 1;
                 visibility: visible;
+                pointer-events: auto;
+                transition: transform 0.5s cubic-bezier(0.32, 0.72, 0, 1),
+                            visibility 0s linear 0s;
+
+                ul li {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+
+                @for $i from 1 through 10 {
+                    ul li:nth-child(#{$i}) {
+                        transition-delay: #{0.10 + $i * 0.05}s;
+                    }
+                }
             }
 
             ul {
                 flex-direction: column;
-                padding: 24px;
-                padding-top: 40px;
+                justify-content: flex-start;
+                align-items: flex-start;
+                padding: 0 40px;
+                padding-top: variables.$header-height-mobile;
                 gap: 0;
 
                 li {
                     width: 100%;
-                    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
-
-                    &:last-child {
-                        border-bottom: none;
-                    }
+                    opacity: 0;
+                    transform: translateY(20px);
+                    transition: opacity 0.35s ease, transform 0.35s ease;
+                    transition-delay: 0s;
 
                     a {
-                        font-size: 20px;
-                        line-height: 28px;
+                        font-size: 17px;
+                        line-height: 1.35;
                         display: block;
                         padding: 16px 0;
-                        font-weight: 500;
-                        color: #000000;
+                        font-weight: 600;
+                        letter-spacing: 0.01em;
+                        color: #1E417C;
+                        font-family: variables.$font-comfortaa;
                         background: none;
                         background-clip: unset;
                         -webkit-background-clip: unset;
                         -webkit-text-fill-color: inherit;
                     }
                 }
-            }
-
-            .nav-close {
-                position: absolute;
-                right: 16px;
-                top: 16px;
-                background: transparent;
-                border: none;
-                height: 44px;
-                width: 44px;
-                font-size: 24px;
-                cursor: pointer;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                border-radius: 50%;
-                transition: background-color 0.2s ease;
-
             }
         }
     }
@@ -300,6 +321,8 @@ body {
 
         @include mixins.breakpointmax(variables.$header-breakpoint) {
             margin-right: 0;
+            position: relative;
+            z-index: 102;
         }
 
         .desktop-support {
@@ -365,7 +388,7 @@ body {
         .mob-support {
             @include mixins.set-flex-box($ai: center);
             justify-content: flex-end;
-            gap: 10px;
+            gap: 16px;
 
             li {
                 cursor: pointer;
@@ -374,6 +397,52 @@ body {
                 justify-content: center;
                 min-width: 24px;
                 min-height: 24px;
+                transition: opacity 0.3s ease, visibility 0.3s ease;
+            }
+        }
+
+        .hamburger-btn {
+            width: 20px;
+            height: 20px;
+            position: relative;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            -webkit-tap-highlight-color: transparent;
+
+            .hamburger-bar {
+                position: absolute;
+                width: 18px;
+                height: 2px;
+                border-radius: 1px;
+                transition: transform 0.44s cubic-bezier(0.04, 0.04, 0.12, 0.96),
+                            background-color 0.34s cubic-bezier(0.04, 0.04, 0.12, 0.96);
+
+                &:first-child {
+                    background-color: #1E417C;
+                    transform: translateY(-3.5px);
+                }
+
+                &:last-child {
+                    background-color: #C22032;
+                    transform: translateY(3.5px);
+                }
+            }
+
+            &.active .hamburger-bar {
+                &:first-child {
+                    background-color: #1d1d1f;
+                    transform: translateY(0) rotate(45deg);
+                }
+
+                &:last-child {
+                    background-color: #1d1d1f;
+                    transform: translateY(0) rotate(-45deg);
+                }
             }
         }
 
@@ -529,7 +598,7 @@ body {
 
             @include mixins.breakpointmax(variables.$end-small) {
                 @include mixins.set-typography(38, 52);
-                margin-top: functions.rem(15);
+                margin-top: functions.rem(40);
 
                 span {
                     @include mixins.set-typography(44, 56);
@@ -587,7 +656,7 @@ body {
             align-items: center;
 
             @include mixins.breakpointmax(variables.$end-small) {
-                gap: functions.rem(20);
+                gap: functions.rem(30);
             }
 
             li {
@@ -1084,7 +1153,7 @@ body {
             @include mixins.set-typography(14, 22);
 
             @include mixins.breakpointmax(variables.$end-small) {
-                @include mixins.set-typography(10, 18);
+                @include mixins.set-typography(14, 18);
             }
         }
 
@@ -1341,9 +1410,9 @@ h2 {
             padding-top: functions.rem(50);
 
             @include mixins.breakpointmax(variables.$end-small) {
-                padding-top: functions.rem(40);
+                padding-top: functions.rem(50);
                 &.pad0{
-                    padding-top: functions.rem(0);
+                    padding-top: functions.rem(45);
                 }
             }
         }
@@ -3196,8 +3265,8 @@ h2 {
 
 .pricing_card_container {
     display: flex;
-    gap: functions.rem(40);
-    margin-top: functions.rem(50);
+    gap: functions.rem(24);
+    margin-top: functions.rem(40);
     justify-content: space-between;
 
     @include mixins.breakpointmax(variables.$end-small) {
@@ -3207,14 +3276,16 @@ h2 {
     .pricing_card_item {
         width: 33%;
         border-radius: functions.rem(26);
-        padding: functions.rem(40);
+        padding: functions.rem(28) functions.rem(24);
         display: flex;
         flex-direction: column;
 
         .bottom_section {
             display: flex;
             flex-direction: column;
-            justify-content: flex-start;
+            align-items: center;
+            margin-top: auto;
+            padding-top: functions.rem(16);
         }
 
         &:first-child() {
@@ -3241,7 +3312,7 @@ h2 {
             color: variables.$clr-3;
             font-family: variables.$font-poppins;
             font-weight: 400;
-            margin-top: functions.rem(10);
+            margin-top: functions.rem(8);
 
             @include mixins.breakpointmax(variables.$end-small) {
                 @include mixins.set-typography(36, 40);
@@ -3252,7 +3323,7 @@ h2 {
             @include mixins.set-typography(45, 60);
             font-family: variables.$font-comfortaa;
             color: #000;
-            margin-top: functions.rem(20);
+            margin-top: functions.rem(10);
 
             @include mixins.breakpointmax(variables.$end-small) {
                 @include mixins.set-typography(36, 40);
@@ -3265,14 +3336,14 @@ h2 {
             font-family: variables.$font-montserrat;
             font-weight: 800;
             text-align: left;
-            margin-top: functions.rem(20);
+            margin-top: functions.rem(14);
         }
 
         ul {
-            margin-top: functions.rem(16);
+            margin-top: functions.rem(12);
             display: flex;
             flex-direction: column;
-            gap: functions.rem(16);
+            gap: functions.rem(10);
 
             li {
                 @include mixins.set-typography(16, 26);
@@ -3289,7 +3360,7 @@ h2 {
                 .check-icon {
                     min-width: functions.rem(26);
                     min-height: functions.rem(26);
-                    background-color: #1e1e1e;
+                    background-color: #3c3c3c;
                     border-radius: 50%;
                     display: flex;
                     align-items: center;
@@ -3315,8 +3386,13 @@ h2 {
         }
 
         .btn {
-            margin-top: functions.rem(20);
-            background-color: rgba(71, 71, 71, 1);
+            margin-top: functions.rem(16);
+            background-color: #474747;
+            padding: functions.rem(10) functions.rem(16);
+            font-size: functions.rem(15);
+            line-height: functions.rem(20);
+            width: fit-content;
+            align-self: center;
 
             @include mixins.hover() {
                 background-color: variables.$clr-3;
@@ -3327,7 +3403,7 @@ h2 {
         .benefits {
             @include mixins.set-typography(20, 30);
             font-family: variables.$font-comfortaa;
-            margin-top: functions.rem(20);
+            margin-top: functions.rem(12);
 
             @include mixins.breakpointmax(variables.$end-small) {
                 @include mixins.set-typography(14, 24);

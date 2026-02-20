@@ -4,7 +4,6 @@ import { nav_list } from "../Revamp/utils/helpers.js";
 import Image from 'next/image';
 import { usePageContext } from './context/PageContext.js';
 import userIcon from "../../Images/rev/logo/user-icon.svg";
-import hamberger from "../../Images/rev/logo/hamberger.svg";
 import searchIcon from "../../Images/rev/logo/search-svgrepo-com.svg";
 import exploreIcon from "../../Images/rev/logo/explore.svg";
 
@@ -57,6 +56,7 @@ const Header = () => {
 
   const headerClasses = ['section_header'];
   if (loginShift) headerClasses.push('mob_log_shift');
+  if (mobNav) headerClasses.push('nav-open');
 
   useEffect(() => {
     if (mobNav) {
@@ -100,12 +100,6 @@ const Header = () => {
             </a>
           </div>
           <div className={`nav${mobNav ? ' active' : ''}`}>
-            <button className='nav-close' aria-label='Close menu' onClick={() => setMobNav(false)}>
-              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M18 6L6 18" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round"/>
-                <path d="M6 6L18 18" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round"/>
-              </svg>
-            </button>
             <ul>
               {navItems}
             </ul>
@@ -113,9 +107,6 @@ const Header = () => {
           <div className='setting-login'>
             {deviceType !== 'mobile' ? (
               <div className='desktop-icons-group'>
-                <span aria-label='Search' className='header-icon-link header-icon-search'>
-                  <Image width={22} height={22} src={searchIcon} alt='search' fetchpriority="high" />
-                </span>
                 <a href='/explore' aria-label='Explore' className='header-icon-link'>
                   <Image width={22} height={22} src={exploreIcon} alt='explore' fetchpriority="high" />
                 </a>
@@ -125,11 +116,6 @@ const Header = () => {
               </div>
             ) : (
               <ul className='mob-support'>
-                <li>
-                  <span aria-label='Search' className='header-icon-search'>
-                    <Image width={20} height={20} src={searchIcon} alt='search' fetchpriority="high" />
-                  </span>
-                </li>
 
 
 
@@ -151,8 +137,14 @@ const Header = () => {
                   </a>
                 </li>
                 <li>
-                  <button type="button" aria-label="Open menu" onClick={() => setMobNav(true)} style={{ background: 'none', border: 'none', padding: 0, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                    <Image width={20} height={20} src={hamberger} fetchpriority="high" alt='hamburger menu' />
+                  <button
+                    type="button"
+                    aria-label={mobNav ? 'Close menu' : 'Open menu'}
+                    className={`hamburger-btn${mobNav ? ' active' : ''}`}
+                    onClick={() => setMobNav(prev => !prev)}
+                  >
+                    <span className="hamburger-bar"></span>
+                    <span className="hamburger-bar"></span>
                   </button>
                 </li>
               </ul>
