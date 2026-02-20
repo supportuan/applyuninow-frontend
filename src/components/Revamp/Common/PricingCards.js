@@ -30,8 +30,9 @@ const PricingCard = ({ title, price, features, desc, bgColor, cta, benefits }) =
         </div>
       </div>
       <div className="bottom_section">
-        <button className="btn" onClick={() => setModalOpen(true)}>{cta} →</button>
+        
         <p className="benefits">{benefits}</p>
+        <button className="btn" onClick={() => setModalOpen(true)}>{cta} →</button>
       </div>
 
 

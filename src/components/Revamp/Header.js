@@ -107,9 +107,6 @@ const Header = () => {
           <div className='setting-login'>
             {deviceType !== 'mobile' ? (
               <div className='desktop-icons-group'>
-                <span aria-label='Search' className='header-icon-link header-icon-search'>
-                  <Image width={22} height={22} src={searchIcon} alt='search' fetchpriority="high" />
-                </span>
                 <a href='/explore' aria-label='Explore' className='header-icon-link'>
                   <Image width={22} height={22} src={exploreIcon} alt='explore' fetchpriority="high" />
                 </a>
@@ -119,11 +116,6 @@ const Header = () => {
               </div>
             ) : (
               <ul className='mob-support'>
-                <li>
-                  <span aria-label='Search' className='header-icon-search'>
-                    <Image width={20} height={20} src={searchIcon} alt='search' fetchpriority="high" />
-                  </span>
-                </li>
 
 
 

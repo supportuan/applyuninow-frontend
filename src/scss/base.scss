@@ -123,6 +123,7 @@ body {
     padding-top: functions.rem(30);
     z-index: 100;
     position: relative;
+    padding-bottom: functions.rem(16);
 }
 
 .section_header {
@@ -387,7 +388,7 @@ body {
         .mob-support {
             @include mixins.set-flex-box($ai: center);
             justify-content: flex-end;
-            gap: 10px;
+            gap: 16px;
 
             li {
                 cursor: pointer;
@@ -1152,7 +1153,7 @@ body {
             @include mixins.set-typography(14, 22);
 
             @include mixins.breakpointmax(variables.$end-small) {
-                @include mixins.set-typography(10, 18);
+                @include mixins.set-typography(14, 18);
             }
         }
 
@@ -1411,7 +1412,7 @@ h2 {
             @include mixins.breakpointmax(variables.$end-small) {
                 padding-top: functions.rem(50);
                 &.pad0{
-                    padding-top: functions.rem(20);
+                    padding-top: functions.rem(45);
                 }
             }
         }
@@ -3264,8 +3265,8 @@ h2 {
 
 .pricing_card_container {
     display: flex;
-    gap: functions.rem(40);
-    margin-top: functions.rem(50);
+    gap: functions.rem(24);
+    margin-top: functions.rem(40);
     justify-content: space-between;
 
     @include mixins.breakpointmax(variables.$end-small) {
@@ -3275,14 +3276,16 @@ h2 {
     .pricing_card_item {
         width: 33%;
         border-radius: functions.rem(26);
-        padding: functions.rem(40);
+        padding: functions.rem(28) functions.rem(24);
         display: flex;
         flex-direction: column;
 
         .bottom_section {
             display: flex;
             flex-direction: column;
-            justify-content: flex-start;
+            align-items: center;
+            margin-top: auto;
+            padding-top: functions.rem(16);
         }
 
         &:first-child() {
@@ -3309,7 +3312,7 @@ h2 {
             color: variables.$clr-3;
             font-family: variables.$font-poppins;
             font-weight: 400;
-            margin-top: functions.rem(10);
+            margin-top: functions.rem(8);
 
             @include mixins.breakpointmax(variables.$end-small) {
                 @include mixins.set-typography(36, 40);
@@ -3320,7 +3323,7 @@ h2 {
             @include mixins.set-typography(45, 60);
             font-family: variables.$font-comfortaa;
             color: #000;
-            margin-top: functions.rem(20);
+            margin-top: functions.rem(10);
 
             @include mixins.breakpointmax(variables.$end-small) {
                 @include mixins.set-typography(36, 40);
@@ -3333,14 +3336,14 @@ h2 {
             font-family: variables.$font-montserrat;
             font-weight: 800;
             text-align: left;
-            margin-top: functions.rem(20);
+            margin-top: functions.rem(14);
         }
 
         ul {
-            margin-top: functions.rem(16);
+            margin-top: functions.rem(12);
             display: flex;
             flex-direction: column;
-            gap: functions.rem(16);
+            gap: functions.rem(10);
 
             li {
                 @include mixins.set-typography(16, 26);
@@ -3383,11 +3386,13 @@ h2 {
         }
 
         .btn {
-            margin-top: functions.rem(20);
+            margin-top: functions.rem(16);
             background-color: #474747;
-            padding: functions.rem(4)functions.rem(14);
+            padding: functions.rem(10) functions.rem(16);
             font-size: functions.rem(15);
             line-height: functions.rem(20);
+            width: fit-content;
+            align-self: center;
 
             @include mixins.hover() {
                 background-color: variables.$clr-3;
@@ -3398,7 +3403,7 @@ h2 {
         .benefits {
             @include mixins.set-typography(20, 30);
             font-family: variables.$font-comfortaa;
-            margin-top: functions.rem(20);
+            margin-top: functions.rem(12);
 
             @include mixins.breakpointmax(variables.$end-small) {
                 @include mixins.set-typography(14, 24);
