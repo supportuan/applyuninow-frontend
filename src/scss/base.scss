@@ -137,7 +137,7 @@ body {
     z-index: 100;
     background-color: transparent;
     height: variables.$header-height-desktop;
-    padding: 0px 94px;
+    padding: 0 22px;
 
     @include mixins.breakpointmax(variables.$header-breakpoint) {
         justify-content: space-between;
@@ -554,18 +554,18 @@ body {
     }
 
     &__inner {
-        padding-top: functions.rem(50);
+
         min-height: functions.rem(200);
         padding-bottom: 0;
         display: flex;
         flex-direction: column;
-        gap: 35px;
+        gap: functions.rem(50);
         position: relative;
 
         @include mixins.breakpointmax(variables.$end-small) {
             padding: 0 20px;
             max-width: 100%;
-            gap: 30px;
+            gap: functions.rem(25);
             background-size: cover;
         }
     }
@@ -661,13 +661,9 @@ body {
 
             li {
                 display: flex;
-                flex-direction: row;
+                flex-direction: column;
                 gap: functions.rem(20);
                 align-items: center;
-
-                @include mixins.breakpointmax(variables.$end-small) {
-                    flex-direction: column;
-                }
 
                 &.explore {
                     span {
@@ -1208,8 +1204,6 @@ body {
 
     .module-title {
         @include mixins2.heading-4();
-        font-size: 40px;
-        line-height: 53px;
         background: linear-gradient(90deg, #FF3131 0%, #2323FF 100%);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
@@ -1413,12 +1407,12 @@ h2 {
         }
 
         .module-head {
-            padding-top: 125px;
+            padding-top: functions.rem(50);
 
             @include mixins.breakpointmax(variables.$end-small) {
-                padding-top: functions.rem(40);
+                padding-top: functions.rem(50);
                 &.pad0{
-                    padding-top: functions.rem(35);
+                    padding-top: functions.rem(45);
                 }
             }
         }
