@@ -23,17 +23,80 @@ const Header = () => {
     };
 
     const handleKeyDown = (event) => {
-      if (event.ctrlKey && (event.key === 'c' || event.key === 'x' || event.key === 'v')) {
-          event.preventDefault();
+      const isMod = event.ctrlKey || event.metaKey;
+
+      if (isMod && event.key === 'a') {
+        event.preventDefault();
+        return;
       }
+      if (isMod && (event.key === 'c' || event.key === 'x' || event.key === 'v')) {
+        event.preventDefault();
+        return;
+      }
+      if (isMod && event.key === 'p') {
+        event.preventDefault();
+        return;
+      }
+      if (event.key === 'F12') {
+        event.preventDefault();
+        return;
+      }
+      const isShift = event.shiftKey;
+      if (isMod && isShift && (event.key === 'I' || event.key === 'J' || event.key === 'C')) {
+        event.preventDefault();
+        return;
+      }
+      if (isMod && event.key === 'U') {
+        event.preventDefault();
+        return;
+      }
+      if (isMod && event.key === 's') {
+        event.preventDefault();
+        return;
+      }
+      if (event.metaKey && event.altKey && event.key === 'i') {
+        event.preventDefault();
+      }
+    };
+
+    const handleDragStart = (event) => {
+      event.preventDefault();
+    };
+
+    const handleDrop = (event) => {
+      event.preventDefault();
+    };
+
+    const isFormField = (el) => el && el.closest('input, textarea, [contenteditable="true"]');
+    const handleCopy = (event) => {
+      if (isFormField(event.target)) return;
+      event.preventDefault();
+    };
+    const handleCut = (event) => {
+      if (isFormField(event.target)) return;
+      event.preventDefault();
+    };
+    const handlePaste = (event) => {
+      if (isFormField(event.target)) return;
+      event.preventDefault();
     };
 
     document.addEventListener('contextmenu', handleContextMenu);
     document.addEventListener('keydown', handleKeyDown);
+    document.addEventListener('dragstart', handleDragStart);
+    document.addEventListener('drop', handleDrop);
+    document.addEventListener('copy', handleCopy);
+    document.addEventListener('cut', handleCut);
+    document.addEventListener('paste', handlePaste);
 
     return () => {
       document.removeEventListener('contextmenu', handleContextMenu);
       document.removeEventListener('keydown', handleKeyDown);
+      document.removeEventListener('dragstart', handleDragStart);
+      document.removeEventListener('drop', handleDrop);
+      document.removeEventListener('copy', handleCopy);
+      document.removeEventListener('cut', handleCut);
+      document.removeEventListener('paste', handlePaste);
     };
   }, []);
 
@@ -96,7 +159,7 @@ const Header = () => {
         <div className={headerClasses.join(' ')}>
           <div className='logo'>
             <a href="/">
-              <Image src={applyLogo} alt='ApplyUniNow' width={40} fetchpriority="high" height={40} />
+              <Image src={applyLogo} alt='ApplyUniNow' width={30} fetchpriority="high" height={30} />
             </a>
           </div>
           <div className={`nav${mobNav ? ' active' : ''}`}>
@@ -111,7 +174,7 @@ const Header = () => {
                   <Image width={22} height={22} src={exploreIcon} alt='explore' fetchpriority="high" />
                 </a>
                 <a href='/student-login' aria-label='Login' className='header-icon-link'>
-                  <Image width={22} height={22} src={userIcon} alt='user icon' fetchpriority="high" />
+                  <Image width={20} height={20} src={userIcon} alt='user icon' fetchpriority="high" />
                 </a>
               </div>
             ) : (

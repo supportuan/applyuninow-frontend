@@ -223,11 +223,18 @@ html, body {
   -webkit-tap-highlight-color: transparent;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
-  /*-webkit-user-select: none; 
-  -moz-user-select: none; 
-  -ms-user-select: none; 
-  user-select: none; */
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
   padding: 0 !important;
+}
+
+input, textarea, [contenteditable=true] {
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+  user-select: text;
 }
 
 header, footer, aside, main, section, fieldset, nav {
@@ -397,7 +404,7 @@ body .marginT100 {
   z-index: 100;
   background-color: transparent;
   height: 48px;
-  padding: 0 22px;
+  padding: 0px 94px;
 }
 @media screen and (max-width: 768px) {
   .section_header {
@@ -834,18 +841,19 @@ body .marginT100 {
   }
 }
 .hero_section__inner {
+  padding-top: 50px;
   min-height: 200px;
   padding-bottom: 0;
   display: flex;
   flex-direction: column;
-  gap: 50px;
+  gap: 35px;
   position: relative;
 }
 @media screen and (max-width: 1000px) {
   .hero_section__inner {
     padding: 0 20px;
     max-width: 100%;
-    gap: 25px;
+    gap: 30px;
     background-size: cover;
   }
 }
@@ -953,9 +961,14 @@ body .marginT100 {
 }
 .hero_section__main-cycle ul li {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   gap: 20px;
   align-items: center;
+}
+@media screen and (max-width: 1000px) {
+  .hero_section__main-cycle ul li {
+    flex-direction: column;
+  }
 }
 .hero_section__main-cycle ul li.explore span:first-child {
   background-image: url(../../src/Images/rev/search.svg);
@@ -1469,6 +1482,8 @@ body .marginT100 {
   font-weight: 400;
   color: #000;
   font-style: italic;
+  font-size: 40px;
+  line-height: 53px;
   background: linear-gradient(90deg, #FF3131 0%, #2323FF 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -1674,14 +1689,14 @@ h2.page-heading {
   }
 }
 .services-container__inner .module-head {
-  padding-top: 50px;
+  padding-top: 125px;
 }
 @media screen and (max-width: 1000px) {
   .services-container__inner .module-head {
-    padding-top: 50px;
+    padding-top: 40px;
   }
   .services-container__inner .module-head.pad0 {
-    padding-top: 45px;
+    padding-top: 35px;
   }
 }
 .services-container__inner .services-grid {
