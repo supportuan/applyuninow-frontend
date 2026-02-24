@@ -15,25 +15,60 @@ const Header = () => {
   const [mobLogin, setMobLogin] = useState(false);
   const [loginShift, setLoginShift] = useState(false);
 
+  // useEffect(() => {
+  //   setNavigation(nav_list);
+
+  //   const handleContextMenu = (event) => {
+  //     event.preventDefault();
+  //   };
+
+  //   const handleKeyDown = (event) => {
+  //     if (event.ctrlKey && (event.key === 'c' || event.key === 'x' || event.key === 'v')) {
+  //         event.preventDefault();
+  //     }
+  //   };
+
+  //   document.addEventListener('contextmenu', handleContextMenu);
+  //   document.addEventListener('keydown', handleKeyDown);
+
+  //   return () => {
+  //     document.removeEventListener('contextmenu', handleContextMenu);
+  //     document.removeEventListener('keydown', handleKeyDown);
+  //   };
+  // }, []);
+
   useEffect(() => {
     setNavigation(nav_list);
 
-    const handleContextMenu = (event) => {
+    const blockEvent = (event) => {
       event.preventDefault();
     };
 
     const handleKeyDown = (event) => {
-      if (event.ctrlKey && (event.key === 'c' || event.key === 'x' || event.key === 'v')) {
-          event.preventDefault();
+      const key = event.key?.toLowerCase();
+
+      if ((event.ctrlKey || event.metaKey) && ['c', 'x', 'v'].includes(key)) {
+        event.preventDefault();
       }
     };
 
-    document.addEventListener('contextmenu', handleContextMenu);
+    // Right click
+    document.addEventListener('contextmenu', blockEvent);
+
+    // Keyboard shortcuts
     document.addEventListener('keydown', handleKeyDown);
 
+    // 🔴 Required for Safari
+    document.addEventListener('copy', blockEvent);
+    document.addEventListener('cut', blockEvent);
+    document.addEventListener('paste', blockEvent);
+
     return () => {
-      document.removeEventListener('contextmenu', handleContextMenu);
+      document.removeEventListener('contextmenu', blockEvent);
       document.removeEventListener('keydown', handleKeyDown);
+      document.removeEventListener('copy', blockEvent);
+      document.removeEventListener('cut', blockEvent);
+      document.removeEventListener('paste', blockEvent);
     };
   }, []);
 
