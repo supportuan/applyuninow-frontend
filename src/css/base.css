@@ -1306,6 +1306,16 @@ body .marginT100 {
 .section_countries .world-map .blinker {
   position: absolute;
 }
+.section_countries .world-map .country-map-marker {
+  top: var(--map-top);
+  left: var(--map-left);
+}
+@media screen and (max-width: 1000px) {
+  .section_countries .world-map .country-map-marker {
+    top: var(--map-top-mobile, var(--map-top));
+    left: var(--map-left-mobile, var(--map-left));
+  }
+}
 .section_countries .world-map .blinker.country_loc_0 {
   top: 40%;
   left: 14%;
@@ -6356,61 +6366,137 @@ h2.page-heading {
 }
 .explore-service .vertical-tab {
   display: flex;
-  gap: 40px;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 24px;
 }
 @media screen and (max-width: 1000px) {
   .explore-service .vertical-tab {
-    gap: 15px;
+    gap: 16px;
   }
+}
+.explore-service .vertical-tab .explore-step-header {
+  display: grid;
+  grid-template-columns: 40px 1fr 40px;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 8px;
+  padding: 0;
+}
+.explore-service .vertical-tab .explore-step-header h4 {
+  grid-column: 2;
+  margin: 0;
+  text-align: center;
+}
+.explore-service .vertical-tab .explore-step-header .explore-nav-spacer {
+  grid-column: 3;
+  width: 40px;
+  height: 28px;
+}
+.explore-service .vertical-tab .explore-step-header .controls-fb.goback_btn {
+  position: static !important;
+  top: auto !important;
+  left: auto !important;
+  right: auto !important;
+  grid-column: 1;
+  justify-self: start;
+  width: 40px !important;
+  height: 28px !important;
+  min-width: 40px;
+  margin: 0 !important;
+  padding: 0 !important;
+  background-size: contain !important;
+  background-position: center !important;
+  opacity: 0.85;
+  transform: none;
+}
+.explore-service .vertical-tab .explore-step-header .controls-fb.goback_btn.next_btn {
+  grid-column: 3;
+  justify-self: end;
+  transform: rotate(180deg);
+}
+.explore-service .vertical-tab .explore-step-header .controls-fb.goback_btn:hover {
+  opacity: 1;
+}
+.explore-service .vertical-tab .vertical-tab-sec-col .explore-step-header .controls-fb {
+  position: static !important;
+  width: auto !important;
+  height: auto !important;
+}
+.explore-service .vertical-tab .vertical-tab-header-content {
+  display: block;
+  width: 100%;
+  padding: 4px 0 8px;
 }
 .explore-service .vertical-tab .vertical-tab-header-content h4 {
   font-family: "Poppins", sans-serif;
-  font-size: 22px;
-  line-height: 30px;
-  color: #c22032;
+  font-size: 15px;
+  line-height: 22px;
+  color: #1e417c;
   font-style: normal;
-  font-weight: 400;
-  margin-top: 80px;
+  font-weight: 500;
+  margin-top: 0;
   text-align: center;
+}
+.explore-service .vertical-tab .vertical-tab-header-content .subText {
+  font-size: 13px;
+  line-height: 20px;
+  color: rgba(30, 65, 124, 0.75);
+  text-align: center;
+  margin-top: 8px;
 }
 @media screen and (max-width: 1000px) {
   .explore-service .vertical-tab .vertical-tab-header-content h4 {
-    margin-top: 50px;
-    font-size: 16px;
-    line-height: 26px;
+    font-size: 14px;
+    line-height: 20px;
   }
 }
 .explore-service .vertical-tab .vertical-tab-firstsection {
   display: flex;
   justify-content: center;
+  width: 100%;
+  margin-left: 0;
+  margin-bottom: 8px;
+  padding: 8px 0;
 }
-@media screen and (min-width: 1000px) {
-  .explore-service .vertical-tab .vertical-tab-firstsection {
-    margin-left: 32px;
-  }
+.explore-service .vertical-tab .vertical-tab-firstsection ul {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  max-width: 100%;
+  overflow-x: auto;
 }
 .explore-service .vertical-tab .vertical-tab-firstsection ul li {
   align-items: center;
   background-color: #d2d9e5;
   border-radius: 50%;
   display: flex;
-  flex-direction: column;
+  flex-shrink: 0;
   height: 15px;
   justify-content: center;
-  margin: 1.2rem 0 36px;
+  margin: 0;
   position: relative;
   width: 15px;
 }
+.explore-service .vertical-tab .vertical-tab-firstsection ul li:not(:last-child) {
+  margin-right: 40px;
+}
 .explore-service .vertical-tab .vertical-tab-firstsection ul li:not(:last-child)::after {
-  bottom: 0;
+  background: #d2d9e5;
+  bottom: auto;
   content: "";
   display: block;
-  height: 48px;
+  height: 3px;
+  left: 100%;
   margin: 0;
   position: absolute;
-  top: 14px;
-  width: 3px;
-  background: #d2d9e5;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 40px;
 }
 .explore-service .vertical-tab .vertical-tab-firstsection ul li.current, .explore-service .vertical-tab .vertical-tab-firstsection ul li.left-menu-active {
   background: linear-gradient(304.12deg, #c41230 0.98%, #c41230 82.26%);
@@ -6424,12 +6510,14 @@ h2.page-heading {
   margin-top: 20px;
 }
 .explore-service .vertical-tab .country-sec__inner {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
   gap: 30px;
+  justify-items: center;
 }
 @media screen and (max-width: 1000px) {
   .explore-service .vertical-tab .country-sec__inner {
+    grid-template-columns: repeat(3, 1fr);
     gap: 10px;
   }
 }
@@ -6479,6 +6567,7 @@ h2.page-heading {
 }
 .explore-service .vertical-tab .vertical-tab-sec-col {
   position: relative;
+  width: 100%;
 }
 .explore-service .vertical-tab .vertical-tab-sec-col .MuiFormControl-root .MuiFormLabel-root {
   background: transparent;
@@ -6524,34 +6613,35 @@ h2.page-heading {
   background-position: center;
 }
 .explore-service .vertical-tab .vertical-tab-content-section .study-level {
-  margin-top: 30px;
+  margin-top: 12px;
 }
 .explore-service .vertical-tab .vertical-tab-content-section .study-level ul {
   display: flex;
   flex-wrap: wrap;
-  gap: 20px;
+  gap: 10px;
   justify-content: center;
 }
 @media screen and (max-width: 1000px) {
   .explore-service .vertical-tab .vertical-tab-content-section .study-level ul {
-    gap: 14px;
+    gap: 8px;
   }
 }
 .explore-service .vertical-tab .vertical-tab-content-section .study-level ul li {
   background-color: #fff;
-  padding: 10px 15px;
-  border-radius: 6px;
-  font-family: "Comfortaa", sans-serif;
-  font-size: 14px;
-  line-height: 21px;
+  padding: 7px 14px;
+  border-radius: 20px;
+  font-family: "Poppins", sans-serif;
+  font-size: 13px;
+  line-height: 20px;
   color: rgb(30, 65, 124);
   font-weight: 400;
+  border: 1px solid rgba(30, 65, 124, 0.12);
 }
 @media screen and (max-width: 1000px) {
   .explore-service .vertical-tab .vertical-tab-content-section .study-level ul li {
     font-size: 12px;
-    line-height: 20px;
-    padding: 8px 10px;
+    line-height: 18px;
+    padding: 6px 10px;
   }
 }
 .explore-service .vertical-tab .vertical-tab-content-section .study-level ul li:hover, .explore-service .vertical-tab .vertical-tab-content-section .study-level ul li.study-option-active {
@@ -6597,7 +6687,7 @@ h2.page-heading {
 .explore-service .vertical-tab .vertical-tab-content-section.study_industry-sec {
   overflow-y: auto;
   max-height: 400px;
-  margin-top: 40px;
+  margin-top: 16px;
 }
 .explore-service .vertical-tab .vertical-tab-content-section.study_industry-sec .card-view {
   display: flex;
@@ -6662,17 +6752,17 @@ h2.page-heading {
 }
 .explore-service .vertical-tab .vertical-tab-content-section .help-us h5 {
   font-family: "Poppins", sans-serif;
-  font-size: 18px;
-  line-height: 28px;
-  color: #c22032;
-  font-weight: 400;
-  margin-top: 30px;
+  font-size: 14px;
+  line-height: 21px;
+  color: rgb(30, 65, 124);
+  font-weight: 500;
+  margin-top: 16px;
   text-align: center;
 }
 @media screen and (max-width: 1000px) {
   .explore-service .vertical-tab .vertical-tab-content-section .help-us h5 {
-    font-size: 14px;
-    line-height: 21px;
+    font-size: 13px;
+    line-height: 19px;
   }
 }
 .explore-service .vertical-tab .vertical-tab-content-section .help-us ul {
@@ -6718,11 +6808,11 @@ h2.page-heading {
 }
 .explore-service .vertical-tab .vertical-tab-content-section h5 {
   font-family: "Poppins", sans-serif;
-  font-size: 18px;
-  line-height: 28px;
-  color: #c22032;
-  font-weight: 400;
-  margin-top: 30px;
+  font-size: 14px;
+  line-height: 21px;
+  color: rgb(30, 65, 124);
+  font-weight: 500;
+  margin-top: 16px;
   text-align: center;
   display: flex;
   justify-content: center;
@@ -6730,8 +6820,8 @@ h2.page-heading {
 }
 @media screen and (max-width: 1000px) {
   .explore-service .vertical-tab .vertical-tab-content-section h5 {
-    font-size: 14px;
-    line-height: 21px;
+    font-size: 13px;
+    line-height: 19px;
   }
 }
 .explore-service .vertical-tab .vertical-tab-content-section .card-view .card-view__inner {
@@ -6971,6 +7061,31 @@ h2.page-heading {
   align-items: center;
   gap: 8px;
   margin-top: 10px;
+}
+
+.year-input-field {
+  width: 108px;
+  max-width: 108px;
+  min-width: 108px !important;
+  flex-shrink: 0;
+}
+.year-input-field .MuiFormControl-root {
+  width: 100%;
+}
+.year-input-field .MuiInputBase-input {
+  text-align: center;
+  letter-spacing: 0.04em;
+  padding-left: 8px !important;
+  padding-right: 8px !important;
+}
+.year-input-field .MuiInputLabel-root {
+  font-size: 12px !important;
+}
+.year-input-field .w-full {
+  min-width: 0 !important;
+}
+.flex-parent .year-input-field {
+  min-width: 108px !important;
 }
 
 .flex-parent {

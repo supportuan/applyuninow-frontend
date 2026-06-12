@@ -52,6 +52,18 @@ import sweden from "../../../Images/rev/flags/sweden.svg";
 import switzerland from "../../../Images/rev/flags/switzerland.svg";
 import USA from "../../../Images/rev/flags/usa.svg";
 import UK from "../../../Images/rev/flags/uk.svg";
+import NewZealand from "../../../Images/rev/flags/new-zealand.svg";
+import Cyprus from "../../../Images/rev/flags/cyprus.svg";
+import Denmark from "../../../Images/rev/flags/denmark.svg";
+import France from "../../../Images/rev/flags/france.svg";
+import Italy from "../../../Images/rev/flags/italy.svg";
+import Finland from "../../../Images/rev/flags/finland.svg";
+import Latvia from "../../../Images/rev/flags/latvia.svg";
+import Malta from "../../../Images/rev/flags/malta.svg";
+import Norway from "../../../Images/rev/flags/norway.svg";
+import Poland from "../../../Images/rev/flags/poland.svg";
+import Singapore from "../../../Images/rev/flags/singapore.svg";
+import Spain from "../../../Images/rev/flags/spain.svg";
 
 import expert from "../../../Images/rev/services/expert.svg";
 import courses from "../../../Images/rev/services/courses.svg";
@@ -139,6 +151,18 @@ export const countryAllData = [
   { link: "/country/sweden", bgColor: "#BEAFE1", code: "SE", name: "Sweden", description: "Sweden is renowned for its progressive and research-driven education system, characterized by high academic standards. It offers a wide range of English-taught programs in diverse fields, including technology, sustainability, and innovation. The country fosters creativity, critical thinking, and a student-centric environment. With its strong connections to global industries, Sweden provides ample internship and career opportunities." },
 
   { link: "/country/switzerland", bgColor: "#D9B4E2", code: "CH", name: "Switzerland", description: "Switzerland is home to several of the world’s premier universities, particularly in the fields of hospitality, business, and research. It offers high-quality education with a strong emphasis on practical application and innovation. The country provides a secure, multilingual, and culturally diverse environment. With robust global industry connections, graduates have excellent career prospects globally." },
+  { link: "/country/new-zealand", bgColor: "rgba(201, 222, 245, 1)", code: "NZ", name: "New Zealand", description: "New Zealand offers world-class education in a safe, welcoming environment with strong research opportunities and excellent post-study work rights for international graduates." },
+  { link: "/country/cyprus", bgColor: "rgba(255, 235, 227, 1)", code: "CY", name: "Cyprus", description: "Cyprus provides affordable EU-recognized education with English-taught programs, Mediterranean lifestyle, and a strategic location connecting Europe, Asia, and Africa." },
+  { link: "/country/denmark", bgColor: "#CFEEDC", code: "DK", name: "Denmark", description: "Denmark is a Scandinavian innovation hub known for sustainability, design, student-centered learning, and high quality of life for international students." },
+  { link: "/country/france", bgColor: "rgba(213, 207, 235, 1)", code: "FR", name: "France", description: "France combines prestigious academic heritage with affordable public education, rich culture, and a growing range of English-taught programs across diverse fields." },
+  { link: "/country/italy", bgColor: "rgba(249, 215, 183, 1)", code: "IT", name: "Italy", description: "Italy offers historic universities, global leadership in design and fashion, affordable tuition, and a central European location for cultural exploration." },
+  { link: "/country/finland", bgColor: "#BEAFE1", code: "FI", name: "Finland", description: "Finland is celebrated for its top-ranked education system, innovation culture, English-taught degrees, and exceptional student welfare." },
+  { link: "/country/latvia", bgColor: "rgba(255, 215, 254, 1)", code: "LV", name: "Latvia", description: "Latvia offers affordable EU education with English-taught programs in medicine, IT, business, and engineering within a safe Baltic setting." },
+  { link: "/country/malta", bgColor: "rgba(251, 253, 210, 1)", code: "MT", name: "Malta", description: "Malta is an English-speaking EU island nation offering affordable tuition, sunny Mediterranean living, and internationally recognized qualifications." },
+  { link: "/country/norway", bgColor: "#D9B4E2", code: "NO", name: "Norway", description: "Norway provides tuition-free public university education, exceptional quality of life, and strong programs in energy, marine sciences, and technology." },
+  { link: "/country/poland", bgColor: "rgba(201, 222, 245, 1)", code: "PL", name: "Poland", description: "Poland is a growing EU study destination with affordable tuition, recognized degrees, and popular English-taught programs in medicine and engineering." },
+  { link: "/country/singapore", bgColor: "rgba(255, 235, 227, 1)", code: "SG", name: "Singapore", description: "Singapore is a global education hub with top-ranked universities, cutting-edge research, and outstanding career prospects across Asia-Pacific." },
+  { link: "/country/spain", bgColor: "#CFEEDC", code: "ES", name: "Spain", description: "Spain offers vibrant student life, affordable European education, and prestigious universities across business, tourism, arts, and sciences." },
 
 ];
 
@@ -946,15 +970,27 @@ export const digitalImg = [
 ];
 
 export const countries = [
-  { code: "australia", flag: Australia, title: "Australia" },
-  { code: "canada", flag: Canada, title: "Canada" },
-  { code: "germany", flag: Germany, title: "Germany" },
-  { code: "ireland", flag: Ireland, title: "Ireland" },
-  { code: "netherlands", flag: Neitherland, title: "Netherlands" },
-  { code: "sweden", flag: sweden, title: "Sweden" },
-  { code: "switzerland", flag: switzerland, title: "Switzerland" },
-  { code: "usa", flag: USA, title: "USA" },
-  { code: "uk", flag: UK, title: "UK" },
+  { code: "australia", flag: Australia, title: "Australia", mapPosition: { top: "81%", left: "92%", topMobile: "66%", leftMobile: "89%" } },
+  { code: "canada", flag: Canada, title: "Canada", mapPosition: { top: "24%", left: "19%", topMobile: "38%", leftMobile: "24%" } },
+  { code: "uk", flag: UK, title: "UK", mapPosition: { top: "15%", left: "44.6%", topMobile: "35%", leftMobile: "47%" } },
+  { code: "usa", flag: USA, title: "USA", mapPosition: { top: "38%", left: "14%", topMobile: "48%", leftMobile: "17%" } },
+  { code: "ireland", flag: Ireland, title: "Ireland", mapPosition: { top: "16%", left: "43%", topMobile: "36%", leftMobile: "46%" } },
+  { code: "germany", flag: Germany, title: "Germany", mapPosition: { top: "22%", left: "52%", topMobile: "39%", leftMobile: "55%" } },
+  { code: "switzerland", flag: switzerland, title: "Switzerland", mapPosition: { top: "25%", left: "51%", topMobile: "40%", leftMobile: "54%" } },
+  { code: "sweden", flag: sweden, title: "Sweden", mapPosition: { top: "11%", left: "52%", topMobile: "34%", leftMobile: "55%" } },
+  { code: "netherlands", flag: Neitherland, title: "Netherlands", mapPosition: { top: "19%", left: "48.3%", topMobile: "37%", leftMobile: "51%" } },
+  { code: "new-zealand", flag: NewZealand, title: "New Zealand", mapPosition: { top: "84%", left: "97%", topMobile: "68%", leftMobile: "93%" } },
+  { code: "cyprus", flag: Cyprus, title: "Cyprus", mapPosition: { top: "31%", left: "58%", topMobile: "42%", leftMobile: "60%" } },
+  { code: "denmark", flag: Denmark, title: "Denmark", mapPosition: { top: "15%", left: "49.5%", topMobile: "35%", leftMobile: "52%" } },
+  { code: "france", flag: France, title: "France", mapPosition: { top: "23%", left: "47%", topMobile: "38%", leftMobile: "50%" } },
+  { code: "italy", flag: Italy, title: "Italy", mapPosition: { top: "27%", left: "53%", topMobile: "40%", leftMobile: "56%" } },
+  { code: "finland", flag: Finland, title: "Finland", mapPosition: { top: "10%", left: "55%", topMobile: "33%", leftMobile: "57%" } },
+  { code: "latvia", flag: Latvia, title: "Latvia", mapPosition: { top: "14%", left: "54%", topMobile: "34%", leftMobile: "56%" } },
+  { code: "malta", flag: Malta, title: "Malta", mapPosition: { top: "29%", left: "51.5%", topMobile: "41%", leftMobile: "54%" } },
+  { code: "norway", flag: Norway, title: "Norway", mapPosition: { top: "8%", left: "49%", topMobile: "32%", leftMobile: "52%" } },
+  { code: "poland", flag: Poland, title: "Poland", mapPosition: { top: "19%", left: "55%", topMobile: "37%", leftMobile: "58%" } },
+  { code: "singapore", flag: Singapore, title: "Singapore", mapPosition: { top: "50%", left: "76%", topMobile: "55%", leftMobile: "78%" } },
+  { code: "spain", flag: Spain, title: "Spain", mapPosition: { top: "28%", left: "45%", topMobile: "40%", leftMobile: "48%" } },
 ];
 
 export const services = [
@@ -1825,10 +1861,7 @@ import uk7 from "../../../Images/rev/university/uk/uk7.svg";
 import uk8 from "../../../Images/rev/university/uk/uk8.svg";
 import uk9 from "../../../Images/rev/university/uk/uk9.svg";
 
-
-
-
-
+import { extraCountryWiseDetail } from "./countryDetailsExtra";
 
 export const countryWiseDetail = {
   "australia": {
@@ -2722,6 +2755,7 @@ export const countryWiseDetail = {
       },
     ]
   },
+  ...extraCountryWiseDetail,
 
 };
 

@@ -37,6 +37,8 @@ export const Input = ({
   handleChange,
   name,
   bgcolor,
+  maxLength,
+  inputMode,
 }) => (
   <div className={`${width}`}>
     <TextField
@@ -49,7 +51,12 @@ export const Input = ({
       onPaste={onPaste}
       onChange={(e) => onkeydownEvent(e, handleChange)}
       disabled={disabled}
-      inputProps={{ readOnly, autoComplete: 'off' }}
+      inputProps={{
+        readOnly,
+        autoComplete: 'off',
+        ...(maxLength ? { maxLength } : {}),
+        ...(inputMode ? { inputMode } : {}),
+      }}
       error={error}
       helperText={helperText}
       sx={{

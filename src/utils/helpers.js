@@ -37,12 +37,24 @@ export const toTitleCase = (string) => {
 }
 
 /* eslint-enable */
+export const resolveDisplayName = (value) => {
+  if (value == null || value === "") return "";
+  if (typeof value === "string" || typeof value === "number") return String(value);
+  if (typeof value === "object" && value.name != null) {
+    return resolveDisplayName(value.name);
+  }
+  return "";
+};
+
 export const capitalize = (string) => {
   if (!string) {
     return "";
   }
 
-  return string.charAt(0).toUpperCase() + string.slice(1);
+  const text = typeof string === "string" ? string : resolveDisplayName(string);
+  if (!text) return "";
+
+  return text.charAt(0).toUpperCase() + text.slice(1);
 };
 
 export const capitalizeUppertoLower = (string) => {

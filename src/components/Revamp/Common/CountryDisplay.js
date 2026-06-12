@@ -18,10 +18,21 @@ const CountryDisplay = () => {
 
         <div className="world-map">
             <Image src={worldMap} alt="World Map" width={1200} height={600} />
-            {countries.map((country, index) => 
-            index < 7 ? (
-              <div key={'img_'+index} className={`blinker country_loc_${index}`}></div>
-            ) : null )}
+            {countries.map((country) =>
+              country.mapPosition ? (
+                <div
+                  key={`marker_${country.code}`}
+                  className="blinker country-map-marker"
+                  style={{
+                    "--map-top": country.mapPosition.top,
+                    "--map-left": country.mapPosition.left,
+                    "--map-top-mobile": country.mapPosition.topMobile,
+                    "--map-left-mobile": country.mapPosition.leftMobile,
+                  }}
+                  title={country.title}
+                />
+              ) : null
+            )}
         </div>
 
         <div className="flag-container" key="country-1">

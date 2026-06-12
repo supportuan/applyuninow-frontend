@@ -8,7 +8,7 @@ import { environment } from "../environments/environment";
 import SearchBar from "../components/SearchBar/SearchBar";
 import TextField from "@mui/material/TextField";
 import { Footer } from "../components/Footer";
-import { country } from "../country";
+import { findCountryByApiName, sortStudyDestinations } from "../country";
 import Autocomplete from "@mui/material/Autocomplete";
 import { makeStyles } from "@material-ui/core/styles";
 import { capitalize, uuid } from "../utils/helpers";
@@ -535,9 +535,7 @@ const StudentExplore = () => {
         } = res.data.data;
         for (let item of study_destination) {
           item["checked"] = false;
-          let flag = country.find(
-            (x) => x.fullName.toLowerCase() === item.name.toLowerCase()
-          );
+          const flag = findCountryByApiName(item.name);
           if (flag) {
             item["flag"] = flag.img;
             item["short_name"] = flag.name;
@@ -578,8 +576,8 @@ const StudentExplore = () => {
         res.data.data.intake_month = intake_month;
         res.data.data.intake_year = intake_year;
 
-        res.data.data.study_destination = study_destination.filter(
-          (x) => x.flag
+        res.data.data.study_destination = sortStudyDestinations(
+          study_destination.filter((x) => x.flag)
         );
         setMeta(res.data.data);
         setPrerequisite(res.data.data);
@@ -1547,7 +1545,7 @@ const StudentExplore = () => {
                     </div>
                     <div className="country-sec">
                       <div
-                        className="md:ml-8 grid grid-cols-3 md:grid-cols-5  mr-0:mr-4 pb-4"
+                        className="md:ml-8 grid grid-cols-3 md:grid-cols-7 mr-0:mr-4 pb-4"
                         id="StudyIndustry"
                       >
                         {meta.study_destination.map((x, i) => (

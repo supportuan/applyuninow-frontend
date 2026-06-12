@@ -1039,6 +1039,16 @@ body {
             left: 13%;
         }
 
+        .country-map-marker {
+            top: var(--map-top);
+            left: var(--map-left);
+
+            @include mixins.breakpointmax(variables.$end-small) {
+                top: var(--map-top-mobile, var(--map-top));
+                left: var(--map-left-mobile, var(--map-left));
+            }
+        }
+
         .blinker {
             position: absolute;
 
@@ -6663,61 +6673,136 @@ h2 {
 
     .vertical-tab {
         display: flex;
-        gap: functions.rem(40);
+        flex-direction: column;
+        align-items: stretch;
+        gap: functions.rem(24);
 
         @include mixins.breakpointmax(variables.$end-small) {
-            gap: functions.rem(15);
+            gap: functions.rem(16);
+        }
+
+        .explore-step-header {
+            display: grid;
+            grid-template-columns: functions.rem(40) 1fr functions.rem(40);
+            align-items: center;
+            width: 100%;
+            margin-bottom: functions.rem(8);
+            padding: 0;
+
+            h4 {
+                grid-column: 2;
+                margin: 0;
+                text-align: center;
+            }
+
+            .explore-nav-spacer {
+                grid-column: 3;
+                width: functions.rem(40);
+                height: functions.rem(28);
+            }
+
+            .controls-fb.goback_btn {
+                position: static !important;
+                top: auto !important;
+                left: auto !important;
+                right: auto !important;
+                grid-column: 1;
+                justify-self: start;
+                width: functions.rem(40) !important;
+                height: functions.rem(28) !important;
+                min-width: functions.rem(40);
+                margin: 0 !important;
+                padding: 0 !important;
+                background-size: contain !important;
+                background-position: center !important;
+                opacity: 0.85;
+                transform: none;
+
+                &.next_btn {
+                    grid-column: 3;
+                    justify-self: end;
+                    transform: rotate(180deg);
+                }
+
+                @include mixins.hover {
+                    opacity: 1;
+                }
+            }
         }
 
         .vertical-tab-header-content {
+            display: block;
+            width: 100%;
+            padding: functions.rem(4) 0 functions.rem(8);
+
             h4 {
-                font-family: "Poppins", sans-serif;
-                @include mixins.set-typography(22, 30);
-                color: variables.$primary;
+                font-family: variables.$font-poppins;
+                @include mixins.set-typography(15, 22);
+                color: variables.$clr-3;
                 font-style: normal;
-                font-weight: 400;
-                margin-top: functions.rem(80);
+                font-weight: 500;
+                margin-top: 0;
                 text-align: center;
 
                 @include mixins.breakpointmax(variables.$end-small) {
-                    margin-top: functions.rem(50);
-                    @include mixins.set-typography(16, 26);
+                    @include mixins.set-typography(14, 20);
                 }
+            }
+
+            .subText {
+                @include mixins.set-typography(13, 20);
+                color: rgba(30, 65, 124, 0.75);
+                text-align: center;
+                margin-top: functions.rem(8);
             }
         }
 
         .vertical-tab-firstsection {
             display: flex;
             justify-content: center;
-
-            @include mixins.breakpoint(variables.$end-small) {
-                margin-left: functions.rem(32);
-            }
+            width: 100%;
+            margin-left: 0;
+            margin-bottom: functions.rem(8);
+            padding: functions.rem(8) 0;
 
             ul {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                justify-content: center;
+                list-style: none;
+                padding: 0;
+                margin: 0;
+                max-width: 100%;
+                overflow-x: auto;
+
                 li {
                     align-items: center;
                     background-color: #d2d9e5;
                     border-radius: 50%;
                     display: flex;
-                    flex-direction: column;
+                    flex-shrink: 0;
                     height: 15px;
                     justify-content: center;
-                    margin: 1.2rem 0 36px;
+                    margin: 0;
                     position: relative;
                     width: 15px;
 
                     &:not(:last-child) {
+                        margin-right: functions.rem(40);
+
                         &::after {
-                            bottom: 0;
+                            background: #d2d9e5;
+                            bottom: auto;
                             content: "";
                             display: block;
-                            height: functions.rem(48);
+                            height: 3px;
+                            left: 100%;
                             margin: 0;
                             position: absolute;
-                            top: 14px;
-                            width: 3px;
-                            background: #d2d9e5;
+                            top: 50%;
+                            transform: translateY(-50%);
+                            width: functions.rem(40);
                         }
                     }
 
@@ -6802,6 +6887,8 @@ h2 {
 
         .vertical-tab-sec-col {
             position: relative;
+            width: 100%;
+
             .MuiFormControl-root{
                 .MuiFormLabel-root{
                     background: transparent;
@@ -6824,6 +6911,12 @@ h2 {
                 border-radius: functions.rem(5);
                 width: functions.rem(75);
                 height: functions.rem(40);
+
+                .explore-step-header & {
+                    position: static !important;
+                    width: auto !important;
+                    height: auto !important;
+                }
 
                 &.reset_cta {
                     right: 0;
@@ -6857,30 +6950,31 @@ h2 {
 
         .vertical-tab-content-section {
             .study-level {
-                margin-top: functions.rem(30);
+                margin-top: functions.rem(12);
 
                 ul {
                     display: flex;
                     flex-wrap: wrap;
-                    gap: functions.rem(20);
+                    gap: functions.rem(10);
                     justify-content: center;
 
                     @include mixins.breakpointmax(variables.$end-small) {
-                        gap: functions.rem(14);
+                        gap: functions.rem(8);
                     }
 
                     li {
                         background-color: #fff;
-                        padding: functions.rem(10) functions.rem(15);
-                        border-radius: functions.rem(6);
-                        font-family: variables.$font-comfortaa;
-                        @include mixins.set-typography(14, 21);
+                        padding: functions.rem(7) functions.rem(14);
+                        border-radius: functions.rem(20);
+                        font-family: variables.$font-poppins;
+                        @include mixins.set-typography(13, 20);
                         color: variables.$clr-3;
                         font-weight: 400;
+                        border: 1px solid rgba(30, 65, 124, 0.12);
 
                         @include mixins.breakpointmax(variables.$end-small) {
-                            @include mixins.set-typography(12, 20);
-                            padding: functions.rem(8) functions.rem(10);
+                            @include mixins.set-typography(12, 18);
+                            padding: functions.rem(6) functions.rem(10);
                         }
 
                         &:hover,
@@ -6939,7 +7033,7 @@ h2 {
             &.study_industry-sec {
                 overflow-y: auto;
                 max-height: functions.rem(400);
-                margin-top: functions.rem(40);
+                margin-top: functions.rem(16);
 
                 .card-view {
                     display: flex;
@@ -7021,14 +7115,14 @@ h2 {
             .help-us {
                 h5 {
                     font-family: variables.$font-poppins;
-                    @include mixins.set-typography(18, 28);
-                    color: #c22032;
-                    font-weight: 400;
-                    margin-top: functions.rem(30);
+                    @include mixins.set-typography(14, 21);
+                    color: variables.$clr-3;
+                    font-weight: 500;
+                    margin-top: functions.rem(16);
                     text-align: center;
 
                     @include mixins.breakpointmax(variables.$end-small) {
-                        @include mixins.set-typography(14, 21);
+                        @include mixins.set-typography(13, 19);
                     }
                 }
 
@@ -7079,17 +7173,17 @@ h2 {
             }
             h5 {
                 font-family: variables.$font-poppins;
-                @include mixins.set-typography(18, 28);
-                color: #c22032;
-                font-weight: 400;
-                margin-top: functions.rem(30);
+                @include mixins.set-typography(14, 21);
+                color: variables.$clr-3;
+                font-weight: 500;
+                margin-top: functions.rem(16);
                 text-align: center;
                 display: flex;
                 justify-content: center;
                 gap: functions.rem(8);
 
                 @include mixins.breakpointmax(variables.$end-small) {
-                    @include mixins.set-typography(14, 21);
+                    @include mixins.set-typography(13, 19);
                 }
             }
             .card-view{
@@ -7344,6 +7438,36 @@ h2 {
         margin-top: functions.rem(10);
     }
 }
+.year-input-field {
+    width: functions.rem(108);
+    max-width: functions.rem(108);
+    min-width: functions.rem(108) !important;
+    flex-shrink: 0;
+
+    .MuiFormControl-root {
+        width: 100%;
+    }
+
+    .MuiInputBase-input {
+        text-align: center;
+        letter-spacing: 0.04em;
+        padding-left: functions.rem(8) !important;
+        padding-right: functions.rem(8) !important;
+    }
+
+    .MuiInputLabel-root {
+        font-size: functions.rem(12) !important;
+    }
+
+    .w-full {
+        min-width: 0 !important;
+    }
+}
+
+.flex-parent .year-input-field {
+    min-width: functions.rem(108) !important;
+}
+
 .flex-parent{
     display: flex;
     justify-content: center;

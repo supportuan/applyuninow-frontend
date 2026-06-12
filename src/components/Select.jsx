@@ -4,7 +4,7 @@ import FormControl from "@mui/material/FormControl";
 import FormHelperText from "@mui/material/FormHelperText";
 import Select from "@mui/material/Select";
 import { makeStyles } from "@mui/styles";
-import { uuid } from "../utils/helpers";
+import { resolveDisplayName, uuid } from "../utils/helpers";
 
 export const SelectInput = ({
   handleChange,
@@ -142,13 +142,20 @@ export const SelectInput = ({
         >
           {options?.length > 0 ? (
             options?.map((item) => (
-              <MenuItem key={uuid()} value={item.id ? item.id : item.name}>
-                {item?.name ||
-                  item?.address_1 ||
-                  item?.poc_name ||
-                  item?.account_name ||
-                  item?.company_name ||
-                  item?.id}
+              <MenuItem
+                key={uuid()}
+                value={
+                  item.id
+                    ? item.id
+                    : resolveDisplayName(item.name) || resolveDisplayName(item)
+                }
+              >
+                {resolveDisplayName(item?.name) ||
+                  resolveDisplayName(item?.address_1) ||
+                  resolveDisplayName(item?.poc_name) ||
+                  resolveDisplayName(item?.account_name) ||
+                  resolveDisplayName(item?.company_name) ||
+                  (item?.id != null ? String(item.id) : "")}
                 {item.start &&
                   `-${item?.start} to
               ${item?.end}`}

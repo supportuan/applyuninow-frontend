@@ -25,16 +25,16 @@ const SearchBar = ({ handleChange, value, name, width, bg, placeholder }) => {
                 cy="11.7666"
                 r="8.98856"
                 stroke="#C41230"
-                stroke-width="1.5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
               />
               <path
                 d="M18.0186 18.4851L21.5426 22"
                 stroke="#C41230"
-                stroke-width="1.5"
-                stroke-linecap="round"
-                stroke-linejoin="round"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
               />
             </svg>
             <input

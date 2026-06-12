@@ -20,9 +20,9 @@ import industry from "../../../utils/Industry";
 import SubIndustry from "../../../utils/SubIndustry";
 import { environment } from "../../../environments/environment";
 import SearchBar from "../../SearchBar/SearchBar";
-import { country } from "../../../country";
+import { findCountryByApiName, sortStudyDestinations } from "../../../country";
 import { useRouter } from "next/router";
-import { capitalize, uuid, grade } from "../../../utils/helpers";
+import { capitalize, resolveDisplayName, uuid, grade } from "../../../utils/helpers";
 import TopStrip from "./TopStrip";
 import { usePageContext } from "../context/PageContext";
 
@@ -443,8 +443,8 @@ const Explore = () => {
 
     const selectOrDeselect = (item) => {
         degreeType.splice(0);
-        item.options.map((item) => {
-            degreeType.push({ name: item, checked: false });
+        item.options.map((opt) => {
+            degreeType.push({ name: resolveDisplayName(opt), checked: false });
         });
 
         const metaData = { ...meta };
@@ -539,9 +539,7 @@ const Explore = () => {
         } = response;
         for (let item of study_destination) {
             item["checked"] = false;
-            let flag = country.find(
-                (x) => x.fullName.toLowerCase() === item.name.toLowerCase()
-            );
+            const flag = findCountryByApiName(item.name);
             if (flag) {
                 item["flag"] = flag.img;
                 item["short_name"] = flag.name;
@@ -556,24 +554,32 @@ const Explore = () => {
             };
         });
         study_level = study_level.map((x) => {
-            return { name: x, checked: false };
+            return { name: resolveDisplayName(x), checked: false };
         });
 
         type_of_degree = type_of_degree.map((x) => {
-            return { name: x, checked: false };
+            return { name: resolveDisplayName(x), checked: false };
         });
 
         intake_month = intake_month.map((x) => {
-            return { name: x };
+            return { name: resolveDisplayName(x) };
         });
 
         intake_year = intake_year.map((x) => {
-            return { name: x, checked: false };
+            return { name: resolveDisplayName(x), checked: false };
         });
 
         study_durations = study_durations.map((x) => {
-            return { name: x, checked: false };
+            return { name: resolveDisplayName(x), checked: false };
         });
+
+        if (response.type_of_degree_category) {
+            response.type_of_degree_category = response.type_of_degree_category.map((cat) => ({
+                ...cat,
+                name: resolveDisplayName(cat.name),
+                options: (cat.options || []).map((opt) => resolveDisplayName(opt)),
+            }));
+        }
 
         response.study_durations = study_durations;
         response.type_of_degree = type_of_degree;
@@ -582,8 +588,8 @@ const Explore = () => {
         response.intake_month = intake_month;
         response.intake_year = intake_year;
 
-        response.study_destination = study_destination.filter(
-            (x) => x.flag
+        response.study_destination = sortStudyDestinations(
+            study_destination.filter((x) => x.flag)
         );
         setMeta(response);
         setFilteredData(response);
@@ -1553,7 +1559,7 @@ const Explore = () => {
                                                         <div className="vertical-tab-header-content">
                                                             <div className="w-full">
                                                                 <h4 className="text-center">
-                                                                    Choose Your Study Destination
+                                                                    Where do you want to study?
                                                                 </h4>
                                                             </div>
                                                         </div>
@@ -1598,17 +1604,10 @@ const Explore = () => {
                                                     <div className="vertical-tab-header">
                                                         <div className="vertical-tab-header-content">
                                                             <div className="">
-                                                                <div className=" explore-actions">
-                                                                    <button className="goback_btn controls-fb" onClick={() => setStep(1)}></button>
-                                                                    <h4>Choose the most applicable Study Level that you would like to pursue ongoing</h4>
-
-                                                                    <button className="goback_btn next_btn controls-fb" onClick={() => {
-                                                                        studyNext();
-                                                                    }}>
-                                                                        {/* <span className="reset_btn next_btn"></span> */}
-                                                                        {/* <span className="reset_txt">Reset</span> */}
-                                                                    </button>
-
+                                                                <div className="explore-step-header w-full">
+                                                                    <button type="button" aria-label="Back" className="goback_btn controls-fb" onClick={() => setStep(1)}></button>
+                                                                    <h4>Select study level</h4>
+                                                                    <button type="button" aria-label="Next" className="goback_btn next_btn controls-fb" onClick={() => studyNext()}></button>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -1660,8 +1659,8 @@ const Explore = () => {
                                                                     ""
                                                                 ) : (
                                                                     <div className="w-full">
-                                                                        <h4 className="text-sm  text-center ">
-                                                                            Choose the applicable Degree type would you like to study overseas
+                                                                        <h4 className="text-center">
+                                                                            Select degree type
                                                                         </h4>
                                                                     </div>
                                                                 )}
@@ -1711,10 +1710,10 @@ const Explore = () => {
                                                     <div className="vertical-tab-header">
                                                         <div className="vertical-tab-header-content">
                                                             <div className="flex  w-full items-center justify-center">
-                                                                <div className="w-full flex  justify-between explore-actions  px-0 md:px-10 items-center">
+                                                                <div className="explore-step-header w-full">
                                                                     <button className="goback_btn controls-fb" onClick={() => setStep(2)}></button>
-                                                                    <h4 >
-                                                                        Choose the best suitable Intake and year that you’re planning to join the University.
+                                                                    <h4>
+                                                                        Select intake &amp; year
                                                                     </h4>
 
                                                                     {/* <img src={forwardArrow} alt="" className="block cursor-pointer" onClick={() => onIntakeSelect()} /> */}
@@ -1772,8 +1771,8 @@ const Explore = () => {
                                                                 <div className="vertical-tab-header">
                                                                     <div className="vertical-tab-header-content">
                                                                         <div className="w-full">
-                                                                            <h4 className="text-sm pr-0  md:pr-8">
-                                                                                Choose the study duration
+                                                                            <h4>
+                                                                                Study duration
                                                                             </h4>
                                                                         </div>
                                                                     </div>
@@ -1813,10 +1812,10 @@ const Explore = () => {
                                                     <div className="vertical-tab-header">
                                                         <div className="vertical-tab-header-content">
                                                             <div className="flex  w-full items-center justify-center">
-                                                                <div className="w-full flex  justify-between explore-actions  px-0 md:px-10 items-center">
+                                                                <div className="explore-step-header w-full">
                                                                     <button className="goback_btn controls-fb" onClick={() => setStep(3)}></button>
-                                                                    <h4 >
-                                                                        Choose Your Study Industry
+                                                                    <h4>
+                                                                        Select industry
                                                                     </h4>
                                                                     <button className="goback_btn next_btn controls-fb" onClick={industryNext}>
                                                                         {/* <span className="reset_btn"></span>
@@ -1870,7 +1869,7 @@ const Explore = () => {
                                                         <div className="vertical-tab-header">
                                                             <div className="vertical-tab-header-content">
                                                                 <div className="flex  w-full items-center justify-center">
-                                                                    <div className="w-full flex  justify-between explore-actions  px-0 md:px-10 items-center">
+                                                                    <div className="explore-step-header w-full">
                                                                     <button className="goback_btn controls-fb" onClick={() => setStep(4)}></button>
                                                                         <h4>
                                                                             Discover more...
@@ -1931,10 +1930,10 @@ const Explore = () => {
                                                     <div className="vertical-tab-header">
                                                         <div className="vertical-tab-header-content">
                                                             <div className="flex  w-full items-center justify-center">
-                                                                <div className="w-full flex  justify-between explore-actions  px-0 md:px-10 items-center">
+                                                                <div className="explore-step-header w-full">
                                                                     <button className="goback_btn controls-fb" onClick={() => setStep(4)}></button>
-                                                                    <h4 >
-                                                                        Choose Your Study Area
+                                                                    <h4>
+                                                                        Select study area
                                                                     </h4>
                                                                     <button className="goback_btn next_btn controls-fb" onClick={onLevelSelect}>
                                                                         {/* <span className="reset_btn"></span>
@@ -1986,10 +1985,10 @@ const Explore = () => {
                                                     <div className="vertical-tab-header">
                                                         <div className="vertical-tab-header-content">
                                                             <div className="flex  w-full items-center justify-center">
-                                                                <div className="w-full flex  justify-between explore-actions  px-0 md:px-10 items-center">
+                                                                <div className="explore-step-header w-full">
                                                                     <button className="goback_btn controls-fb" onClick={() => setStep(5)}></button>
                                                                     <h4>
-                                                                        Help us to understand better
+                                                                        A few more details
                                                                     </h4>
                                                                     <button className="goback_btn next_btn controls-fb" onClick={onExtraDetailsStep}>
                                                                         {/* <span className="reset_btn"></span>
@@ -2002,9 +2001,7 @@ const Explore = () => {
                                                     <div className="vertical-tab-content-section">
                                                         <div className="card-view">
                                                             <div className="help-us mx-5">
-                                                                <h5 className="">
-                                                                    Choose Your Study Format
-                                                                </h5>
+                                                                <h5>Study format</h5>
                                                                 <ul className="">
                                                                     <li
                                                                         onClick={() =>
@@ -2031,9 +2028,7 @@ const Explore = () => {
                                                                 </ul>
                                                             </div>
                                                             <div className="help-us">
-                                                                <h5 className="">
-                                                                    Choose Your Study Attendance Type
-                                                                </h5>
+                                                                <h5>Attendance type</h5>
                                                                 <ul className=" ">
                                                                     <li
                                                                         onClick={() =>
@@ -2112,9 +2107,7 @@ const Explore = () => {
                                                                 </ul>
                                                             </div>
                                                             <div className="help-us p-0 md:px-5">
-                                                                <h5 className="text-[18px]">
-                                                                    Choose Your Desired Study Budget
-                                                                </h5>
+                                                                <h5>Study budget</h5>
                                                                 <ul className="py-2 md:py-3">
                                                                     <li
                                                                         onClick={() =>
@@ -2158,9 +2151,7 @@ const Explore = () => {
                                                                 </ul>
                                                             </div>
                                                             <div className="help-us p-0 md:px-5">
-                                                                <h5 className="text-[18px]">
-                                                                    Choose Your Applicable Work Experience
-                                                                </h5>
+                                                                <h5>Work experience</h5>
                                                                 <ul className=" py-2 md:py-3">
                                                                     <li
                                                                         onClick={() =>
@@ -2217,10 +2208,10 @@ const Explore = () => {
                                                     <div className="vertical-tab-header">
                                                         <div className="vertical-tab-header-content">
                                                             <div className="flex  w-full items-center justify-center">
-                                                                <div className="w-full flex  justify-between explore-actions px-0 md:px-10  items-center">
+                                                                <div className="explore-step-header w-full">
                                                                     <button className="goback_btn controls-fb" onClick={() => setStep(6)}></button>
                                                                     <h4>
-                                                                        Help us with your previous Academics for better Suitability
+                                                                        Academic details
                                                                     </h4>
                                                                     <button className="goback_btn next_btn controls-fb" onClick={onEducationDetails}>
                                                                         {/* <span className="reset_btn"></span>
@@ -2232,21 +2223,22 @@ const Explore = () => {
                                                     </div>
 
                                                     <div className="vertical-tab-content-section">
-                                                        <h5 className="help-us">
-                                                            Secondary school Certificate / 10th
-                                                        </h5>
+                                                        <h5>10th / Secondary school</h5>
 
                                                         <div className="flex-parent">
-                                                            <div className="flex-parent__item">
+                                                            <div className="flex-parent__item year-input-field">
                                                                 <Input
                                                                     disabled={false}
                                                                     readOnly={false}
                                                                     name="ssc_passing_year"
-                                                                    label="Enter Year of completion"
+                                                                    label="Year"
                                                                     value={eduParams.ssc_passing_year}
                                                                     handleChange={handleEduChange}
                                                                     bgcolor="#fff"
                                                                     width="w-full"
+                                                                    type="tel"
+                                                                    inputMode="numeric"
+                                                                    maxLength={4}
                                                                 />
                                                             </div>
                                                             <div className="flex-parent__item">
@@ -2278,21 +2270,22 @@ const Explore = () => {
                                                     </div>
 
                                                     <div className="vertical-tab-content-section">
-                                                        <h5 className="">
-                                                            Higher Secondary school Certificate / 12th
-                                                        </h5>
+                                                        <h5>12th / Higher secondary</h5>
 
                                                         <div className="flex-parent">
-                                                            <div className="flex-parent__item">
+                                                            <div className="flex-parent__item year-input-field">
                                                                 <Input
                                                                     disabled={false}
                                                                     readOnly={false}
                                                                     name="hsc_passing_year"
-                                                                    label="Enter Year of completion"
+                                                                    label="Year"
                                                                     value={eduParams.hsc_passing_year}
                                                                     handleChange={handleEduChange}
                                                                     bgcolor="#fff"
                                                                     width="w-full"
+                                                                    type="tel"
+                                                                    inputMode="numeric"
+                                                                    maxLength={4}
                                                                 />
                                                             </div>
                                                             <div className="flex-parent__item">
@@ -2398,28 +2391,34 @@ const Explore = () => {
 
 
 
-                                                            <div className="mui-date-picker">
+                                                            <div className="year-input-field">
                                                                 <Input
                                                                     disabled={false}
                                                                     readOnly={false}
                                                                     name="ug_start_year"
-                                                                    label="Start Year"
+                                                                    label="Start"
                                                                     handleChange={handleEduChange}
                                                                     value={eduParams.ug_start_year}
                                                                     bgcolor="#fff"
                                                                     width="w-full"
+                                                                    type="tel"
+                                                                    inputMode="numeric"
+                                                                    maxLength={4}
                                                                 />
                                                             </div>
-                                                            <div className="mui-date-picker">
+                                                            <div className="year-input-field">
                                                                 <Input
                                                                     disabled={false}
                                                                     readOnly={false}
                                                                     name="ug_end_year"
-                                                                    label="End Year"
+                                                                    label="End"
                                                                     handleChange={handleEduChange}
                                                                     value={eduParams.ug_end_year}
                                                                     bgcolor="#fff"
                                                                     width="w-full"
+                                                                    type="tel"
+                                                                    inputMode="numeric"
+                                                                    maxLength={4}
                                                                 />
                                                             </div>
                                                             <div>
@@ -2499,29 +2498,33 @@ const Explore = () => {
                                                                     bgcolor="#fff"
                                                                 />
 
-                                                                <div className="mui-date-picker">
+                                                                <div className="year-input-field">
                                                                     <Input
                                                                         disabled={false}
                                                                         readOnly={false}
                                                                         name="pg_start_year"
                                                                         handleChange={handleEduChange}
                                                                         value={eduParams.pg_start_year}
-                                                                        label="Start Year"
+                                                                        label="Start"
                                                                         width="w-full"
-                                                                        type="text"
+                                                                        type="tel"
+                                                                        inputMode="numeric"
+                                                                        maxLength={4}
                                                                         bgcolor="#fff"
                                                                     />
                                                                 </div>
-                                                                <div className="mui-date-picker">
+                                                                <div className="year-input-field">
                                                                     <Input
                                                                         disabled={false}
                                                                         readOnly={false}
                                                                         name="pg_end_year"
                                                                         handleChange={handleEduChange}
                                                                         value={eduParams.pg_end_year}
-                                                                        label="End Year"
+                                                                        label="End"
                                                                         width="w-full"
-                                                                        type="text"
+                                                                        type="tel"
+                                                                        inputMode="numeric"
+                                                                        maxLength={4}
                                                                         bgcolor="#fff"
                                                                     />
                                                                 </div>
@@ -2566,10 +2569,10 @@ const Explore = () => {
                                                     <div className="vertical-tab-header">
                                                         <div className="vertical-tab-header-content">
                                                             <div className="flex  w-full items-center justify-center">
-                                                                <div className="w-full flex  justify-between explore-actions  px-0 md:px-10 items-center">
+                                                                <div className="explore-step-header w-full">
                                                                     <button className="goback_btn controls-fb" onClick={() => setStep(7)}></button>
                                                                     <h4>
-                                                                        Help us with your Additional Assessment that might be helpful for mapping your Requirements on the best school for your chosen destination
+                                                                        Test scores (optional)
                                                                     </h4>
                                                                     <button className="goback_btn next_btn controls-fb" onClick={onTest}></button>
                                                                 </div>
@@ -2672,19 +2675,15 @@ const Explore = () => {
                                                     <div className="vertical-tab-header">
                                                         <div className="vertical-tab-header-content">
                                                             <div className="items-center justify-center">
-                                                                <div className="w-full flex  justify-between explore-actions items-center">
-                                                                    <button className="goback_btn controls-fb" onClick={() => setStep(8)}></button>
-
-                                                                    <h4 >
-                                                                        Almost there...{" "}
-                                                                    </h4>
-                                                                    <img src={backwardArrow} className="invisible" alt="" />
-
+                                                                <div className="explore-step-header w-full">
+                                                                    <button type="button" aria-label="Back" className="goback_btn controls-fb" onClick={() => setStep(8)}></button>
+                                                                    <h4>Your contact details</h4>
+                                                                    <span className="explore-nav-spacer" aria-hidden="true" />
                                                                 </div>
                                                             </div>
                                                         </div>
 
-                                                        <p className="subText marginT30">We enable you to explore all the study options in one place and to find the best study programme that matches your needs, goals, and preferences.</p>
+                                                        <p className="subText">We&apos;ll reach out with programmes matched to your preferences.</p>
                                                     </div>
                                                     <div className="vertical-tab-content-section marginT40">
                                                         <div className="card-view">

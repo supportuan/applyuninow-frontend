@@ -1,0 +1,4 @@
+<svg width="437" height="437" viewBox="0 0 437 437" fill="none" xmlns="http://www.w3.org/2000/svg">
+<defs><clipPath id="italy"><path d="M0 99.9479V336.901C0 392.104 44.75 436.854 99.9531 436.854H336.901C392.104 436.854 436.854 392.104 436.854 336.901V99.9479C436.854 44.75 392.104 0 336.901 0H99.9531C44.75 0 0 44.75 0 99.9479Z"/></clipPath></defs>
+<g clip-path="url(#italy)"><rect width="437" height="437" fill="#CE2B37"/><rect x="145" width="147" height="437" fill="#fff"/><rect width="145" height="437" fill="#009246"/></g>
+</svg>
