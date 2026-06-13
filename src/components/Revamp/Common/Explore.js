@@ -20,7 +20,7 @@ import industry from "../../../utils/Industry";
 import SubIndustry from "../../../utils/SubIndustry";
 import { environment } from "../../../environments/environment";
 import SearchBar from "../../SearchBar/SearchBar";
-import { findCountryByApiName, sortStudyDestinations } from "../../../country";
+import { getCountryFlagSrc, getStaticStudyDestinations, normalizeStudyDestinations } from "../../../country";
 import { useRouter } from "next/router";
 import { capitalize, resolveDisplayName, uuid, grade } from "../../../utils/helpers";
 import TopStrip from "./TopStrip";
@@ -151,6 +151,48 @@ const selectStyles = () => {
         },
         backgroundColor: "transparent",
     };
+};
+
+const STATIC_TYPE_OF_DEGREE_CATEGORY = [
+    {
+        name: "Under Graduation",
+        options: [
+            "BE/B.Tech- Bachelor of Technology",
+            "B.Arch- Bachelor of Architecture",
+            "BBA - Bachelor of Business Administration",
+            "BCom - Bachelor of Commerce",
+            "BCA- Bachelor of Computer Applications",
+            "B.Sc.- Information Technology",
+            "BPharma- Bachelor of Pharmacy",
+            "B.Sc- Interior Design",
+            "BDS- Bachelor of Dental Surgery",
+            "B.Sc. Mathematics",
+            "B.Sc. Chemistry",
+            "Others",
+        ],
+    },
+    {
+        name: "Post Graduation",
+        options: ["M.Tech", "MBA", "MCA", "MS", "BRS", "Others"],
+    },
+    { name: "Pre Masters", options: [] },
+    { name: "Diploma", options: [] },
+    { name: "Summer Programs", options: [] },
+    { name: "Masters", options: [] },
+    { name: "DBA(Doctorate of Business Administration)", options: [] },
+    { name: "PhD(Doctor of Philosophy)", options: [] },
+];
+
+const normalizeTypeOfDegreeCategory = (list) => {
+    const source =
+        Array.isArray(list) && list.length ? list : STATIC_TYPE_OF_DEGREE_CATEGORY;
+
+    return source.map((cat) => ({
+        ...cat,
+        name: resolveDisplayName(cat.name),
+        checked: false,
+        options: (cat.options || []).map((opt) => resolveDisplayName(opt)),
+    }));
 };
 
 const initialState = {
@@ -413,13 +455,35 @@ const Explore = () => {
     const [study_sub_industry, setStudySubIndutries] = useState(SubIndustry);
     const [industryName, setIndustryName] = useState("");
     const [toogleState, setToggleState] = useState(initialToggleState);
+    const [destinationLoadError, setDestinationLoadError] = useState("");
     const topString = '3,43,000+ graduate courses to choose from 9 study destinations';
     const { prerequisiteData, isPrerequisiteLoaded } = usePageContext();
 
     useEffect(() => {
-        if (isPrerequisiteLoaded) {
-            getMetaList(prerequisiteData.data);
+        if (!isPrerequisiteLoaded) return;
+
+        const apiData = prerequisiteData?.data;
+        const hasApiDestinations =
+            Array.isArray(apiData?.study_destination) && apiData.study_destination.length > 0;
+
+        if (apiData && hasApiDestinations) {
+            getMetaList(apiData);
+            setDestinationLoadError("");
+            return;
         }
+
+        if (apiData) {
+            getMetaList(apiData, { useStaticDestinations: true });
+            setDestinationLoadError(
+                "We could not load study destinations from the server. Showing default countries—you can still continue, but some options may be limited."
+            );
+            return;
+        }
+
+        getMetaList(null, { useStaticDestinations: true });
+        setDestinationLoadError(
+            "Unable to connect to the server. Showing default study destinations."
+        );
     }, [isPrerequisiteLoaded, prerequisiteData]);
 
 
@@ -443,12 +507,13 @@ const Explore = () => {
 
     const selectOrDeselect = (item) => {
         degreeType.splice(0);
+        item.options = item.options || [];
         item.options.map((opt) => {
             degreeType.push({ name: resolveDisplayName(opt), checked: false });
         });
 
         const metaData = { ...meta };
-        for (let data of metaData.type_of_degree_category) {
+        for (let data of metaData.type_of_degree_category || []) {
             data.checked = false;
             if (item.name === data.name) {
                 data.checked = true;
@@ -489,7 +554,7 @@ const Explore = () => {
         ) {
             setStep(3);
         }
-        const isstudy_level = meta.type_of_degree_category.some(
+        const isstudy_level = (meta.type_of_degree_category || []).some(
             (item) => item.checked
         );
         const is_degree = degreeType.some((item) => item.checked);
@@ -522,30 +587,32 @@ const Explore = () => {
         intake_month: [],
         intake_year: [],
         type_of_degree: [],
+        type_of_degree_category: [],
         study_durations: [],
         study_sub_industry: [],
     });
-    const getMetaList = (response) => {
-        if (!response) return;
-
+    const getMetaList = (response, { useStaticDestinations = false } = {}) => {
+        const base = response || {};
         let {
-            study_destination,
-            study_level,
-            type_of_degree,
-            study_durations,
-            study_industry,
-            intake_month,
-            intake_year,
-        } = response;
-        for (let item of study_destination) {
-            item["checked"] = false;
-            const flag = findCountryByApiName(item.name);
-            if (flag) {
-                item["flag"] = flag.img;
-                item["short_name"] = flag.name;
+            study_destination = [],
+            study_level = [],
+            type_of_degree = [],
+            study_durations = [],
+            study_industry = [],
+            intake_month = [],
+            intake_year = [],
+        } = base;
+
+        if (useStaticDestinations || !Array.isArray(study_destination) || !study_destination.length) {
+            study_destination = getStaticStudyDestinations();
+        } else {
+            study_destination = normalizeStudyDestinations(study_destination);
+            if (!study_destination.length) {
+                study_destination = getStaticStudyDestinations();
             }
         }
-        study_industry = study_industry.map((x) => {
+
+        study_industry = (Array.isArray(study_industry) ? study_industry : []).map((x) => {
             return {
                 name: x.name,
                 id: x.id,
@@ -553,46 +620,40 @@ const Explore = () => {
                 icon: industry.find((y) => x.name === y.name)?.svg || COMMONSVGELE,
             };
         });
-        study_level = study_level.map((x) => {
+        study_level = (Array.isArray(study_level) ? study_level : []).map((x) => {
             return { name: resolveDisplayName(x), checked: false };
         });
 
-        type_of_degree = type_of_degree.map((x) => {
+        type_of_degree = (Array.isArray(type_of_degree) ? type_of_degree : []).map((x) => {
             return { name: resolveDisplayName(x), checked: false };
         });
 
-        intake_month = intake_month.map((x) => {
+        intake_month = (Array.isArray(intake_month) ? intake_month : []).map((x) => {
             return { name: resolveDisplayName(x) };
         });
 
-        intake_year = intake_year.map((x) => {
+        intake_year = (Array.isArray(intake_year) ? intake_year : []).map((x) => {
             return { name: resolveDisplayName(x), checked: false };
         });
 
-        study_durations = study_durations.map((x) => {
+        study_durations = (Array.isArray(study_durations) ? study_durations : []).map((x) => {
             return { name: resolveDisplayName(x), checked: false };
         });
 
-        if (response.type_of_degree_category) {
-            response.type_of_degree_category = response.type_of_degree_category.map((cat) => ({
-                ...cat,
-                name: resolveDisplayName(cat.name),
-                options: (cat.options || []).map((opt) => resolveDisplayName(opt)),
-            }));
-        }
+        const metaPayload = {
+            ...base,
+            study_durations,
+            type_of_degree,
+            study_level,
+            study_industry,
+            intake_month,
+            intake_year,
+            study_destination,
+            type_of_degree_category: normalizeTypeOfDegreeCategory(base.type_of_degree_category),
+        };
 
-        response.study_durations = study_durations;
-        response.type_of_degree = type_of_degree;
-        response.study_level = study_level;
-        response.study_industry = study_industry;
-        response.intake_month = intake_month;
-        response.intake_year = intake_year;
-
-        response.study_destination = sortStudyDestinations(
-            study_destination.filter((x) => x.flag)
-        );
-        setMeta(response);
-        setFilteredData(response);
+        setMeta(metaPayload);
+        setFilteredData(metaPayload);
     };
 
     const onSelectDuration = (item) => {
@@ -708,7 +769,7 @@ const Explore = () => {
             inputs.level == "Under Graduation"
         ) {
             let isSelected =
-                meta.type_of_degree_category.some((x) => x.checked) &&
+                (meta.type_of_degree_category || []).some((x) => x.checked) &&
                 degreeType.some((x) => x.checked);
             if (isSelected) {
                 setStep(3);
@@ -716,7 +777,7 @@ const Explore = () => {
                 toast.error("Please Choose Degree Type!");
             }
         } else {
-            let isSelected = meta.type_of_degree_category.some((x) => x.checked);
+            let isSelected = (meta.type_of_degree_category || []).some((x) => x.checked);
             if (isSelected) {
                 setStep(3);
             } else {
@@ -1561,6 +1622,11 @@ const Explore = () => {
                                                                 <h4 className="text-center">
                                                                     Where do you want to study?
                                                                 </h4>
+                                                                {destinationLoadError ? (
+                                                                    <p className="text-center my-3 text-sm text-red px-4">
+                                                                        {destinationLoadError}
+                                                                    </p>
+                                                                ) : null}
                                                             </div>
                                                         </div>
                                                     </div>
@@ -1572,20 +1638,20 @@ const Explore = () => {
                                                             {meta.study_destination.map((x, i) => (
                                                                 <div
                                                                     onClick={() => onStudyDestination(x)}
-                                                                    key={uuid()}
+                                                                    key={x.id || `destination-${i}`}
                                                                     className={`student-contry-list study_destination ${x.checked ? "bg-lightRed" : ""
                                                                         }`}
                                                                 >
 
                                                                     <div>
                                                                         <img
-                                                                            src={x?.flag?.src}
+                                                                            src={getCountryFlagSrc(x?.flag)}
                                                                             className="flag-img"
-                                                                            alt={x.name}
+                                                                            alt={x.short_name || x.name}
                                                                             name="country_id"
                                                                         />
 
-                                                                        <p className={`relative top-2 ${x.checked ? 'text-white' : 'text-[#1E417C]'} `}>{x.short_name}</p>
+                                                                        <p className={`relative top-2 ${x.checked ? 'text-white' : 'text-[#1E417C]'} `}>{x.short_name || x.name}</p>
                                                                     </div>
 
                                                                 </div>
@@ -1617,7 +1683,7 @@ const Explore = () => {
                                                         <div className="card-view ">
                                                             <div className="study-level">
                                                                 <ul className="">
-                                                                    {meta.type_of_degree_category.map((x) => (
+                                                                    {(meta.type_of_degree_category || []).map((x) => (
 
                                                                             <li
                                                                                 onClick={(e) => selectOrDeselect(x)}
