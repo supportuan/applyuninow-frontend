@@ -1,61 +1,93 @@
-import React, { useEffect, useState } from 'react'
+import React, { useMemo } from 'react'
 import Image from 'next/image';
-import { uList } from '../utils/helpers';
+
 const UniversityList = (props) => {
-
     const unList = props?.infoList;
-    const [universities, setUniversities] = useState([]);
 
-    useEffect(() => {
-        if (Array.isArray(unList)) {
-            setUniversities(unList);
-        }
+    const universities = useMemo(() => {
+        return Array.isArray(unList)
+            ? unList.filter((item) => {
+                const iconSrc = typeof item?.icon === 'string' ? item.icon : item?.icon?.src;
+                return Boolean(iconSrc);
+            })
+            : [];
     }, [unList]);
 
-    const shuffleThree = (arr) => {
-        const newArr = [...arr];
-        const indices = [];
+    if (universities.length === 0) {
+        return null;
+    }
 
-        while (indices.length < 3) {
-            const randomIndex = Math.floor(Math.random() * arr.length);
-            if (!indices.includes(randomIndex)) indices.push(randomIndex);
-        }
+    // Duplicate the list so the marquee can loop seamlessly.
+    const marqueeItems = [...universities, ...universities];
 
-        const shuffledSelection = indices.map((index) => newArr[index]);
-        shuffledSelection.sort(() => Math.random() - 0.5);
-
-        indices.forEach((index, i) => {
-            newArr[index] = shuffledSelection[i];
-        });
-
-        return newArr;
+    const renderItem = (item, index, keyPrefix) => {
+        const iconSrc = typeof item?.icon === 'string' ? item.icon : item?.icon?.src;
+        return (
+            <div
+                key={`${keyPrefix}_${item?.name || 'uni'}_${index}`}
+                className='university-list__item'
+                aria-hidden={keyPrefix === 'dup' ? 'true' : undefined}
+            >
+                <Image alt={item?.detail || item?.name || 'University logo'} src={iconSrc} width={218} height={124} />
+            </div>
+        );
     };
-
-
-    useEffect(() => {
-        const interval = setInterval(() => {
-            setUniversities((prev) => shuffleThree(prev));
-        }, 1500);
-
-        return () => clearInterval(interval);
-    }, []);
 
     return (
         <div className='container min-width university-list'>
             <div className='university-list__inner'>
                 <div className="module-divider"></div>
-                <div className='university-list__container'>
-                    {universities.map((item, index) => {
-                        const iconSrc = typeof item?.icon === 'string' ? item.icon : item?.icon?.src;
-                        if (!iconSrc) return null;
-                        return (
-                            <div key={item?.name + '_' + index} className='university-list__item'>
-                                <Image alt={item?.detail} src={iconSrc} width={218} height={124} />
-                            </div>
-                        );
-                    })}
+                <div className='university-list__marquee'>
+                    <div className='university-list__track'>
+                        {marqueeItems.map((item, index) =>
+                            renderItem(item, index, index < universities.length ? 'orig' : 'dup')
+                        )}
+                    </div>
                 </div>
             </div>
+
+            <style jsx>{`
+                .university-list__marquee {
+                    width: 100%;
+                    overflow: hidden;
+                    position: relative;
+                    -webkit-mask-image: linear-gradient(
+                        to right,
+                        transparent 0,
+                        black 80px,
+                        black calc(100% - 80px),
+                        transparent 100%
+                    );
+                            mask-image: linear-gradient(
+                        to right,
+                        transparent 0,
+                        black 80px,
+                        black calc(100% - 80px),
+                        transparent 100%
+                    );
+                }
+                .university-list__track {
+                    display: flex;
+                    flex-wrap: nowrap;
+                    width: max-content;
+                    gap: 48px;
+                    align-items: center;
+                    animation: university-list-scroll 40s linear infinite;
+                    will-change: transform;
+                }
+                .university-list__marquee:hover .university-list__track {
+                    animation-play-state: paused;
+                }
+                @keyframes university-list-scroll {
+                    from { transform: translateX(0); }
+                    to   { transform: translateX(-50%); }
+                }
+                @media (prefers-reduced-motion: reduce) {
+                    .university-list__track {
+                        animation: none;
+                    }
+                }
+            `}</style>
         </div>
     )
 }

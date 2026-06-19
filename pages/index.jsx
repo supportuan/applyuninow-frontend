@@ -1,12 +1,10 @@
 //import React from 'react'
 import HeroComp from '../src/components/Revamp/Home/HeroComp'
-import CountryDisplay from '../src/components/Revamp/Common/CountryDisplay'
 import Services from '../src/components/Revamp/Common/Services'
 import UniversityList from '../src/components/Revamp/Common/UniversityList'
 import TechJourney from '../src/components/Revamp/Common/TechJourney'
 import TestPref from '../src/components/Revamp/TestPref'
 import AppProcess from '../src/components/Revamp/Common/AppProcess'
-import ConnectUs from '../src/components/Revamp/Common/ConnectUs'
 import USPs from '../src/components/Revamp/Common/USPs'
 import FAQs from '../src/components/Revamp/Common/FAQs';
 import Testimonials from '../src/components/Revamp/Common/Testimonials';
@@ -95,8 +93,6 @@ const Home = () => {
         <TestPref />
         {/* <AppProcess /> */}
         <USPs />
-        <ConnectUs />
-        <CountryDisplay />
         <FAQs />
         <Testimonials />
     </>
