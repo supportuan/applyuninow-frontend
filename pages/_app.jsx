@@ -111,15 +111,26 @@ const PageLabelUpdater = () => {
 
     const fetchedKey = 'prerequisiteFetched';
     const dataKey = 'prerequisiteData';
+
+    const isValidPrerequisitePayload = (payload) =>
+      Boolean(
+        payload?.data &&
+          Array.isArray(payload.data.study_destination) &&
+          payload.data.study_destination.length > 0
+      );
     
     // Check if data is already in sessionStorage
     const cachedData = sessionStorage.getItem(dataKey);
     if (cachedData && sessionStorage.getItem(fetchedKey)) {
       try {
         const parsedData = JSON.parse(cachedData);
-        setPrerequisiteData(parsedData);
-        setIsPrerequisiteLoaded(true);
-        return;
+        if (isValidPrerequisitePayload(parsedData)) {
+          setPrerequisiteData(parsedData);
+          setIsPrerequisiteLoaded(true);
+          return;
+        }
+        sessionStorage.removeItem(fetchedKey);
+        sessionStorage.removeItem(dataKey);
       } catch (e) {
         // If parsing fails, clear cache and fetch fresh data
         sessionStorage.removeItem(fetchedKey);
@@ -132,12 +143,20 @@ const PageLabelUpdater = () => {
         const url = `${BASE_URL}/prerequisite`;
         const res = await api.get(url, {});
         const prerequisiteData = res?.data;
-        setPrerequisiteData(prerequisiteData);
-        // Store in sessionStorage for future use
-        sessionStorage.setItem(fetchedKey, 'true');
-        sessionStorage.setItem(dataKey, JSON.stringify(prerequisiteData));
+        if (isValidPrerequisitePayload(prerequisiteData)) {
+          setPrerequisiteData(prerequisiteData);
+          sessionStorage.setItem(fetchedKey, 'true');
+          sessionStorage.setItem(dataKey, JSON.stringify(prerequisiteData));
+        } else {
+          setPrerequisiteData('');
+          if (typeof window !== 'undefined') {
+            sessionStorage.removeItem(fetchedKey);
+            sessionStorage.removeItem(dataKey);
+          }
+        }
       } catch (err) {
         // Reset on error to allow retry
+        setPrerequisiteData('');
         if (typeof window !== 'undefined') {
           sessionStorage.removeItem(fetchedKey);
           sessionStorage.removeItem(dataKey);

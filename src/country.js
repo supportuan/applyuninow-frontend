@@ -174,8 +174,72 @@ export const country = [
   },
 ];
 
-export const findCountryByApiName = (apiName) =>
-  country.find((x) => x.fullName.toLowerCase() === apiName?.toLowerCase());
+import { resolveDisplayName } from "./utils/helpers";
+
+const COUNTRY_ALIASES = {
+  usa: "UNITED STATES OF AMERICA",
+  us: "UNITED STATES OF AMERICA",
+  "united states": "UNITED STATES OF AMERICA",
+  uk: "UNITED KINGDOM",
+  "great britain": "UNITED KINGDOM",
+};
+
+export const findCountryByApiName = (apiName) => {
+  const raw = resolveDisplayName(apiName)?.trim();
+  if (!raw) return null;
+
+  const lower = raw.toLowerCase();
+  let match = country.find((x) => x.fullName.toLowerCase() === lower);
+  if (match) return match;
+
+  match = country.find((x) => x.name.toLowerCase() === lower);
+  if (match) return match;
+
+  match = country.find((x) => x.slug === lower.replace(/\s+/g, "-"));
+  if (match) return match;
+
+  const alias = COUNTRY_ALIASES[lower];
+  if (alias) {
+    return country.find((x) => x.fullName === alias) || null;
+  }
+
+  return null;
+};
+
+export const getCountryFlagSrc = (flag) => {
+  if (!flag) return "";
+  if (typeof flag === "string") return flag;
+  return flag.src || "";
+};
+
+export const getStaticStudyDestinations = () =>
+  country.map((c) => ({
+    id: `static-${c.slug}`,
+    name: c.fullName,
+    checked: false,
+    flag: c.img,
+    short_name: c.name,
+    isStaticFallback: true,
+  }));
+
+export const enrichStudyDestination = (item) => {
+  const name = resolveDisplayName(item?.name);
+  const matched = findCountryByApiName(name);
+  const defaultFlag = country[0]?.img;
+
+  return {
+    ...item,
+    name: matched?.fullName || name,
+    checked: Boolean(item?.checked),
+    flag: matched?.img || defaultFlag,
+    short_name: matched?.name || name,
+  };
+};
+
+export const normalizeStudyDestinations = (list) => {
+  if (!Array.isArray(list) || !list.length) return [];
+  return sortStudyDestinations(list.map((item) => enrichStudyDestination(item)));
+};
 
 export const sortStudyDestinations = (destinations) =>
   [...destinations].sort((a, b) => {
