@@ -2335,42 +2335,41 @@ const Explore = () => {
 
                                                             <SelectInput
                                                                 options={[
-                                                                    {
-                                                                        name: "BE/B.Tech- Bachelor of Technology",
-                                                                    },
-                                                                    {
-                                                                        name: "B.Arch- Bachelor of Architecture",
-                                                                    },
-                                                                    {
-                                                                        name: "BBA - Bachelor of Business Administration"
-                                                                    },
-                                                                    {
-                                                                        name: "BCom - Bachelor of Commerce"
-                                                                    },
-                                                                    {
-                                                                        name: "BCA- Bachelor of Computer Applications",
-                                                                    },
-                                                                    {
-                                                                        name: "B.Sc.- Information Technology",
-                                                                    },
-                                                                    {
-                                                                        name: "BPharma- Bachelor of Pharmacy",
-                                                                    },
-                                                                    {
-                                                                        name: "B.Sc- Interior Design",
-                                                                    },
-                                                                    {
-                                                                        name: "BDS- Bachelor of Dental Surgery",
-                                                                    },
-                                                                    {
-                                                                        name: "B.Sc. Mathematics",
-                                                                    },
-                                                                    {
-                                                                        name: "B.Sc. Chemistry",
-                                                                    },
-                                                                    {
-                                                                        name: "Others",
-                                                                    },
+                                                                    { name: "BE/B.Tech- Bachelor of Technology" },
+                                                                    { name: "B.Arch- Bachelor of Architecture" },
+                                                                    { name: "BBA - Bachelor of Business Administration" },
+                                                                    { name: "BCom - Bachelor of Commerce" },
+                                                                    { name: "BCA- Bachelor of Computer Applications" },
+                                                                    { name: "B.Sc.- Information Technology" },
+                                                                    { name: "B.Sc.- Computer Science" },
+                                                                    { name: "B.Sc. Mathematics" },
+                                                                    { name: "B.Sc. Physics" },
+                                                                    { name: "B.Sc. Chemistry" },
+                                                                    { name: "B.Sc. Biology" },
+                                                                    { name: "B.Sc. Biotechnology" },
+                                                                    { name: "B.Sc. Nursing" },
+                                                                    { name: "B.Sc. Agriculture" },
+                                                                    { name: "B.Sc. Economics" },
+                                                                    { name: "BPharma- Bachelor of Pharmacy" },
+                                                                    { name: "MBBS- Bachelor of Medicine & Surgery" },
+                                                                    { name: "BDS- Bachelor of Dental Surgery" },
+                                                                    { name: "BAMS- Ayurvedic Medicine & Surgery" },
+                                                                    { name: "BHMS- Homeopathic Medicine & Surgery" },
+                                                                    { name: "BPT- Bachelor of Physiotherapy" },
+                                                                    { name: "BA - Bachelor of Arts" },
+                                                                    { name: "BA (Hons.)" },
+                                                                    { name: "BFA- Bachelor of Fine Arts" },
+                                                                    { name: "B.Des- Bachelor of Design" },
+                                                                    { name: "B.Sc- Interior Design" },
+                                                                    { name: "BHM- Bachelor of Hotel Management" },
+                                                                    { name: "BMS- Bachelor of Management Studies" },
+                                                                    { name: "BJMC- Journalism & Mass Communication" },
+                                                                    { name: "B.Ed- Bachelor of Education" },
+                                                                    { name: "LLB- Bachelor of Laws" },
+                                                                    { name: "BBA LLB" },
+                                                                    { name: "BA LLB" },
+                                                                    { name: "B.Voc- Bachelor of Vocation" },
+                                                                    { name: "Others" },
                                                                 ]}
                                                                 handleChange={handleEduChange}
                                                                 value={eduParams.ug_type}
@@ -2461,24 +2460,40 @@ const Explore = () => {
 
                                                                 <SelectInput
                                                                     options={[
-                                                                        {
-                                                                            name: "M.Tech",
-                                                                        },
-                                                                        {
-                                                                            name: "MBA",
-                                                                        },
-                                                                        {
-                                                                            name: "MCA",
-                                                                        },
-                                                                        {
-                                                                            name: "MS",
-                                                                        },
-                                                                        {
-                                                                            name: "BRS",
-                                                                        },
-                                                                        {
-                                                                            name: "Others",
-                                                                        },
+                                                                        { name: "M.Tech- Master of Technology" },
+                                                                        { name: "ME- Master of Engineering" },
+                                                                        { name: "MS- Master of Science" },
+                                                                        { name: "M.Sc.- Master of Science" },
+                                                                        { name: "M.Sc. Computer Science" },
+                                                                        { name: "M.Sc. Information Technology" },
+                                                                        { name: "M.Sc. Mathematics" },
+                                                                        { name: "M.Sc. Physics" },
+                                                                        { name: "M.Sc. Chemistry" },
+                                                                        { name: "M.Sc. Biology" },
+                                                                        { name: "M.Sc. Biotechnology" },
+                                                                        { name: "M.Sc. Nursing" },
+                                                                        { name: "MBA- Master of Business Administration" },
+                                                                        { name: "MCA- Master of Computer Applications" },
+                                                                        { name: "MA- Master of Arts" },
+                                                                        { name: "M.Com- Master of Commerce" },
+                                                                        { name: "M.Pharma- Master of Pharmacy" },
+                                                                        { name: "MD- Doctor of Medicine" },
+                                                                        { name: "MS- Master of Surgery" },
+                                                                        { name: "MDS- Master of Dental Surgery" },
+                                                                        { name: "MPT- Master of Physiotherapy" },
+                                                                        { name: "MPH- Master of Public Health" },
+                                                                        { name: "M.Arch- Master of Architecture" },
+                                                                        { name: "M.Des- Master of Design" },
+                                                                        { name: "MFA- Master of Fine Arts" },
+                                                                        { name: "M.Ed- Master of Education" },
+                                                                        { name: "LLM- Master of Laws" },
+                                                                        { name: "MSW- Master of Social Work" },
+                                                                        { name: "MBA (Executive)" },
+                                                                        { name: "PGDM- Post Graduate Diploma in Management" },
+                                                                        { name: "Pre Masters" },
+                                                                        { name: "PhD- Doctor of Philosophy" },
+                                                                        { name: "DBA- Doctorate of Business Administration" },
+                                                                        { name: "Others" },
                                                                     ]}
                                                                     handleChange={handleEduChange}
                                                                     value={eduParams.pg_type}
@@ -2557,7 +2572,83 @@ const Explore = () => {
                                                             </div>
                                                         </div>
                                                     </div>
+
+                                                    <div className="vertical-tab-content-section academic-proceed-row">
+                                                        <button
+                                                            type="button"
+                                                            className="proceed-btn"
+                                                            onClick={onEducationDetails}
+                                                            aria-label="Proceed to next stage"
+                                                        >
+                                                            Proceed
+                                                            <svg
+                                                                width="18"
+                                                                height="18"
+                                                                viewBox="0 0 24 24"
+                                                                fill="none"
+                                                                stroke="currentColor"
+                                                                strokeWidth="2.5"
+                                                                strokeLinecap="round"
+                                                                strokeLinejoin="round"
+                                                                aria-hidden="true"
+                                                            >
+                                                                <line x1="5" y1="12" x2="19" y2="12" />
+                                                                <polyline points="12 5 19 12 12 19" />
+                                                            </svg>
+                                                        </button>
+                                                    </div>
                                                 </div>
+
+                                                <style jsx>{`
+                                                    .academic-proceed-row {
+                                                        display: flex;
+                                                        justify-content: flex-end;
+                                                        padding-top: 8px;
+                                                    }
+                                                    .proceed-btn {
+                                                        display: inline-flex;
+                                                        align-items: center;
+                                                        gap: 8px;
+                                                        background: linear-gradient(135deg, #c41230 0%, #e63957 100%);
+                                                        color: #fff;
+                                                        font-weight: 600;
+                                                        font-size: 0.95rem;
+                                                        padding: 12px 26px;
+                                                        border: none;
+                                                        border-radius: 999px;
+                                                        cursor: pointer;
+                                                        box-shadow: 0 6px 16px rgba(196, 18, 48, 0.25);
+                                                        transition: transform 0.2s ease, box-shadow 0.2s ease,
+                                                            filter 0.2s ease;
+                                                    }
+                                                    .proceed-btn:hover {
+                                                        transform: translateY(-1px);
+                                                        box-shadow: 0 10px 22px rgba(196, 18, 48, 0.32);
+                                                        filter: brightness(1.04);
+                                                    }
+                                                    .proceed-btn:active {
+                                                        transform: translateY(0);
+                                                    }
+                                                    .proceed-btn:focus-visible {
+                                                        outline: 2px solid #c41230;
+                                                        outline-offset: 3px;
+                                                    }
+                                                    .proceed-btn svg {
+                                                        transition: transform 0.2s ease;
+                                                    }
+                                                    .proceed-btn:hover svg {
+                                                        transform: translateX(3px);
+                                                    }
+                                                    @media (max-width: 600px) {
+                                                        .academic-proceed-row {
+                                                            justify-content: stretch;
+                                                        }
+                                                        .proceed-btn {
+                                                            width: 100%;
+                                                            justify-content: center;
+                                                        }
+                                                    }
+                                                `}</style>
                                             </>
                                         ) : (
                                             ""
