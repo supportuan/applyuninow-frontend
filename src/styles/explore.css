@@ -78,14 +78,13 @@
 }
 
 .vertical-tab-header-content h3{
-  font-family: "Audiowide";
+  font-family: "Poppins", sans-serif;
   font-style: normal;
-  font-weight: 400;
+  font-weight: 600;
   font-size: 16px;
   line-height: 31px;
   color: #1E417C;
   text-align: center;
-  font-weight: bold;
 }
 
 .vertical-tab-header-content p {
@@ -216,13 +215,15 @@
   background-color: #1e417c0d;
 }
 
-.student-contry-list p {
-  font-family: "Audiowide";
+.student-contry-list p,
+.student-contry-list .country-label {
+  font-family: "Poppins", sans-serif;
   font-style: normal;
-  font-weight: 400;
+  font-weight: 500;
   font-size: 12px;
   line-height: 15px;
   text-align: center;
+  color: #1e417c;
 }
 
 /*study-level*/
@@ -250,6 +251,7 @@
 
 .study-level .study-option-active {
   background: #c41230;
+  border-color: #c41230;
 }
 
 .study-level .study-option-active a {
@@ -259,6 +261,7 @@
 .study-level ul li a {
   color: #1e417c;
   font-size: 14px;
+  font-family: "Poppins", sans-serif;
 }
 
 study-level
@@ -367,8 +370,40 @@ study-level
   color: #fff;
 }
 
+.flag-img-wrap {
+  width: 52px;
+  height: 36px;
+  min-width: 52px;
+  min-height: 36px;
+  max-width: 52px;
+  max-height: 36px;
+  border-radius: 8px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f4f6f8;
+  flex-shrink: 0;
+}
+
 .flag-img {
-  width: 80px;
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  object-position: center;
+  display: block;
+  border-radius: 0;
+}
+
+.explore-service .student-contry-list.study_destination .country-item-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 6px;
+  width: 100%;
 }
 @media screen and (min-width: 619px) and (max-width: 1920px) {
   .sm-view {
@@ -476,35 +511,62 @@ study-level
       font-size: 14px;
     }
   .vertical-tab-firstsection {
-    margin-left: 0rem;
+    margin-left: 0;
+    width: 100%;
+    padding: 10px 12px 8px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    box-sizing: border-box;
   }
   .study-level ul{
     padding: 0px
   }
 
-  .vertical-tab-firstsection ul li:after {
-    width: 30px !important;
-    height: 4px !important;
-    left: 2px;
-    top: 3px !important;
-    }
-  .vertical-tab-firstsection ul li.left-menu-active:after {
-    width: 35px !important;
-    height: 4px !important;
-    left: 2px;
-    top: 2px !important;
+  .explore-service .vertical-tab-firstsection ul {
+    display: flex;
+    flex-wrap: nowrap;
+    width: max-content;
+    min-width: 100%;
+    justify-content: center;
+    gap: 0;
+    margin: 0 auto;
+    padding: 0 4px;
   }
-  .vertical-tab-firstsection ul li.current:after{
-    width: 0px !important;
-    height: 4px !important;
-    left: 9px;
-    top: 2px !important;
+  .explore-service .vertical-tab-firstsection ul li {
+    width: 10px;
+    height: 10px;
+    margin: 0;
+    flex-shrink: 0;
   }
-  .vertical-tab-firstsection ul li.current:before{
-    width: 28px !important;
-    height: 4px !important;
-    left: 9px;
-    top: 2px !important;
+  .explore-service .vertical-tab-firstsection ul li:not(:last-child) {
+    margin-right: 22px;
+  }
+  .explore-service .vertical-tab-firstsection ul li:not(:last-child):after {
+    width: 22px !important;
+    height: 3px !important;
+    left: 100% !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    content: "" !important;
+    display: block !important;
+    position: absolute !important;
+    background: #d2d9e5 !important;
+    border: none !important;
+  }
+  .explore-service .vertical-tab-firstsection ul li.left-menu-active:not(:last-child):after {
+    background: #c41230 !important;
+  }
+  .explore-service .vertical-tab-firstsection ul li.current:before {
+    content: none !important;
+    width: 0 !important;
+    height: 0 !important;
+  }
+  .explore-service .vertical-tab-firstsection ul li.current:after {
+    width: 22px !important;
+    height: 3px !important;
+    left: 100% !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
   }
   .vertical-tab-sec-col {
     width: 100% !important;
@@ -514,23 +576,39 @@ study-level
     display: block;
     margin-bottom: 7px;
   }
-  .flag-img{
-    width: 60px;
-    margin: auto;
+  .flag-img-wrap {
+    width: 44px;
+    height: 32px;
+    min-width: 44px;
+    min-height: 32px;
+    max-width: 44px;
+    max-height: 32px;
+    border-radius: 7px;
+  }
+  .flag-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
   }
   .study_destination{
-    width: 120px !important;
-    height: 120px !important;
+    width: 30% !important;
+    max-width: 108px;
+    height: 96px !important;
     margin-top: 0 !important;
+    border-radius: 12px;
+  }
+  .student-contry-list .country-label {
+    font-size: 11px;
+    line-height: 14px;
+    margin-top: 6px;
   }
   .vertical-tab-firstsection ul {
     display: flex;
     width: 100%;
-    gap: 22px;
+    gap: 0;
     justify-content: center;
   }
   .vertical-tab-firstsection ul li:after {
-    content: "";
     border: none;
   }
   .vertical-tab-firstsection ul li {
@@ -717,7 +795,16 @@ hr {
   .exploreList:hover {
     border: 1px solid #c41230;
     background: #c41230;
+  }
+
+  .exploreList.study-option-active {
+    background: #c41230 !important;
+    border-color: #c41230 !important;
     color: #fff;
+  }
+
+  .exploreList.study-option-active a {
+    color: #fff !important;
   }
 
   .exploreList:hover a {
@@ -767,12 +854,11 @@ hr {
 
 /* New services/chips step styles */
 .new-services-box {
-  border: 2px solid #2f6feb;
-  border-radius: 12px;
-  padding: 30px 24px 20px 24px;
+  border: none;
+  border-radius: 0;
+  padding: 0 0 20px;
   margin: 10px auto 20px auto;
-  background: rgba(255, 255, 255, 0.6);
-  backdrop-filter: blur(10px);
+  background: transparent;
   width: 100%;
   box-sizing: border-box;
 }
@@ -784,17 +870,19 @@ hr {
   text-align: center;
   margin-bottom: 8px;
   line-height: 1.4;
+  font-weight: 500;
 }
 
 .new-services-title strong {
   font-weight: 700;
   color: #000;
+  font-family: "Poppins", sans-serif;
 }
 
 .new-services-subtitle {
   font-family: "Poppins", sans-serif;
   font-size: 1.05rem;
-  color: #e63980;
+  color: #c41230;
   font-weight: 500;
   text-align: center;
   margin-bottom: 24px;
@@ -811,24 +899,35 @@ hr {
 
 .service-chip {
   background: #ffffff;
-  border: 1px solid rgba(0, 0, 0, 0.08);
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.04);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
   border-radius: 25px;
   padding: 8px 16px;
   font-family: "Poppins", sans-serif;
   font-size: 0.88rem;
   color: #222;
   transition: all 0.2s ease;
-  cursor: default;
+  cursor: pointer;
   user-select: none;
   font-weight: 400;
+  appearance: none;
+  -webkit-appearance: none;
 }
 
 .service-chip:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 6px 14px rgba(47, 111, 235, 0.12);
-  border-color: rgba(47, 111, 235, 0.3);
-  background: #fbfdff;
+  border-color: rgba(196, 18, 48, 0.25);
+}
+
+.service-chip--selected {
+  background: #c41230;
+  color: #fff;
+  border-color: #c41230;
+  box-shadow: 0 4px 12px rgba(196, 18, 48, 0.22);
+}
+
+.service-chip--selected:hover {
+  background: #a30f28;
+  border-color: #a30f28;
 }
 
 .next-action-btn {

@@ -482,9 +482,16 @@ const Explore = () => {
     const [study_sub_industry, setStudySubIndutries] = useState(SubIndustry);
     const [industryName, setIndustryName] = useState("");
     const [toogleState, setToggleState] = useState(initialToggleState);
+    const [selectedServices, setSelectedServices] = useState([]);
     const [destinationLoadError, setDestinationLoadError] = useState("");
     const topString = '3,43,000+ graduate courses to choose from 22 study destinations';
     const { prerequisiteData, isPrerequisiteLoaded } = usePageContext();
+
+    const toggleServiceChip = (chip) => {
+        setSelectedServices((prev) =>
+            prev.includes(chip) ? prev.filter((item) => item !== chip) : [...prev, chip]
+        );
+    };
 
     useEffect(() => {
         if (!isPrerequisiteLoaded) return;
@@ -1655,9 +1662,15 @@ const Explore = () => {
                                                     <div className="new-services-box">
                                                         <div className="chips-container">
                                                             {SERVICES_CHIPS.map((chip, idx) => (
-                                                                <span key={idx} className="service-chip">
+                                                                <button
+                                                                    key={idx}
+                                                                    type="button"
+                                                                    className={`service-chip${selectedServices.includes(chip) ? " service-chip--selected" : ""}`}
+                                                                    onClick={() => toggleServiceChip(chip)}
+                                                                    aria-pressed={selectedServices.includes(chip)}
+                                                                >
                                                                     {chip}
-                                                                </span>
+                                                                </button>
                                                             ))}
                                                         </div>
                                                         <div className="text-center w-full flex justify-center pb-4">
@@ -1706,15 +1719,16 @@ const Explore = () => {
                                                                         }`}
                                                                 >
 
-                                                                    <div>
-                                                                        <img
-                                                                            src={getCountryFlagSrc(x?.flag)}
-                                                                            className="flag-img"
-                                                                            alt={x.short_name || x.name}
-                                                                            name="country_id"
-                                                                        />
-
-                                                                        <p className={`relative top-2 ${x.checked ? 'text-white' : 'text-[#1E417C]'} `}>{x.short_name || x.name}</p>
+                                                                    <div className="country-item-inner">
+                                                                        <span className="flag-img-wrap">
+                                                                            <img
+                                                                                src={getCountryFlagSrc(x?.flag)}
+                                                                                className="flag-img"
+                                                                                alt={x.short_name || x.name}
+                                                                                name="country_id"
+                                                                            />
+                                                                        </span>
+                                                                        <p className={`country-label ${x.checked ? 'text-white' : ''}`}>{x.short_name || x.name}</p>
                                                                     </div>
 
                                                                 </div>
