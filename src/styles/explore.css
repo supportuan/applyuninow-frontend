@@ -8,6 +8,7 @@
   justify-content: center;
   max-width: 100%;
   overflow-x: auto;
+  gap: 40px;
 }
 
 .vertical-tab-firstsection ul li {
@@ -21,10 +22,11 @@
   margin: 0;
   flex-shrink: 0;
   background-color: #D2D9E5;
+  z-index: 1;
 }
 
 .vertical-tab-firstsection ul li:not(:last-child) {
-  margin-right: 40px;
+  margin-right: 0;
 }
 
 .vertical-tab-firstsection ul li:not(:last-child):after {
@@ -38,9 +40,12 @@
   left: 100%;
   top: 50%;
   transform: translateY(-50%);
+  z-index: 0;
+  border: none;
+  border-radius: 0;
 }
 
-.vertical-tab-firstsection ul li.left-menu-active:not(:last-child):after {
+.vertical-tab-firstsection ul li.left-menu-active:not(.current):not(:last-child):after {
   background: #c41230;
 }
 
@@ -52,9 +57,9 @@
 }
 
 .left-menu-active, .current {
-  background: linear-gradient(304.12deg, #c41230.98%, #c41230 82.26%);
+  background: #c41230;
   color: #c41230;
-  border: 1px solid transparent !important;
+  border: none !important;
 }
 
 .vertical-tab-firstsection {
@@ -72,7 +77,7 @@
   font-weight: 500;
   font-size: 15px;
   line-height: 22px;
-  color: #1E417C;
+  color: #e13351;
   text-align: center;
   margin: 0;
 }
@@ -83,7 +88,7 @@
   font-weight: 600;
   font-size: 16px;
   line-height: 31px;
-  color: #1E417C;
+  color: #e13351;
   text-align: center;
 }
 
@@ -115,6 +120,7 @@
   grid-column: 2;
   margin: 0;
   text-align: center;
+  color: #e13351;
 }
 
 .explore-step-header .explore-nav-spacer {
@@ -157,7 +163,7 @@
   font-weight: 400;
   font-size: 16px;
   line-height: 31px;
-  color: #C22032;
+  color: #e13351;
   text-align: center;
   font-weight: bold
 }
@@ -168,7 +174,7 @@
   font-weight: 400;
   font-size: 14px;
   line-height: 31px;
-  color: #1E417C;
+  color: #e13351;
   text-align: center;
   font-weight: bold;
 }
@@ -203,9 +209,13 @@
   align-items: center;
   margin-top: 1.5rem;
 }
-.student-contry-list:hover {
+.student-contry-list:hover:not(.study_destination) {
   border: 1px solid #c41230;
   background: #c41230;
+}
+.student-contry-list.study_destination:hover {
+  border: none;
+  background: transparent;
 }
 .student-contry-list:hover p {
   color: #fff;
@@ -339,7 +349,7 @@ study-level
   font-size: 16px;
   line-height: 20px;
 
-  color: #C22032;
+  color: #e13351;
 }
 
 .help-us ul {
@@ -371,30 +381,63 @@ study-level
 }
 
 .flag-img-wrap {
-  width: 52px;
-  height: 36px;
-  min-width: 52px;
-  min-height: 36px;
-  max-width: 52px;
-  max-height: 36px;
-  border-radius: 8px;
+  width: 48px;
+  height: 48px;
+  min-width: 48px;
+  min-height: 48px;
+  max-width: 48px;
+  max-height: 48px;
+  border-radius: 10px;
   overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: #f4f6f8;
+  display: block;
   flex-shrink: 0;
+  border: none;
+  background: transparent;
+  padding: 0;
+  line-height: 0;
 }
 
 .flag-img {
   width: 100%;
   height: 100%;
-  max-width: 100%;
-  max-height: 100%;
-  object-fit: contain;
+  object-fit: cover;
   object-position: center;
   display: block;
+  border: none;
+  outline: none;
+  margin: 0;
+  padding: 0;
   border-radius: 0;
+}
+
+.explore-service .student-contry-list.study_destination {
+  border: none;
+  background: transparent;
+  box-shadow: none;
+  height: auto;
+  min-height: 0;
+  margin-top: 0;
+  padding: 4px 2px 8px;
+}
+
+.explore-service .student-contry-list.study_destination.bg-lightRed {
+  background: transparent;
+  border: none;
+}
+
+.explore-service .student-contry-list.study_destination.bg-lightRed .flag-img-wrap {
+  box-shadow: 0 0 0 2px #c41230;
+}
+
+.explore-service .student-contry-list.study_destination:hover,
+.explore-service .student-contry-list.study_destination:focus {
+  background: transparent;
+  border: none;
+}
+
+.explore-service .student-contry-list.study_destination:hover .flag-img-wrap,
+.explore-service .student-contry-list.study_destination:focus .flag-img-wrap {
+  box-shadow: 0 0 0 2px #c41230;
 }
 
 .explore-service .student-contry-list.study_destination .country-item-inner {
@@ -525,48 +568,40 @@ study-level
   .explore-service .vertical-tab-firstsection ul {
     display: flex;
     flex-wrap: nowrap;
+    align-items: center;
     width: max-content;
     min-width: 100%;
     justify-content: center;
-    gap: 0;
+    gap: 22px;
     margin: 0 auto;
-    padding: 0 4px;
+    padding: 0 8px;
   }
   .explore-service .vertical-tab-firstsection ul li {
     width: 10px;
     height: 10px;
     margin: 0;
     flex-shrink: 0;
+    z-index: 1;
   }
   .explore-service .vertical-tab-firstsection ul li:not(:last-child) {
-    margin-right: 22px;
+    margin-right: 0;
   }
   .explore-service .vertical-tab-firstsection ul li:not(:last-child):after {
-    width: 22px !important;
-    height: 3px !important;
-    left: 100% !important;
-    top: 50% !important;
-    transform: translateY(-50%) !important;
-    content: "" !important;
-    display: block !important;
-    position: absolute !important;
-    background: #d2d9e5 !important;
-    border: none !important;
+    width: 22px;
+    height: 3px;
+    left: 100%;
+    top: 50%;
+    transform: translateY(-50%);
+    content: "";
+    display: block;
+    position: absolute;
+    background: #d2d9e5;
+    border: none;
+    border-radius: 0;
+    z-index: 0;
   }
-  .explore-service .vertical-tab-firstsection ul li.left-menu-active:not(:last-child):after {
-    background: #c41230 !important;
-  }
-  .explore-service .vertical-tab-firstsection ul li.current:before {
-    content: none !important;
-    width: 0 !important;
-    height: 0 !important;
-  }
-  .explore-service .vertical-tab-firstsection ul li.current:after {
-    width: 22px !important;
-    height: 3px !important;
-    left: 100% !important;
-    top: 50% !important;
-    transform: translateY(-50%) !important;
+  .explore-service .vertical-tab-firstsection ul li.left-menu-active:not(.current):not(:last-child):after {
+    background: #c41230;
   }
   .vertical-tab-sec-col {
     width: 100% !important;
@@ -578,24 +613,23 @@ study-level
   }
   .flag-img-wrap {
     width: 44px;
-    height: 32px;
+    height: 44px;
     min-width: 44px;
-    min-height: 32px;
+    min-height: 44px;
     max-width: 44px;
-    max-height: 32px;
-    border-radius: 7px;
+    max-height: 44px;
+    border-radius: 9px;
   }
-  .flag-img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-  }
-  .study_destination{
+  .study_destination {
     width: 30% !important;
     max-width: 108px;
-    height: 96px !important;
+    height: auto !important;
+    min-height: 0 !important;
     margin-top: 0 !important;
-    border-radius: 12px;
+    border: none !important;
+    border-radius: 0;
+    background: transparent !important;
+    padding: 2px 0 6px;
   }
   .student-contry-list .country-label {
     font-size: 11px;
@@ -603,19 +637,19 @@ study-level
     margin-top: 6px;
   }
   .vertical-tab-firstsection ul {
-    display: flex;
-    width: 100%;
-    gap: 0;
-    justify-content: center;
+    gap: 22px;
   }
-  .vertical-tab-firstsection ul li:after {
-    border: none;
+  .vertical-tab-firstsection ul li:not(:last-child) {
+    margin-right: 0;
+  }
+  .vertical-tab-firstsection ul li:not(:last-child):after {
+    width: 22px;
   }
   .vertical-tab-firstsection ul li {
-    margin: 10px 0 10px 0;
+    margin: 0;
     width: 10px;
     height: 10px;
-    font-size: 0px;
+    font-size: 0;
   }
   .vertical-tab {
     margin: 0 5px 0 7px;
@@ -843,6 +877,7 @@ hr {
     .success-head{
       font-size: 22px !important;
       font-weight: 500 !important;
+      color: #e13351 !important;
     }
     .final-head{
       padding-bottom: 0 !important;
@@ -866,7 +901,7 @@ hr {
 .new-services-title {
   font-family: "Poppins", sans-serif;
   font-size: 1.25rem;
-  color: #1e417c;
+  color: #e13351;
   text-align: center;
   margin-bottom: 8px;
   line-height: 1.4;
@@ -933,14 +968,15 @@ hr {
 .next-action-btn {
   background: #c41230;
   color: white;
-  padding: 10px 48px;
-  border-radius: 25px;
+  padding: 10px 40px;
+  border-radius: 22px;
   font-family: "Poppins", sans-serif;
   font-weight: 600;
-  font-size: 0.95rem;
+  font-size: 1rem;
+  line-height: 1.3;
   border: none;
   cursor: pointer;
-  box-shadow: 0 6px 18px rgba(196, 18, 48, 0.25);
+  box-shadow: 0 4px 14px rgba(196, 18, 48, 0.22);
   transition: all 0.2s ease;
 }
 
@@ -974,8 +1010,48 @@ hr {
     gap: 8px 6px;
   }
   .next-action-btn {
-    width: 100%;
-    padding: 12px 24px;
+    width: auto;
+    min-width: 140px;
+    padding: 10px 32px;
+    font-size: 0.9375rem;
     box-sizing: border-box;
+  }
+}
+
+.explore-service .explore-industry-sec {
+  padding: 0 4px 24px;
+}
+
+.explore-service .explore-category-grid {
+  margin-top: 16px;
+  width: 100%;
+}
+
+.explore-service .explore-category-grid .grid_item > span[class*="icon_"] {
+  display: inline-block;
+  flex-shrink: 0;
+  background-repeat: no-repeat;
+}
+
+.explore-service .explore-category-grid .grid_item:hover > span[class*="icon_"],
+.explore-service .explore-category-grid .grid_item:focus > span[class*="icon_"],
+.explore-service .explore-category-grid .grid_item.active > span[class*="icon_"] {
+  background-repeat: no-repeat;
+}
+
+.explore-service .explore-category-grid .grid_item.active,
+.explore-service .explore-category-grid .grid_item.active:hover,
+.explore-service .explore-category-grid .grid_item.active:focus {
+  border-image-source: linear-gradient(97.01deg, #EE1113 0.91%, #7403FA 96.74%);
+  border-image-slice: 0;
+  background: linear-gradient(white, white) padding-box, linear-gradient(97.01deg, #EE1113 0.91%, #7403FA 96.74%) border-box;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+}
+
+@media screen and (max-width: 1000px) {
+  .explore-service .explore-category-grid .grid_item {
+    width: 48%;
+    min-height: 140px;
+    max-height: none;
   }
 }

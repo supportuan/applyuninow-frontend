@@ -241,7 +241,7 @@ export const TermsAndCondition = () => {
           <p class="c8 c14"><span class="c2"></span></p>
           <p class="c8"><span class="c2">Categories of Personal Data we collect</span></p>
           <ol class="c3 lst-kix_list_8-0 start" start="1">
-            <li class="c1 li-bullet-0"><span class="c4">Your contact details i.e. your:</span></li>
+            <li class="c1 li-bullet-0"><span class="c4">Your Contact details i.e. your:</span></li>
           </ol>
           <ol class="c3 lst-kix_list_8-1 start">
             <li class="c5 li-bullet-0"><span class="c4">Name</span></li>

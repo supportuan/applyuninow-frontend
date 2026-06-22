@@ -65,7 +65,7 @@ const CreateModal = ({
                   handleChange(e, "form");
                 }}
                 value={params?.industry_id}
-                label="Select Industry"
+                label="Choose your industrial path"
                 name="industry_id"
                 bgcolor="#151929"
                 error={formErrors?.industry_id}

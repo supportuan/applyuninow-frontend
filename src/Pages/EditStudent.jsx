@@ -509,7 +509,7 @@ const EditStudent = () => {
                   error={formErrors.los}
                 >
                   <option disabled selected>
-                    Select Study Level
+                    Customize your degree route 
                   </option>
                   {data.study_level.map((item) => (
                     <option key={uuid()} value={item}>

@@ -357,7 +357,7 @@ const PrivacyPolicy = () => {
               When do we collect your Personal Data?
             </h4>
             <ol type="a">
-              <li>Your contact details i.e. your:</li>
+              <li>Your Contact details i.e. your:</li>
               <li>
                 When you complete our online or paper/PDF application forms.
               </li>
@@ -390,7 +390,7 @@ const PrivacyPolicy = () => {
               Categories of Personal Data we collect
             </h5>
             <ol type="a">
-              <li>Your contact details i.e. your:</li>
+              <li>Your Contact details i.e. your:</li>
               <ul className="list-view">
                 <li>Name</li>
                 <li>Gender</li>
@@ -402,7 +402,7 @@ const PrivacyPolicy = () => {
                 <li>Social media contacts</li>
                 <li>Telephone number/s (mobile and landline)</li>
               </ul>
-              <li>Your contact details i.e. your:</li>
+              <li>Your Contact details i.e. your:</li>
               <ul className="list-view">
                 <li>Identity and Immigration documentation i.e. your:</li>
                 <li>Passport</li>

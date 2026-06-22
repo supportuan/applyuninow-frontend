@@ -16,7 +16,7 @@ var i = 0;
 const GraduateSubjectsAll = () => {
     const { deviceType, prerequisiteData } = usePageContext();
     const isFirstRender = useRef(true);
-    const topString = '3,43,000+ graduate courses to choose from 22 study destinations';
+    const topString = '3,43,000+ graduate courses to choose from 21 study destinations';
     const router = useRouter();
     const { BASE_URL } = useAppContext();
 

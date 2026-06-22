@@ -1,6 +1,6 @@
 
 import Particles from "react-tsparticles";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
@@ -17,7 +17,6 @@ import { toast } from "react-toastify";
 import moment from "moment/moment";
 import Validator from "validatorjs";
 import industry from "../../../utils/Industry";
-import SubIndustry from "../../../utils/SubIndustry";
 import { environment } from "../../../environments/environment";
 import SearchBar from "../../SearchBar/SearchBar";
 import { getCountryFlagSrc, getStaticStudyDestinations, normalizeStudyDestinations } from "../../../country";
@@ -25,6 +24,9 @@ import { useRouter } from "next/router";
 import { capitalize, resolveDisplayName, uuid, grade } from "../../../utils/helpers";
 import TopStrip from "./TopStrip";
 import { usePageContext } from "../context/PageContext";
+import CategoryGrid from "./CategoryGrid";
+import Skeleton from "./Skeleton";
+import { industry_categories, withStudyAreaIcons } from "../utils/helpers";
 
 const COMMONSVGELE = `<svg width="46" height="64" viewBox="0 0 46 64" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path d="M25.894 44.7703C24.317 44.7703 23.0342 46.0532 23.0342 47.6301C23.0342 49.207 24.3171 50.4899 25.894 50.4899C27.4708 50.4899 28.7537 49.207 28.7537 47.6301C28.7537 46.0532 27.4708 44.7703 25.894 44.7703ZM25.894 48.6302C25.3426 48.6302 24.894 48.1816 24.894 47.6302C24.894 47.0789 25.3426 46.6303 25.894 46.6303C26.4453 46.6303 26.8939 47.0789 26.8939 47.6302C26.8939 48.1816 26.4453 48.6302 25.894 48.6302Z" fill="url(#paint0_linear_2708_1996)"/>
@@ -472,19 +474,24 @@ const Explore = () => {
     const [eduParams, setEduParams] = useState(eduIntParams);
     const [formErrors, setFormErrors] = useState({});
     const [examParams, setExamParams] = useState(examInitParams);
-    const [study_area_list, setStudyArea] = useState([]);
     const [filterdData, setFilteredData] = useState([]);
     const [search, setSearch] = useState("");
     const [studySearch, setStudySearch] = useState("");
     const [degreeType, setDegreeType] = useState([]);
     const [loading, setLoading] = useState(false);
     const [onSubmit, setOnSubmit] = useState(false);
-    const [study_sub_industry, setStudySubIndutries] = useState(SubIndustry);
+    const [study_sub_industry, setStudySubIndutries] = useState([]);
+    const [studySubIndustryMaster, setStudySubIndustryMaster] = useState([]);
+    const [selectedIndustrySlug, setSelectedIndustrySlug] = useState("");
+    const [subCategoryLoading, setSubCategoryLoading] = useState(false);
+    const [industryFilter, setIndustryFilter] = useState("");
+    const [selectedSubCategoryId, setSelectedSubCategoryId] = useState("");
+    const selectedSubCategoryRef = useRef(null);
     const [industryName, setIndustryName] = useState("");
     const [toogleState, setToggleState] = useState(initialToggleState);
     const [selectedServices, setSelectedServices] = useState([]);
     const [destinationLoadError, setDestinationLoadError] = useState("");
-    const topString = '3,43,000+ graduate courses to choose from 22 study destinations';
+    const topString = '3,43,000+ graduate courses to choose from 21 study destinations';
     const { prerequisiteData, isPrerequisiteLoaded } = usePageContext();
 
     const toggleServiceChip = (chip) => {
@@ -707,94 +714,61 @@ const Explore = () => {
         }
     };
 
+    function onHomeIndustrySelect(item) {
+        setSelectedIndustrySlug(item.slug);
+        setSelectedSubCategoryId("");
+        setInputs((inputs) => ({ ...inputs, industry_id: item.id }));
+        getStudySubIndustry(item.id, item.slug);
+    }
+
     function onIndustrySelect(item) {
-        let arr = [...meta.study_industry];
-
-        for (let data of arr) {
-            data.checked = false;
-            if (item.id === data.id) {
-                data.checked = true;
-            }
-            //   let firstItem;
-            //   const filteredItems = arr.filter((area) => {
-            //     if (area.id === item.id) {
-            //       firstItem = [area];
-            //       return false;
-            //     }
-
-            //     return true;
-            //   });
-
-            //  setMeta([...firstItem,...arr])
-        }
-
-        let items = JSON.parse(JSON.stringify(meta));
-        items.study_industry = arr;
-        setMeta(item);
-        getStudySubIndustry(item.id);
-        //getStudyArea(item?.id);
+        onHomeIndustrySelect({
+            id: item.id,
+            slug: industry_categories.find((cat) => String(cat.id) === String(item.id))?.slug || "",
+            title: item.name,
+        });
     }
 
 
-    const getStudyArea = (industry_id, id) => {
-        setInputs((inputs) => ({
-            ...inputs,
-            industry_id: industry_id,
-            // sub_industry_id: id,
-        }));
-        axios
-            .get(
-                `${environment.API_BASE_URL}/study-areas?industry_id=${industry_id}&search_key=${studySearch}`
-            )
-            .then((res) => {
-                res.data.data = res.data.data.map((x) => {
-                    x["checked"] = false;
-                    return x;
-                });
-                setStudyArea(res.data.data);
-            })
-            .catch((err) => { });
-    };
+    const getStudySubIndustry = (id, slugOverride) => {
+        setSubCategoryLoading(true);
+        const industrySlug =
+            slugOverride ||
+            industry_categories.find((cat) => String(cat.id) === String(id))?.slug ||
+            selectedIndustrySlug;
 
-    const getStudySubIndustry = (id) => {
         setInputs((inputs) => ({ ...inputs, industry_id: id }));
         axios
             .get(`${environment.API_BASE_URL}/study-areas/?industry_id=${id}`)
             .then((res) => {
-                if (!res.data.data.length) {
-                    setStep(8);
+                const studyAreas = withStudyAreaIcons(
+                    (Array.isArray(res.data.data) ? res.data.data : []).map((x) => ({
+                        ...x,
+                        checked: false,
+                    })),
+                    industrySlug
+                );
+
+                if (!studyAreas.length) {
+                    setStudySubIndutries([]);
+                    setStudySubIndustryMaster([]);
+                    setStep(6);
+                    setSubCategoryLoading(false);
                     return;
                 }
-                res.data.data = res.data.data.map((x) => {
-                    x["checked"] = false;
-                    x.icon =
-                        SubIndustry.find((y) => x.name == y.name)?.svg || COMMONSVGELE;
-                    return x;
-                });
-                setStudySubIndutries(res.data.data);
-                setStudyArea(res.data.data);
-                let items = JSON.parse(JSON.stringify(meta));
-                items.study_sub_industry = res.data.data;
+
+                setStudySubIndutries(studyAreas);
+                setStudySubIndustryMaster(studyAreas);
+                setMeta((items) => ({
+                    ...items,
+                    study_sub_industry: studyAreas,
+                }));
                 setStep(6);
-                setMeta(items);
-
+                setSubCategoryLoading(false);
             })
-            .catch((err) => { });
-    };
-
-    const getStudyAreaOnInputChange = (industry_id, str) => {
-        axios
-            .get(
-                `${environment.API_BASE_URL}/study-areas?industry_id=${industry_id}&search_key=${str}`
-            )
-            .then((res) => {
-                res.data.data = res.data.data.map((x) => {
-                    x["checked"] = false;
-                    return x;
-                });
-                setStudyArea(res.data.data);
-            })
-            .catch((err) => { });
+            .catch(() => {
+                setSubCategoryLoading(false);
+            });
     };
 
     const studyNext = () => {
@@ -845,29 +819,78 @@ const Explore = () => {
     };
 
     const industryNext = () => {
-        if (inputs.industry_id) {
-            setStep(6);
+        if (!inputs.industry_id) {
+            toast.error(`Please select study industry!`);
             return;
         }
-        toast.error(`Please select study industry!`);
+        if (!study_sub_industry.length && !subCategoryLoading) {
+            getStudySubIndustry(inputs.industry_id);
+            return;
+        }
+        setStep(6);
     };
 
-    const onLevelSelect = () => {
-        let isSelected = study_area_list.some((x) => x.checked);
-        if (isSelected) {
-            setStep(8);
-        } else {
-            toast.error("Please choose subject area");
-        }
+    const syncStudyAreaSelection = (selectedId) => {
+        const markSelected = (list) =>
+            (Array.isArray(list) ? list : []).map((entry) => ({
+                ...entry,
+                checked: String(entry.id) === String(selectedId),
+            }));
+
+        setStudySubIndustryMaster((prev) => markSelected(prev));
+        setStudySubIndutries((prev) => markSelected(prev));
     };
 
-    const handleSubIndustrySelect = () => {
-        let isSelected = study_sub_industry.some((x) => x.checked);
-        if (isSelected) {
-            setStep(7);
-        } else {
-            toast.error("Please choose study area");
+    const resolveSelectedSubCategory = () => {
+        if (selectedSubCategoryRef.current) {
+            return selectedSubCategoryRef.current;
         }
+
+        const selectedId = inputs.sub_industry_id;
+        if (selectedId) {
+            const fromMaster = studySubIndustryMaster.find(
+                (x) =>
+                    String(x.id) === String(selectedId) ||
+                    String(x.sub_industry_id) === String(selectedId)
+            );
+            if (fromMaster) {
+                return fromMaster;
+            }
+            return { id: selectedId, sub_industry_id: selectedId };
+        }
+
+        return (
+            study_sub_industry.find((x) => x.checked) ||
+            studySubIndustryMaster.find((x) => x.checked) ||
+            null
+        );
+    };
+
+    const finalizeSubCategorySelection = (item) => {
+        if (!item?.id) {
+            toast.error("Please choose a subject");
+            return;
+        }
+
+        const subIndustryId = item.sub_industry_id || item.id;
+        selectedSubCategoryRef.current = item;
+        setSelectedSubCategoryId(String(item.id));
+        syncStudyAreaSelection(item.id);
+        setInputs((prev) => ({
+            ...prev,
+            sub_industry_id: subIndustryId,
+            study_area_id: item.id,
+        }));
+        setStep(7);
+    };
+
+    const subCategoryNext = () => {
+        const selected = resolveSelectedSubCategory();
+        if (!selected) {
+            toast.error("Please choose a subject");
+            return;
+        }
+        finalizeSubCategorySelection(selected);
     };
 
     function onExtraDetailsStep() {
@@ -1161,28 +1184,22 @@ const Explore = () => {
         setInputs((inputs) => ({ ...inputs, country_id: item.id }));
     };
 
-    function onstudyAreaSelect(item, id) {
-        let list = study_area_list;
-        for (let data of list) {
-            data.checked = false;
-            if (item.id === data.id) {
-                data.checked = true;
-            }
-            let firstItem;
-            const filteredItems = study_area_list.filter((area) => {
-                if (area.id === item.id) {
-                    firstItem = [area];
-                    return false;
-                }
-
-                return true;
-            });
-            setStudyArea([...firstItem, ...filteredItems]);
-            // setStudyArea(list);
-            setStep(7);
-        }
-        setInputs((inputs) => ({ ...inputs, study_area_id: item.id }));
+    function onSubCategorySelect(item) {
+        finalizeSubCategorySelection(item);
     }
+
+    function onSubIndustrySelect(item) {
+        onSubCategorySelect(item);
+    }
+
+    const backScience = () => {
+        if (industryName.includes("Science")) {
+            setStep(5);
+        } else {
+            setStep(6);
+        }
+    };
+
     const handleInputChange = (e) => {
         const { name, value } = e.target;
 
@@ -1540,46 +1557,20 @@ const Explore = () => {
     };
 
     const handleSearch = (event) => {
-        setSearch(event.target.value);
-        let res = filterdData.study_industry.filter((item) => {
-            return item.name.toLowerCase().includes(event.target.value.toLowerCase());
-        });
-        let items = JSON.parse(JSON.stringify(meta));
-        items.study_industry = res;
-        setMeta(items);
+        setIndustryFilter(event.target.value);
     };
 
     const handleSubIndustrySearch = (event) => {
-        let res = meta.study_sub_industry.filter((item) => {
-            return item.name.toLowerCase().includes(event.target.value.toLowerCase());
-        });
+        const query = event.target.value.toLowerCase();
+        const res = studySubIndustryMaster.filter((item) =>
+            item.name.toLowerCase().includes(query)
+        );
         setStudySubIndutries(res);
     };
 
-    const handleStudySearch = (e) => {
-        setStudySearch(e.target.value);
-        getStudyAreaOnInputChange(inputs.industry_id, e.target.value);
-    };
-    function onSubIndustrySelect(item) {
-        let arr = [...study_sub_industry];
-        for (let data of arr) {
-            data.checked = false;
-            if (item.id === data.id) {
-                data.checked = true;
-            }
-        }
-        setStudySubIndutries(arr);
-        getStudyArea(item.industry_id, item.id);
-        setStep(7);
-    }
-
-    const backScience = () => {
-        if (industryName.includes("Science")) {
-            setStep(5);
-        } else {
-            setStep(7);
-        }
-    };
+    const filteredHomeIndustries = industry_categories.filter((item) =>
+        (item.title || "").toLowerCase().includes(industryFilter.toLowerCase())
+    );
 
     return (
         <>
@@ -1651,7 +1642,7 @@ const Explore = () => {
                                                         <div className="vertical-tab-header-content">
                                                             <div className="w-full">
                                                                 <h3 className="new-services-title">
-                                                                    Four Services + One Mission: <strong>Empowering global talent.</strong>
+                                                                    Personalized Experience
                                                                 </h3>
                                                                 <p className="new-services-subtitle text-center">
                                                                     Not just study options but experience the future-ready-courses.
@@ -1696,7 +1687,7 @@ const Explore = () => {
                                                         <div className="vertical-tab-header-content">
                                                             <div className="explore-step-header w-full">
                                                                 <button type="button" aria-label="Back" className="goback_btn controls-fb" onClick={() => setStep(1)}></button>
-                                                                <h4>Where do you want to study?</h4>
+                                                                <h4>Pick your vibe destination?</h4>
                                                                 <span className="explore-nav-spacer" aria-hidden="true" />
                                                             </div>
                                                             {destinationLoadError ? (
@@ -1749,7 +1740,7 @@ const Explore = () => {
                                                             <div className="">
                                                                 <div className="explore-step-header w-full">
                                                                     <button type="button" aria-label="Back" className="goback_btn controls-fb" onClick={() => setStep(2)}></button>
-                                                                    <h4>Select study level</h4>
+                                                                    <h4>Customize your degree route </h4>
                                                                     <button type="button" aria-label="Next" className="goback_btn next_btn controls-fb" onClick={() => studyNext()}></button>
                                                                 </div>
                                                             </div>
@@ -1847,16 +1838,16 @@ const Explore = () => {
                                             ""
                                         )}
 
-                                        {step == 3 ? (
+                                        {step == 4 ? (
                                             <>
                                                 <div className="vertical-tab-sec-col">
                                                     <div className="vertical-tab-header">
                                                         <div className="vertical-tab-header-content">
                                                             <div className="flex  w-full items-center justify-center">
                                                                 <div className="explore-step-header w-full">
-                                                                    <button className="goback_btn controls-fb" onClick={() => setStep(2)}></button>
+                                                                    <button className="goback_btn controls-fb" onClick={() => setStep(3)}></button>
                                                                     <h4>
-                                                                        Select intake &amp; year
+                                                                        Define your timeline 
                                                                     </h4>
 
                                                                     {/* <img src={forwardArrow} alt="" className="block cursor-pointer" onClick={() => onIntakeSelect()} /> */}
@@ -1958,13 +1949,9 @@ const Explore = () => {
                                                                 <div className="explore-step-header w-full">
                                                                     <button className="goback_btn controls-fb" onClick={() => setStep(4)}></button>
                                                                     <h4>
-                                                                        Select industry
+                                                                        Choose your field
                                                                     </h4>
-                                                                    <button className="goback_btn next_btn controls-fb" onClick={industryNext}>
-                                                                        {/* <span className="reset_btn"></span>
-                                                                            <span className="reset_txt">Reset</span> */}
-                                                                    </button>
-
+                                                                    <button className="goback_btn next_btn controls-fb" onClick={industryNext}></button>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -1973,30 +1960,77 @@ const Explore = () => {
                                                         <SearchBar
                                                             placeholder="Search"
                                                             handleChange={handleSearch}
+                                                            value={industryFilter}
+                                                            name="search_key"
+                                                        />
+                                                    </div>
+
+                                                    <div className="vertical-tab-content-section explore-industry-sec">
+                                                        <div className="grid-container explore-category-grid">
+                                                            {filteredHomeIndustries.length ? (
+                                                                <CategoryGrid
+                                                                    categoryDetails={filteredHomeIndustries}
+                                                                    onSelect={onHomeIndustrySelect}
+                                                                    selectedId={inputs.industry_id}
+                                                                />
+                                                            ) : (
+                                                                <div className="grid_item norecord">
+                                                                    <p>No Match Results Found!</p>
+                                                                </div>
+                                                            )}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </>
+                                        ) : (
+                                            ""
+                                        )}
+
+                                        {step == 6 ? (
+                                            <>
+                                                <div className="vertical-tab-sec-col">
+                                                    <div className="vertical-tab-header">
+                                                        <div className="vertical-tab-header-content">
+                                                            <div className="flex  w-full items-center justify-center">
+                                                                <div className="explore-step-header w-full">
+                                                                    <button className="goback_btn controls-fb" onClick={() => setStep(5)}></button>
+                                                                    <h4>
+                                                                        Discover more options
+                                                                    </h4>
+                                                                    <button type="button" className="goback_btn next_btn controls-fb" onClick={subCategoryNext}></button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div className="search-bar">
+                                                        <SearchBar
+                                                            placeholder="Search"
+                                                            handleChange={handleSubIndustrySearch}
                                                             value={undefined}
                                                             name="search_key"
                                                         />
                                                     </div>
 
-                                                    <div className="vertical-tab-content-section study_industry-sec">
-                                                        <div className="card-view">
-                                                            {meta?.study_industry?.map((x) => (
-                                                                <div
-                                                                    key={uuid()}
-                                                                    onClick={() => onIndustrySelect(x)}
-                                                                    className={`student-contry-list study-industry-list study-industry ${x.checked ? "bg-lightRed active" : "bg-boxbg"
-                                                                        }`}
-                                                                >
-                                                                    <div
-                                                                        className="text-sm inner-sec"
-                                                                        dangerouslySetInnerHTML={{ __html: x.icon }}
-                                                                    />
-                                                                    <p> {x.name}</p>
-                                                                </div>
-                                                            ))}
-                                                            {meta.study_industry && !meta.study_industry.length && (
-                                                                <div className="no-matches">
-                                                                    <p>No Match Results Found!</p>
+                                                    <div className="vertical-tab-content-section explore-industry-sec">
+                                                        <div className="grid-container explore-category-grid">
+                                                            {!subCategoryLoading ? (
+                                                                <>
+                                                                    {study_sub_industry.length ? (
+                                                                        <CategoryGrid
+                                                                            categoryDetails={study_sub_industry}
+                                                                            slugCat={selectedIndustrySlug}
+                                                                            onSelect={onSubCategorySelect}
+                                                                            selectedId={selectedSubCategoryId}
+                                                                        />
+                                                                    ) : (
+                                                                        <div className="grid_item norecord">
+                                                                            <p>Oops! We couldn&apos;t find any courses for the selected subject right now. Please try exploring other categories or check back soon.</p>
+                                                                        </div>
+                                                                    )}
+                                                                </>
+                                                            ) : (
+                                                                <div className="skeleton-container">
+                                                                    <Skeleton />
                                                                 </div>
                                                             )}
                                                         </div>
@@ -2067,61 +2101,6 @@ const Explore = () => {
                                             ) : (
                                                 ""
                                             )} */}
-                                        {step == 6 ? (
-                                            <>
-                                                <div className="vertical-tab-sec-col ">
-                                                    <div className="vertical-tab-header">
-                                                        <div className="vertical-tab-header-content">
-                                                            <div className="flex  w-full items-center justify-center">
-                                                                <div className="explore-step-header w-full">
-                                                                    <button className="goback_btn controls-fb" onClick={() => setStep(5)}></button>
-                                                                    <h4>
-                                                                        Select study area
-                                                                    </h4>
-                                                                    <button className="goback_btn next_btn controls-fb" onClick={onLevelSelect}>
-                                                                        {/* <span className="reset_btn"></span>
-                                                                            <span className="reset_txt">Reset</span> */}
-                                                                    </button>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div className="vertical-tab-content-section">
-                                                        <div className="card-view">
-                                                            <div className="choose-study-area">
-                                                                <div className="search-bar">
-                                                                    <SearchBar
-                                                                        placeholder="Search"
-                                                                        handleChange={handleSubIndustrySearch}
-                                                                        name="search_key"
-                                                                        value={undefined}
-                                                                        label="hello"
-                                                                    />
-                                                                </div>
-
-                                                                <div className="study-level study-level-sec">
-                                                                    <ul>
-                                                                        {study_area_list.map((x) => (
-                                                                            <li
-                                                                                onClick={(e) => onstudyAreaSelect(x)}
-                                                                                key={uuid()}
-                                                                                className={`  exploreList cursor-pointer w-full items-baseline study-area-list ${x.checked ? "study-option-active" : ""
-                                                                                    }`}
-                                                                            >
-                                                                                <a name="study_area_id break">{x.name}</a>
-                                                                            </li>
-                                                                        ))}
-                                                                    </ul>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </>
-                                        ) : (
-                                            ""
-                                        )}
-
                                         {step == 7 ? (
                                             <>
                                                 <div className="vertical-tab-sec-col">
@@ -2144,7 +2123,7 @@ const Explore = () => {
                                                     <div className="vertical-tab-content-section">
                                                         <div className="card-view">
                                                             <div className="help-us mx-5">
-                                                                <h5>Study format</h5>
+                                                                <h5>Select Study Mode</h5>
                                                                 <ul className="">
                                                                     <li
                                                                         onClick={() =>
@@ -2250,7 +2229,7 @@ const Explore = () => {
                                                                 </ul>
                                                             </div>
                                                             <div className="help-us p-0 md:px-5">
-                                                                <h5>Study budget</h5>
+                                                                <h5>Select Academic Wallet</h5>
                                                                 <ul className="py-2 md:py-3">
                                                                     <li
                                                                         onClick={() =>
@@ -2294,7 +2273,7 @@ const Explore = () => {
                                                                 </ul>
                                                             </div>
                                                             <div className="help-us p-0 md:px-5">
-                                                                <h5>Work experience</h5>
+                                                                <h5>Select Experience Story</h5>
                                                                 <ul className=" py-2 md:py-3">
                                                                     <li
                                                                         onClick={() =>
@@ -2354,7 +2333,7 @@ const Explore = () => {
                                                                 <div className="explore-step-header w-full">
                                                                     <button className="goback_btn controls-fb" onClick={() => setStep(7)}></button>
                                                                     <h4>
-                                                                        Academic details
+                                                                        Tell us what you Achieved
                                                                     </h4>
                                                                     <button className="goback_btn next_btn controls-fb" onClick={onEducationDetails}>
                                                                         {/* <span className="reset_btn"></span>
@@ -2462,7 +2441,7 @@ const Explore = () => {
 
                                                     <div className="vertical-tab-content-section">
                                                         <div>
-                                                            <h5 onClick={() => toogleAccordian("ug_toggle")} className={`w-full edu-accordion  accordian-toogle relative text-center mb-2 lg:text-left text-[#C41230] text-sm md:text-[16px] ${toogleState.ug_toggle ? 'open' : ''}`}>
+                                                            <h5 onClick={() => toogleAccordian("ug_toggle")} className={`w-full edu-accordion  accordian-toogle relative text-center mb-2 lg:text-left text-[#e13351] text-sm md:text-[16px] ${toogleState.ug_toggle ? 'open' : ''}`}>
                                                                 <p>
                                                                     Under Graduation
                                                                 </p>
@@ -2592,7 +2571,7 @@ const Explore = () => {
                                                     </div>
 
                                                     <div className="vertical-tab-content-section">
-                                                        <h5 onClick={() => toogleAccordian("pg_toggle")} className={`w-full edu-accordion accordian-toogle relative text-center mb-2 lg:text-left text-[#C41230] text-sm md:text-[16px] ${toogleState.pg_toggle ? 'open' : ''}`}>
+                                                        <h5 onClick={() => toogleAccordian("pg_toggle")} className={`w-full edu-accordion accordian-toogle relative text-center mb-2 lg:text-left text-[#e13351] text-sm md:text-[16px] ${toogleState.pg_toggle ? 'open' : ''}`}>
                                                             <p> Post Graduation</p>
                                                             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                                                                 <path d="M12.71 15.54L18.36 9.88C18.4537 9.78703 18.5281 9.67643 18.5789 9.55457C18.6296 9.43271 18.6558 9.30201 18.6558 9.17C18.6558 9.03799 18.6296 8.90728 18.5789 8.78542C18.5281 8.66356 18.4537 8.55296 18.36 8.46C18.1726 8.27375 17.9191 8.1692 17.655 8.1692C17.3908 8.1692 17.1373 8.27375 16.95 8.46L11.95 13.41L6.99996 8.46C6.8126 8.27375 6.55915 8.1692 6.29496 8.1692C6.03078 8.1692 5.77733 8.27375 5.58996 8.46C5.49548 8.55261 5.42031 8.66306 5.36881 8.78493C5.31731 8.90681 5.29051 9.03769 5.28996 9.17C5.29051 9.3023 5.31731 9.43319 5.36881 9.55506C5.42031 9.67694 5.49548 9.78738 5.58996 9.88L11.24 15.54C11.3336 15.6415 11.4473 15.7225 11.5738 15.7779C11.7003 15.8333 11.8369 15.8619 11.975 15.8619C12.1131 15.8619 12.2497 15.8333 12.3762 15.7779C12.5027 15.7225 12.6163 15.6415 12.71 15.54V15.54Z" fill="#C41230" />
@@ -2806,7 +2785,7 @@ const Explore = () => {
                                                                 <div className="explore-step-header w-full">
                                                                     <button className="goback_btn controls-fb" onClick={() => setStep(8)}></button>
                                                                     <h4>
-                                                                        Test scores (optional)
+                                                                        Deep dive checks  (optional)
                                                                     </h4>
                                                                     <button className="goback_btn next_btn controls-fb" onClick={onTest}></button>
                                                                 </div>
@@ -2911,7 +2890,7 @@ const Explore = () => {
                                                             <div className="items-center justify-center">
                                                                 <div className="explore-step-header w-full">
                                                                     <button type="button" aria-label="Back" className="goback_btn controls-fb" onClick={() => setStep(9)}></button>
-                                                                    <h4>Your contact details</h4>
+                                                                    <h4>Last step to connect</h4>
                                                                     <span className="explore-nav-spacer" aria-hidden="true" />
                                                                 </div>
                                                             </div>

@@ -6467,6 +6467,7 @@ h2.page-heading {
   grid-column: 2;
   margin: 0;
   text-align: center;
+  color: #e13351;
 }
 .explore-service .vertical-tab .explore-step-header .explore-nav-spacer {
   grid-column: 3;
@@ -6512,7 +6513,7 @@ h2.page-heading {
   font-family: "Poppins", sans-serif;
   font-size: 15px;
   line-height: 22px;
-  color: #1e417c;
+  color: #e13351;
   font-style: normal;
   font-weight: 500;
   margin-top: 0;
@@ -6549,6 +6550,7 @@ h2.page-heading {
   margin: 0;
   max-width: 100%;
   overflow-x: auto;
+  gap: 40px;
 }
 .explore-service .vertical-tab .vertical-tab-firstsection ul li {
   align-items: center;
@@ -6561,12 +6563,15 @@ h2.page-heading {
   margin: 0;
   position: relative;
   width: 15px;
+  z-index: 1;
 }
 .explore-service .vertical-tab .vertical-tab-firstsection ul li:not(:last-child) {
-  margin-right: 40px;
+  margin-right: 0;
 }
 .explore-service .vertical-tab .vertical-tab-firstsection ul li:not(:last-child)::after {
   background: #d2d9e5;
+  border: none;
+  border-radius: 0;
   bottom: auto;
   content: "";
   display: block;
@@ -6577,13 +6582,14 @@ h2.page-heading {
   top: 50%;
   transform: translateY(-50%);
   width: 40px;
+  z-index: 0;
 }
 .explore-service .vertical-tab .vertical-tab-firstsection ul li.current, .explore-service .vertical-tab .vertical-tab-firstsection ul li.left-menu-active {
-  background: linear-gradient(304.12deg, #c41230 0.98%, #c41230 82.26%);
-  border: 1px solid transparent !important;
+  background: #c41230;
+  border: none !important;
   color: #c41230;
 }
-.explore-service .vertical-tab .vertical-tab-firstsection ul li.left-menu-active::after {
+.explore-service .vertical-tab .vertical-tab-firstsection ul li.left-menu-active:not(.current):not(:last-child)::after {
   background: #c41230;
 }
 .explore-service .vertical-tab .country-sec {
@@ -6612,80 +6618,108 @@ h2.page-heading {
     width: max-content;
     min-width: 100%;
     justify-content: center;
+    gap: 22px;
+    padding: 0 8px;
   }
   .explore-service .vertical-tab .vertical-tab-firstsection ul li {
     width: 10px;
     height: 10px;
   }
   .explore-service .vertical-tab .vertical-tab-firstsection ul li:not(:last-child) {
-    margin-right: 22px;
+    margin-right: 0;
   }
   .explore-service .vertical-tab .vertical-tab-firstsection ul li:not(:last-child)::after {
     width: 22px;
     height: 3px;
   }
 }
-.explore-service .vertical-tab .country-sec__inner .student-contry-list {
+.explore-service .vertical-tab .country-sec__inner .student-contry-list.study_destination {
   align-items: center;
-  border-radius: 12px;
+  border-radius: 0;
   display: flex;
   flex-direction: column;
-  height: 108px;
-  justify-content: center;
-  margin-top: 16px;
-  width: 108px;
+  height: auto;
+  min-height: 0;
+  justify-content: flex-start;
+  margin-top: 0;
+  width: 100%;
+  max-width: 108px;
   cursor: pointer;
   position: relative;
-  border: 1px solid rgba(30, 65, 124, 0.08);
-  background: #fff;
+  border: none;
+  background: transparent;
+  box-shadow: none;
+  padding: 4px 2px 8px;
 }
 @media screen and (max-width: 1000px) {
-  .explore-service .vertical-tab .country-sec__inner .student-contry-list {
-    width: 30%;
-    max-width: 108px;
-    height: 96px;
-    padding-top: 6px;
-    margin-top: 8px;
+  .explore-service .vertical-tab .country-sec__inner .student-contry-list.study_destination {
+    width: 100%;
+    max-width: none;
+    height: auto;
+    padding: 2px 0 6px;
+    margin-top: 0;
   }
 }
-.explore-service .vertical-tab .country-sec__inner .student-contry-list .flag-img-wrap {
-  width: 52px;
-  height: 36px;
-  min-width: 52px;
-  min-height: 36px;
-  max-width: 52px;
-  max-height: 36px;
-  border-radius: 8px;
+.explore-service .vertical-tab .country-sec__inner .student-contry-list.study_destination .flag-img-wrap {
+  width: 48px;
+  height: 48px;
+  min-width: 48px;
+  min-height: 48px;
+  max-width: 48px;
+  max-height: 48px;
+  border-radius: 10px;
   overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: #f4f6f8;
-  flex-shrink: 0;
+  display: block;
+  border: none;
+  background: transparent;
+  line-height: 0;
 }
-.explore-service .vertical-tab .country-sec__inner .student-contry-list .flag-img {
+.explore-service .vertical-tab .country-sec__inner .student-contry-list.study_destination .flag-img {
   width: 100%;
   height: 100%;
-  max-width: 100%;
-  max-height: 100%;
-  object-fit: contain;
+  object-fit: cover;
   object-position: center;
   display: block;
+  border: none;
   border-radius: 0;
 }
 @media screen and (max-width: 1000px) {
-  .explore-service .vertical-tab .country-sec__inner .student-contry-list .flag-img-wrap {
+  .explore-service .vertical-tab .country-sec__inner .student-contry-list.study_destination .flag-img-wrap {
     width: 44px;
-    height: 32px;
+    height: 44px;
     min-width: 44px;
-    min-height: 32px;
+    min-height: 44px;
     max-width: 44px;
-    max-height: 32px;
-    border-radius: 7px;
+    max-height: 44px;
+    border-radius: 9px;
   }
 }
-.explore-service .vertical-tab .country-sec__inner .student-contry-list.bg-lightRed .flag-img-wrap {
-  background: rgba(255, 255, 255, 0.15);
+.explore-service .vertical-tab .country-sec__inner .student-contry-list.study_destination.bg-lightRed {
+  background: transparent;
+  border: none;
+}
+.explore-service .vertical-tab .country-sec__inner .student-contry-list.study_destination.bg-lightRed .flag-img-wrap {
+  box-shadow: 0 0 0 2px #c41230;
+}
+.explore-service .vertical-tab .country-sec__inner .student-contry-list.study_destination.bg-lightRed p,
+.explore-service .vertical-tab .country-sec__inner .student-contry-list.study_destination.bg-lightRed .country-label {
+  color: #c41230;
+  font-weight: 600;
+}
+.explore-service .vertical-tab .country-sec__inner .student-contry-list.study_destination:hover,
+.explore-service .vertical-tab .country-sec__inner .student-contry-list.study_destination:focus {
+  background: transparent;
+  border: none;
+}
+.explore-service .vertical-tab .country-sec__inner .student-contry-list.study_destination:hover .flag-img-wrap,
+.explore-service .vertical-tab .country-sec__inner .student-contry-list.study_destination:focus .flag-img-wrap {
+  box-shadow: 0 0 0 2px #c41230;
+}
+.explore-service .vertical-tab .country-sec__inner .student-contry-list.study_destination:hover p,
+.explore-service .vertical-tab .country-sec__inner .student-contry-list.study_destination:focus p,
+.explore-service .vertical-tab .country-sec__inner .student-contry-list.study_destination:hover .country-label,
+.explore-service .vertical-tab .country-sec__inner .student-contry-list.study_destination:focus .country-label {
+  color: #c41230;
 }
 .explore-service .vertical-tab .country-sec__inner .student-contry-list p,
 .explore-service .vertical-tab .country-sec__inner .student-contry-list .country-label {
@@ -6697,19 +6731,21 @@ h2.page-heading {
   text-align: center;
   margin-top: 6px;
 }
-.explore-service .vertical-tab .country-sec__inner .student-contry-list.bg-lightRed {
+.explore-service .vertical-tab .country-sec__inner .student-contry-list.bg-lightRed:not(.study_destination) {
   background: #c41230;
   border: 1px solid #c41230;
 }
-.explore-service .vertical-tab .country-sec__inner .student-contry-list.bg-lightRed p,
-.explore-service .vertical-tab .country-sec__inner .student-contry-list.bg-lightRed .country-label {
+.explore-service .vertical-tab .country-sec__inner .student-contry-list.bg-lightRed:not(.study_destination) p,
+.explore-service .vertical-tab .country-sec__inner .student-contry-list.bg-lightRed:not(.study_destination) .country-label {
   color: #fff;
 }
-.explore-service .vertical-tab .country-sec__inner .student-contry-list:hover, .explore-service .vertical-tab .country-sec__inner .student-contry-list:focus {
+.explore-service .vertical-tab .country-sec__inner .student-contry-list:hover:not(.study_destination),
+.explore-service .vertical-tab .country-sec__inner .student-contry-list:focus:not(.study_destination) {
   background: #c41230;
   border: 1px solid #c41230;
 }
-.explore-service .vertical-tab .country-sec__inner .student-contry-list:hover p, .explore-service .vertical-tab .country-sec__inner .student-contry-list:focus p {
+.explore-service .vertical-tab .country-sec__inner .student-contry-list:hover:not(.study_destination) p,
+.explore-service .vertical-tab .country-sec__inner .student-contry-list:focus:not(.study_destination) p {
   color: #fff;
 }
 .explore-service .vertical-tab .vertical-tab-sec-col {
@@ -6902,7 +6938,7 @@ h2.page-heading {
   font-family: "Poppins", sans-serif;
   font-size: 14px;
   line-height: 21px;
-  color: rgb(30, 65, 124);
+  color: #e13351;
   font-weight: 500;
   margin-top: 16px;
   text-align: center;
@@ -6958,7 +6994,7 @@ h2.page-heading {
   font-family: "Poppins", sans-serif;
   font-size: 14px;
   line-height: 21px;
-  color: rgb(30, 65, 124);
+  color: #e13351;
   font-weight: 500;
   margin-top: 16px;
   text-align: center;

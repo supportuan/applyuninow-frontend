@@ -9,7 +9,7 @@ import { useAppContext } from '../../../context/Appcontext';
 
 
 const LastSteps = () => {
-    const topString = '3,43,000+ graduate courses to choose from 22 study destinations';
+    const topString = '3,43,000+ graduate courses to choose from 21 study destinations';
     const { BASE_URL } = useAppContext();
     const [formData, setFormData] = useState({
         fullName: '',

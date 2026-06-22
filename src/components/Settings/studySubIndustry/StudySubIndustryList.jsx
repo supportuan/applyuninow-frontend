@@ -257,7 +257,7 @@ const SubIndustryList = () => {
                     handleChange(e, "search");
                   }}
                   value={params?.industry_id}
-                  label="Select Industry"
+                  label="Choose your industrial path"
                   name="industry_id"
                   bgcolor="#151929"
                   width="w-1/2"

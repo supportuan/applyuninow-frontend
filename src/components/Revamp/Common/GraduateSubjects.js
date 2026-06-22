@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import TopStrip from './TopStrip';
 import CategoryGrid from './CategoryGrid';
-import { subjectByIndustry } from '../utils/helpers';
+import { withStudyAreaIcons } from '../utils/helpers';
 import { useRouter } from 'next/router';
 //import api from '../../../api';
 import { useAppContext } from '../../../context/Appcontext';
@@ -10,7 +10,7 @@ import Skeleton from './Skeleton';
 
 const GraduateSubjects = () => {
     const { BASE_URL } = useAppContext();
-    const topString = '3,43,000+ graduate courses to choose from 22 study destinations';
+    const topString = '3,43,000+ graduate courses to choose from 21 study destinations';
 
     const router = useRouter();
     const { industryId } = router.query;
@@ -26,20 +26,23 @@ const GraduateSubjects = () => {
         if (!router.isReady) return;
 
         if (industryId) {
-            const [slug, industId, countryId] = industryId.split("--") || [];
-            getStudyArea(industId);
+            const [slug, industId] = industryId.split("--") || [];
             setSlugName(slug);
+            getStudyArea(industId, slug);
         }
     }, [router.isReady, router.query])
 
 
-    const getStudyArea = async (id) => {
+    const getStudyArea = async (id, industrySlug) => {
         try {
             setLoading(true);
             const url = `${BASE_URL}/study-areas?industry_id=${id}`;
             const res = await axios.get(url);
-            const studyData = res?.data?.data;
-            setEngVal(Array.isArray(studyData) ? studyData : []);
+            const studyData = withStudyAreaIcons(
+                Array.isArray(res?.data?.data) ? res.data.data : [],
+                industrySlug
+            );
+            setEngVal(studyData);
         } catch (error) {
             console.error("Failed to fetch study areas:", error);
         } finally {

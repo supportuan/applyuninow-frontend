@@ -986,7 +986,7 @@ const StudentCreate = () => {
               value={params.study_budget}
               error={!!formErrors.study_budget}
               helperText={formErrors.study_budget}
-              label="Study Budget"
+              label="Select Academic Wallet"
               name="study_budget"
               bgcolor="#262938"
             />

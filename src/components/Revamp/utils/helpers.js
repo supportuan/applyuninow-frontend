@@ -602,6 +602,38 @@ export const subjectByIndustry = {
   ]
 };
 
+export const getStudyAreaIconIndex = (item, index, industrySlug) => {
+  const subjects = subjectByIndustry[industrySlug] || [];
+  if (!subjects.length) {
+    return 0;
+  }
+
+  const name = String(item?.name || item?.title || "").toLowerCase();
+
+  const matchIdx = subjects.findIndex((subject) => {
+    const title = subject.title.toLowerCase();
+    const slug = subject.slug.replace(/-/g, " ");
+    return (
+      name.includes(title) ||
+      title.includes(name) ||
+      name.includes(slug) ||
+      slug.split(" ").some((word) => word.length > 3 && name.includes(word))
+    );
+  });
+
+  if (matchIdx >= 0) {
+    return matchIdx;
+  }
+
+  return index % subjects.length;
+};
+
+export const withStudyAreaIcons = (items, industrySlug) =>
+  (Array.isArray(items) ? items : []).map((item, index) => ({
+    ...item,
+    iconIndex: getStudyAreaIconIndex(item, index, industrySlug),
+  }));
+
 export const courseListWithUnivercity = [
   {
     "university": "Stanford University",
