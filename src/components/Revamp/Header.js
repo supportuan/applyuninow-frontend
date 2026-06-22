@@ -136,7 +136,7 @@ const Header = () => {
                     <Image width={20} height={20} src={userIcon} alt='user icon' fetchpriority="high" />
                   </a>
                 </li>
-                <li>
+                <li className="menu-icon-item">
                   <button
                     type="button"
                     aria-label={mobNav ? 'Close menu' : 'Open menu'}

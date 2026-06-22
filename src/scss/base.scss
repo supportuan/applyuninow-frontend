@@ -388,7 +388,7 @@ body {
         .mob-support {
             @include mixins.set-flex-box($ai: center);
             justify-content: flex-end;
-            gap: 16px;
+            gap: 0;
 
             li {
                 cursor: pointer;
@@ -398,6 +398,14 @@ body {
                 min-width: 24px;
                 min-height: 24px;
                 transition: opacity 0.3s ease, visibility 0.3s ease;
+
+                & + li {
+                    margin-left: functions.rem(14);
+                }
+
+                &.menu-icon-item {
+                    margin-left: functions.rem(24);
+                }
             }
         }
 
@@ -1249,6 +1257,12 @@ body {
             }
             .display_next{
                 display: block;
+            }
+            &.industry-hero-title,
+            &.industry-hero-title span {
+                @include mixins.set-typography(22, 30);
+                font-family: variables.$font-poppins;
+                font-weight: 400;
             }
         }
     }
@@ -4028,8 +4042,14 @@ h2 {
                     }
                 }
 
-                &:last-child() {
+                &:last-child {
                     gap: functions.rem(20);
+                }
+
+                &.filter-reset-controls {
+                    @include mixins.breakpointmax(variables.$end-small) {
+                        gap: functions.rem(24);
+                    }
                 }
             }
         }

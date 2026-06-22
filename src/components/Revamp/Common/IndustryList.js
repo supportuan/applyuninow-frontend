@@ -10,7 +10,7 @@ const IndustryList = () => {
                 {/* <div className="module-divider"></div> */}
 
                 <div className="module-head pad0">
-                    <h2 id="" className="module-title">more power, more magic, <span className='display_next'>more YOU</span> </h2>
+                    <h2 className="module-title industry-hero-title">more power, more magic, more you</h2>
                     <p className="module-subtitle"> We offer 3,43,000+ career upskilling study options to choose from the popular study destinations</p>
                 </div>
                 <div className='container small-width pad-mob-none'>

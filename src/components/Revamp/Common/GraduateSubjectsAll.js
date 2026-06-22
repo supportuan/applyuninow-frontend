@@ -383,7 +383,7 @@ const GraduateSubjectsAll = () => {
                                                 Found <span>{metaInfo?.total > 0 ? metaInfo?.total : 0}</span>
                                             </h4>
                                         </div>
-                                        <div className="top-controls">
+                                        <div className="top-controls filter-reset-controls">
                                             {deviceType !== 'desktop' ? (
                                                 <>
                                                     <div className=''>

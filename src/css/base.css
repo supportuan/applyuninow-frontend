@@ -687,7 +687,13 @@ body .marginT100 {
   -webkit-flex-direction: row;
   flex-direction: row;
   justify-content: flex-end;
-  gap: 16px;
+  gap: 0;
+}
+.section_header .setting-login .mob-support li + li {
+  margin-left: 14px;
+}
+.section_header .setting-login .mob-support li.menu-icon-item {
+  margin-left: 24px;
 }
 .section_header .setting-login .mob-support li {
   cursor: pointer;
@@ -1519,6 +1525,17 @@ body .marginT100 {
   }
   .module-head .module-title .display_next {
     display: block;
+  }
+  .module-head .module-title.industry-hero-title {
+    font-size: 22px;
+    line-height: 30px;
+    font-family: "Poppins", sans-serif;
+    font-weight: 400;
+  }
+  .module-head .module-title.industry-hero-title,
+  .module-head .module-title.industry-hero-title span {
+    font-size: 22px;
+    line-height: 30px;
   }
 }
 .module-head.search-section {
@@ -4162,8 +4179,13 @@ h2.page-heading {
   font-size: 16px;
   line-height: 24px;
 }
-.filter_data_container__left--top .top-controls:last-child() {
+.filter_data_container__left--top .top-controls:last-child {
   gap: 20px;
+}
+@media screen and (max-width: 1000px) {
+  .filter_data_container__left--top .top-controls.filter-reset-controls {
+    gap: 24px;
+  }
 }
 .filter_data_container__left--bottom {
   background: #FFF;
