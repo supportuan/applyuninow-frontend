@@ -895,18 +895,9 @@ export const nav_list = [
     pageLink: '/pricing'
   },
   {
-    name: 'Add-ONs',
-    pageLink: '/add-ons',
-  },
-  {
     name: 'Visas',
     pageLink: '/visas',
   },
-  {
-    name: 'Resources',
-    pageLink: '#',
-  },
-  
   {
     name: `Blog & New's`,
     pageLink: '#',

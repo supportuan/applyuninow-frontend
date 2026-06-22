@@ -1062,7 +1062,7 @@ export const Layout = () => {
           ></Route>
           <Route
             exact
-            path="/student-login"
+            path="/login"
             element={
               <RestrictedRoute>
                 <StudentLogin />

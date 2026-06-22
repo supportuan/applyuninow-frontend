@@ -5,7 +5,7 @@ import Layout from "../src/components/Revamp/Layout/Layout";
 import { PageProvider, usePageContext } from '../src/components/Revamp/context/PageContext';
 import { useRouter } from "next/router";
 import '../src/css/base.css';
-// import "../src/styles/explore.css";
+import "../src/styles/explore.css";
 import { AppContextProvider, useAppContext } from '../src/context/Appcontext';
 import { store } from "../src/store/index.js";
 import { Provider } from "react-redux";
@@ -182,6 +182,16 @@ const PageLabelUpdater = () => {
 
 
 function MyApp({ Component, pageProps }) {
+  useEffect(() => {
+    const handleContextMenu = (e) => {
+      e.preventDefault();
+    };
+    document.addEventListener("contextmenu", handleContextMenu);
+    return () => {
+      document.removeEventListener("contextmenu", handleContextMenu);
+    };
+  }, []);
+
   return (
     <AppContextProvider>
       <Head>

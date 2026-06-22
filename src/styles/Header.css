@@ -23,8 +23,9 @@
     justify-content: center;
     
   }
-  .uninowMobileView > img {
-    width: 50%;
+  .uninowMobileView img {
+    max-height: 40px;
+    width: auto;
     padding: 0;
   }
   .wrapper{

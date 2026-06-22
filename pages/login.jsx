@@ -1,6 +1,6 @@
 import StudentLogin from '../src/components/Revamp/Pages/StudentLogin'
 
-export default function StudentLoginNext() {
+export default function LoginNext() {
   return (
     <StudentLogin />
   );

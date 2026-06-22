@@ -1,5 +1,5 @@
 # https://www.robotstxt.org/robotstxt.html
 User-agent: *
 Disallow: /admin/
-Disallow: /student-login
+Disallow: /login
 Disallow: /recuiter-login

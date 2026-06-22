@@ -88,7 +88,7 @@ export const CountryDetailTop = ({content}) => {
 
 
             <Link to="/" className="relative z-10 flex justify-center px-4 py-2 bg-white md:py-4 sm:justify-start z-1">
-                <img className="w-64" src={uninow} alt="uninow logo" />
+                <img className="w-44 md:w-52 object-contain" src={uninow} alt="uninow logo" />
             </Link>
 
             <div style={{ backgroundImage: `url(${bg_germany})` }} className="relative z-10 h-screen max-w-full bg_container_big sm:flex sm:flex-row-reverse ">

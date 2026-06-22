@@ -764,3 +764,119 @@ hr {
     .explore-actions img{
       width: 72px;
     }
+
+/* New services/chips step styles */
+.new-services-box {
+  border: 2px solid #2f6feb;
+  border-radius: 12px;
+  padding: 30px 24px 20px 24px;
+  margin: 10px auto 20px auto;
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(10px);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.new-services-title {
+  font-family: "Poppins", sans-serif;
+  font-size: 1.25rem;
+  color: #1e417c;
+  text-align: center;
+  margin-bottom: 8px;
+  line-height: 1.4;
+}
+
+.new-services-title strong {
+  font-weight: 700;
+  color: #000;
+}
+
+.new-services-subtitle {
+  font-family: "Poppins", sans-serif;
+  font-size: 1.05rem;
+  color: #e63980;
+  font-weight: 500;
+  text-align: center;
+  margin-bottom: 24px;
+  line-height: 1.4;
+}
+
+.chips-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 12px 10px;
+  margin-bottom: 24px;
+}
+
+.service-chip {
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.04);
+  border-radius: 25px;
+  padding: 8px 16px;
+  font-family: "Poppins", sans-serif;
+  font-size: 0.88rem;
+  color: #222;
+  transition: all 0.2s ease;
+  cursor: default;
+  user-select: none;
+  font-weight: 400;
+}
+
+.service-chip:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 14px rgba(47, 111, 235, 0.12);
+  border-color: rgba(47, 111, 235, 0.3);
+  background: #fbfdff;
+}
+
+.next-action-btn {
+  background: #c41230;
+  color: white;
+  padding: 10px 48px;
+  border-radius: 25px;
+  font-family: "Poppins", sans-serif;
+  font-weight: 600;
+  font-size: 0.95rem;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 6px 18px rgba(196, 18, 48, 0.25);
+  transition: all 0.2s ease;
+}
+
+.next-action-btn:hover {
+  background: #a30f28;
+  transform: translateY(-1px);
+  box-shadow: 0 8px 22px rgba(196, 18, 48, 0.35);
+}
+
+.next-action-btn:active {
+  transform: translateY(0);
+}
+
+@media (max-width: 600px) {
+  .new-services-title {
+    font-size: 1.05rem;
+  }
+  .new-services-subtitle {
+    font-size: 0.9rem;
+    margin-bottom: 16px;
+  }
+  .new-services-box {
+    padding: 16px 12px;
+    border-width: 1.5px;
+  }
+  .service-chip {
+    font-size: 0.78rem;
+    padding: 6px 12px;
+  }
+  .chips-container {
+    gap: 8px 6px;
+  }
+  .next-action-btn {
+    width: 100%;
+    padding: 12px 24px;
+    box-sizing: border-box;
+  }
+}

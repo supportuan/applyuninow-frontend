@@ -110,7 +110,7 @@ const Header = () => {
                 <a href='/explore' aria-label='Explore' className='header-icon-link'>
                   <Image width={22} height={22} src={exploreIcon} alt='explore' fetchpriority="high" />
                 </a>
-                <a href='/student-login' aria-label='Login' className='header-icon-link'>
+                <a href='/login' aria-label='Login' className='header-icon-link'>
                   <Image width={22} height={22} src={userIcon} alt='user icon' fetchpriority="high" />
                 </a>
               </div>
@@ -132,7 +132,7 @@ const Header = () => {
                   </a>
                 </li>
                 <li>
-                  <a href='/student-login' aria-label='Login'>
+                  <a href='/login' aria-label='Login'>
                     <Image width={20} height={20} src={userIcon} alt='user icon' fetchpriority="high" />
                   </a>
                 </li>

@@ -5,7 +5,7 @@ import { industry_categories } from '../utils/helpers';
 
 
 const GraduateCourses = () => {
-    const topString = '3,43,000+ graduate courses to choose from 9 study destinations';
+    const topString = '3,43,000+ graduate courses to choose from 22 study destinations';
 
     return (
         <div className='graduate-courses-section'>

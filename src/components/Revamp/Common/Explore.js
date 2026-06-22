@@ -437,6 +437,33 @@ let initialToggleState = {
     pg_toggle: false,
 };
 
+const SERVICES_CHIPS = [
+    "Quick Offer",
+    "Course with Internships",
+    "High Offer Acceptance-Rate",
+    "Affordable University",
+    "Guaranteed Scholarship",
+    "Trending Courses",
+    "High Ranking Universities",
+    "Outstanding Facilities",
+    "English Test Waiver",
+    "Low Tuition Deposit",
+    "Backlog Acceptance",
+    "MOI Acceptable",
+    "Professional Accreditations",
+    "Culture and Social Experience",
+    "Affordable Living",
+    "Career Upskilling",
+    "Quick Education Loans",
+    "Accommodation",
+    "Part Time Jobs",
+    "Pre-Departure",
+    "Destination - Arrival pickup",
+    "On - Arrival registrations",
+    "Internship (in-line to Subject area)",
+    "Part-time jobs (in-line to academics / work experience)"
+];
+
 const Explore = () => {
     const navigate = useRouter();
     const [step, setStep] = useState(1);
@@ -456,7 +483,7 @@ const Explore = () => {
     const [industryName, setIndustryName] = useState("");
     const [toogleState, setToggleState] = useState(initialToggleState);
     const [destinationLoadError, setDestinationLoadError] = useState("");
-    const topString = '3,43,000+ graduate courses to choose from 9 study destinations';
+    const topString = '3,43,000+ graduate courses to choose from 22 study destinations';
     const { prerequisiteData, isPrerequisiteLoaded } = usePageContext();
 
     useEffect(() => {
@@ -501,7 +528,7 @@ const Explore = () => {
         setInputs((inputs) => ({ ...inputs, ...obj }));
         if (inputs.level !== "Post Graduation" &&
             inputs.level !== "Under Graduation" && obj.intake_month && obj.intake_year) {
-            setStep(4);
+            setStep(5);
         }
     };
 
@@ -552,13 +579,13 @@ const Explore = () => {
             item1.name === "DBA(Doctorate of Business Administration)" ||
             item1.name === "PhD(Doctor of Philosophy)"
         ) {
-            setStep(3);
+            setStep(4);
         }
         const isstudy_level = (meta.type_of_degree_category || []).some(
             (item) => item.checked
         );
         const is_degree = degreeType.some((item) => item.checked);
-        if (is_degree && isstudy_level) setStep(3);
+        if (is_degree && isstudy_level) setStep(4);
     };
 
     const selectTypeDegree = (item) => {
@@ -669,7 +696,7 @@ const Explore = () => {
         setMeta(items);
         setInputs((inputs) => ({ ...inputs, study_duration: item.name }));
         if (inputs.intake_month && inputs.intake_year) {
-            setStep(4);
+            setStep(5);
         }
     };
 
@@ -728,7 +755,7 @@ const Explore = () => {
             .get(`${environment.API_BASE_URL}/study-areas/?industry_id=${id}`)
             .then((res) => {
                 if (!res.data.data.length) {
-                    setStep(7);
+                    setStep(8);
                     return;
                 }
                 res.data.data = res.data.data.map((x) => {
@@ -741,7 +768,7 @@ const Explore = () => {
                 setStudyArea(res.data.data);
                 let items = JSON.parse(JSON.stringify(meta));
                 items.study_sub_industry = res.data.data;
-                setStep(5);
+                setStep(6);
                 setMeta(items);
 
             })
@@ -772,14 +799,14 @@ const Explore = () => {
                 (meta.type_of_degree_category || []).some((x) => x.checked) &&
                 degreeType.some((x) => x.checked);
             if (isSelected) {
-                setStep(3);
+                setStep(4);
             } else {
                 toast.error("Please Choose Degree Type!");
             }
         } else {
             let isSelected = (meta.type_of_degree_category || []).some((x) => x.checked);
             if (isSelected) {
-                setStep(3);
+                setStep(4);
             } else {
                 toast.error("Please Choose Study Level!");
             }
@@ -794,7 +821,7 @@ const Explore = () => {
             inputs.level == "Under Graduation"
         ) {
             if (isSelected && inputs.intake_year && inputs.intake_month) {
-                setStep(4);
+                setStep(5);
             }
             if (!isSelected || !inputs.intake_year || !inputs.intake_month) {
                 toast.error("Please Select Above All Sections");
@@ -802,7 +829,7 @@ const Explore = () => {
             }
         } else {
             if (inputs.intake_year && inputs.intake_month) {
-                setStep(4);
+                setStep(5);
             } else {
                 toast.error("Please choose study duration");
                 return;
@@ -812,7 +839,7 @@ const Explore = () => {
 
     const industryNext = () => {
         if (inputs.industry_id) {
-            setStep(5);
+            setStep(6);
             return;
         }
         toast.error(`Please select study industry!`);
@@ -821,7 +848,7 @@ const Explore = () => {
     const onLevelSelect = () => {
         let isSelected = study_area_list.some((x) => x.checked);
         if (isSelected) {
-            setStep(7);
+            setStep(8);
         } else {
             toast.error("Please choose subject area");
         }
@@ -830,7 +857,7 @@ const Explore = () => {
     const handleSubIndustrySelect = () => {
         let isSelected = study_sub_industry.some((x) => x.checked);
         if (isSelected) {
-            setStep(6);
+            setStep(7);
         } else {
             toast.error("Please choose study area");
         }
@@ -843,7 +870,7 @@ const Explore = () => {
             inputs.study_budget &&
             inputs.work_experince
         ) {
-            setStep(7);
+            setStep(8);
         } else {
             toast.error("Please select all above  sections.");
         }
@@ -1036,7 +1063,7 @@ const Explore = () => {
                     ? examMeta.exam_list.filter((x) => x.type === "pg" || x.type === 'common')
                     : examMeta.exam_list;
         setExamParams((examParams) => ({ ...examParams, exam_list: list }));
-        setStep(8);
+        setStep(9);
     }
 
     const onTest = () => {
@@ -1109,7 +1136,7 @@ const Explore = () => {
 
             }
         }
-        setStep(9);
+        setStep(10);
     };
 
     const onStudyDestination = (item) => {
@@ -1123,7 +1150,7 @@ const Explore = () => {
         let items = JSON.parse(JSON.stringify(meta));
         items.study_destination = study_destination;
         setMeta(items);
-        setStep(2);
+        setStep(3);
         setInputs((inputs) => ({ ...inputs, country_id: item.id }));
     };
 
@@ -1145,7 +1172,7 @@ const Explore = () => {
             });
             setStudyArea([...firstItem, ...filteredItems]);
             // setStudyArea(list);
-            setStep(6);
+            setStep(7);
         }
         setInputs((inputs) => ({ ...inputs, study_area_id: item.id }));
     }
@@ -1210,7 +1237,7 @@ const Explore = () => {
         obj[name] = value
         setInputs((inputs) => ({ ...inputs, ...obj }));
         if (obj.study_mode && obj.study_attendance_type && obj.study_budget && obj.work_experince) {
-            setStep(7);
+            setStep(8);
         }
 
     }
@@ -1341,7 +1368,7 @@ const Explore = () => {
         if (name === 'eng_prof_test' || name === 'exam_type') {
             let arr = ['I wish to consider the tests but later!', 'I do not wish to consider the test for making applications**!']
             if (arr.includes(object.eng_prof_test) && arr.includes(object.exam_type)) {
-                setStep(9);
+                setStep(10);
             }
         }
     };
@@ -1476,7 +1503,7 @@ const Explore = () => {
         axios
             .post(`${environment.API_BASE_URL}/contact-request`, obj)
             .then((res) => {
-                setStep(10);
+                setStep(11);
                 setLoading(false);
                 setInputs(initialState);
                 setEduParams(eduIntParams);
@@ -1536,14 +1563,14 @@ const Explore = () => {
         }
         setStudySubIndutries(arr);
         getStudyArea(item.industry_id, item.id);
-        setStep(6);
+        setStep(7);
     }
 
     const backScience = () => {
         if (industryName.includes("Science")) {
-            setStep(4);
+            setStep(5);
         } else {
-            setStep(6);
+            setStep(7);
         }
     };
 
@@ -1562,7 +1589,7 @@ const Explore = () => {
 
                                     <div className="vertical-tab ">
                                         <div className="vertical-tab-firstsection">
-                                            {step === 10 ? (
+                                            {step === 11 ? (
                                                 <></>
                                             ) : (
                                                 <ul>
@@ -1606,28 +1633,64 @@ const Explore = () => {
                                                         className={`${step > 9 ? "left-menu-active" : ""} ${step == 10 ? "current" : ""
                                                             }`}
                                                     ></li>
-                                                    <li
-                                                        className={`${step > 10 ? "left-menu-active" : ""}${step == 11 ? "current" : ""
-                                                            }`}
-                                                    ></li>
                                                 </ul>
                                             )}
                                         </div>
+
                                         {step == 1 ? (
                                             <>
                                                 <div className="vertical-tab-sec-col">
                                                     <div className="vertical-tab-header">
                                                         <div className="vertical-tab-header-content">
                                                             <div className="w-full">
-                                                                <h4 className="text-center">
-                                                                    Where do you want to study?
-                                                                </h4>
-                                                                {destinationLoadError ? (
-                                                                    <p className="text-center my-3 text-sm text-red px-4">
-                                                                        {destinationLoadError}
-                                                                    </p>
-                                                                ) : null}
+                                                                <h3 className="new-services-title">
+                                                                    Four Services + One Mission: <strong>Empowering global talent.</strong>
+                                                                </h3>
+                                                                <p className="new-services-subtitle text-center">
+                                                                    Not just study options but experience the future-ready-courses.
+                                                                </p>
                                                             </div>
+                                                        </div>
+                                                    </div>
+                                                    <div className="new-services-box">
+                                                        <div className="chips-container">
+                                                            {SERVICES_CHIPS.map((chip, idx) => (
+                                                                <span key={idx} className="service-chip">
+                                                                    {chip}
+                                                                </span>
+                                                            ))}
+                                                        </div>
+                                                        <div className="text-center w-full flex justify-center pb-4">
+                                                            <button 
+                                                                type="button" 
+                                                                className="next-action-btn"
+                                                                onClick={() => setStep(2)}
+                                                            >
+                                                                Next
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </>
+                                        ) : (
+                                            ""
+                                        )}
+
+                                        {step == 2 ? (
+                                            <>
+                                                <div className="vertical-tab-sec-col">
+                                                    <div className="vertical-tab-header">
+                                                        <div className="vertical-tab-header-content">
+                                                            <div className="explore-step-header w-full">
+                                                                <button type="button" aria-label="Back" className="goback_btn controls-fb" onClick={() => setStep(1)}></button>
+                                                                <h4>Where do you want to study?</h4>
+                                                                <span className="explore-nav-spacer" aria-hidden="true" />
+                                                            </div>
+                                                            {destinationLoadError ? (
+                                                                <p className="text-center my-3 text-sm text-red px-4">
+                                                                    {destinationLoadError}
+                                                                </p>
+                                                            ) : null}
                                                         </div>
                                                     </div>
                                                     <div className="country-sec">
@@ -1664,14 +1727,14 @@ const Explore = () => {
                                             ""
                                         )}
 
-                                        {step == 2 ? (
+                                        {step == 3 ? (
                                             <>
                                                 <div className="vertical-tab-sec-col">
                                                     <div className="vertical-tab-header">
                                                         <div className="vertical-tab-header-content">
                                                             <div className="">
                                                                 <div className="explore-step-header w-full">
-                                                                    <button type="button" aria-label="Back" className="goback_btn controls-fb" onClick={() => setStep(1)}></button>
+                                                                    <button type="button" aria-label="Back" className="goback_btn controls-fb" onClick={() => setStep(2)}></button>
                                                                     <h4>Select study level</h4>
                                                                     <button type="button" aria-label="Next" className="goback_btn next_btn controls-fb" onClick={() => studyNext()}></button>
                                                                 </div>
@@ -1872,14 +1935,14 @@ const Explore = () => {
                                             ""
                                         )}
 
-                                        {step == 4 ? (
+                                        {step == 5 ? (
                                             <>
                                                 <div className="vertical-tab-sec-col">
                                                     <div className="vertical-tab-header">
                                                         <div className="vertical-tab-header-content">
                                                             <div className="flex  w-full items-center justify-center">
                                                                 <div className="explore-step-header w-full">
-                                                                    <button className="goback_btn controls-fb" onClick={() => setStep(3)}></button>
+                                                                    <button className="goback_btn controls-fb" onClick={() => setStep(4)}></button>
                                                                     <h4>
                                                                         Select industry
                                                                     </h4>
@@ -1990,14 +2053,14 @@ const Explore = () => {
                                             ) : (
                                                 ""
                                             )} */}
-                                        {step == 5 ? (
+                                        {step == 6 ? (
                                             <>
                                                 <div className="vertical-tab-sec-col ">
                                                     <div className="vertical-tab-header">
                                                         <div className="vertical-tab-header-content">
                                                             <div className="flex  w-full items-center justify-center">
                                                                 <div className="explore-step-header w-full">
-                                                                    <button className="goback_btn controls-fb" onClick={() => setStep(4)}></button>
+                                                                    <button className="goback_btn controls-fb" onClick={() => setStep(5)}></button>
                                                                     <h4>
                                                                         Select study area
                                                                     </h4>
@@ -2045,14 +2108,14 @@ const Explore = () => {
                                             ""
                                         )}
 
-                                        {step == 6 ? (
+                                        {step == 7 ? (
                                             <>
                                                 <div className="vertical-tab-sec-col">
                                                     <div className="vertical-tab-header">
                                                         <div className="vertical-tab-header-content">
                                                             <div className="flex  w-full items-center justify-center">
                                                                 <div className="explore-step-header w-full">
-                                                                    <button className="goback_btn controls-fb" onClick={() => setStep(5)}></button>
+                                                                    <button className="goback_btn controls-fb" onClick={() => setStep(6)}></button>
                                                                     <h4>
                                                                         A few more details
                                                                     </h4>
@@ -2268,14 +2331,14 @@ const Explore = () => {
                                             ""
                                         )}
 
-                                        {step == 7 ? (
+                                        {step == 8 ? (
                                             <>
                                                 <div className="vertical-tab-sec-col">
                                                     <div className="vertical-tab-header">
                                                         <div className="vertical-tab-header-content">
                                                             <div className="flex  w-full items-center justify-center">
                                                                 <div className="explore-step-header w-full">
-                                                                    <button className="goback_btn controls-fb" onClick={() => setStep(6)}></button>
+                                                                    <button className="goback_btn controls-fb" onClick={() => setStep(7)}></button>
                                                                     <h4>
                                                                         Academic details
                                                                     </h4>
@@ -2720,14 +2783,14 @@ const Explore = () => {
                                             ""
                                         )}
 
-                                        {step == 8 ? (
+                                        {step == 9 ? (
                                             <>
                                                 <div className="vertical-tab-sec-col">
                                                     <div className="vertical-tab-header">
                                                         <div className="vertical-tab-header-content">
                                                             <div className="flex  w-full items-center justify-center">
                                                                 <div className="explore-step-header w-full">
-                                                                    <button className="goback_btn controls-fb" onClick={() => setStep(7)}></button>
+                                                                    <button className="goback_btn controls-fb" onClick={() => setStep(8)}></button>
                                                                     <h4>
                                                                         Test scores (optional)
                                                                     </h4>
@@ -2826,14 +2889,14 @@ const Explore = () => {
                                             ""
                                         )}
 
-                                        {step == 9 ? (
+                                        {step == 10 ? (
                                             <>
                                                 <div className="vertical-tab-sec-col">
                                                     <div className="vertical-tab-header">
                                                         <div className="vertical-tab-header-content">
                                                             <div className="items-center justify-center">
                                                                 <div className="explore-step-header w-full">
-                                                                    <button type="button" aria-label="Back" className="goback_btn controls-fb" onClick={() => setStep(8)}></button>
+                                                                    <button type="button" aria-label="Back" className="goback_btn controls-fb" onClick={() => setStep(9)}></button>
                                                                     <h4>Your contact details</h4>
                                                                     <span className="explore-nav-spacer" aria-hidden="true" />
                                                                 </div>
@@ -2985,7 +3048,7 @@ const Explore = () => {
                                             ""
                                         )}
 
-                                        {step == 10 ? (
+                                        {step == 11 ? (
                                             <>
                                                 <div className="vertical-tab-sec-col">
                                                     <div className="vertical-tab-header">

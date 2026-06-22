@@ -29,7 +29,7 @@ const TechJourney = () => {
                     {/* {deviceType == 'mobile' ? ( */}
                         <>
                             <div className="module-head">
-                                <h2 className="module-title">Cutting edge Technology followed by <br />100% Digital and 100% Transparent Process.</h2>
+                                <h2 className="module-title">Cutting edge Technology followed by <br />100% Digital and transparent process.</h2>
                                 {/* <p className="module-subtitle">Draws on your personal context without allowing anyone else to access your personal data — not even ApplyUniNow.</p> */}
                             </div>
                             <div className='module-desc'>A novel, multi-tasking WEB and MOBILE application that provides counseling from the start to help international students settle in their destination with real-time insights.</div>

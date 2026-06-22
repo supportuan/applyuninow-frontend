@@ -3688,6 +3688,64 @@ h2.page-heading {
   text-decoration: underline;
 }
 
+.login-contact-section {
+  max-width: 500px;
+  margin: 40px auto 0;
+  text-align: center;
+}
+.login-contact-heading {
+  font-size: 22px;
+  line-height: 30px;
+  font-weight: 500;
+  color: #c22032;
+  font-family: "Poppins", sans-serif;
+  margin-bottom: 8px;
+}
+.login-contact-subtext {
+  font-size: 14px;
+  line-height: 22px;
+  color: #474747;
+  font-family: "Comfortaa", sans-serif;
+  margin-bottom: 20px;
+}
+.login-contact-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: center;
+}
+.login-contact-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px;
+  border-radius: 50px;
+  border: 1px solid #c22032;
+  color: #c22032;
+  font-size: 14px;
+  font-weight: 600;
+  font-family: "Poppins", sans-serif;
+  text-decoration: none;
+  transition: all 0.2s ease-in-out;
+}
+.login-contact-link:hover,
+.login-contact-link:focus {
+  background: #c22032;
+  color: #fff;
+}
+@media screen and (max-width: 1000px) {
+  .login-contact-section {
+    margin-top: 30px;
+  }
+  .login-contact-links {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .login-contact-link {
+    justify-content: center;
+  }
+}
+
 .country-detail-section .country-map-sec {
   display: flex;
   flex-direction: column;

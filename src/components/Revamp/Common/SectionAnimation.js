@@ -16,7 +16,7 @@ import { usePageContext } from '../context/PageContext';
 
 const SectionAnimation = ({ info: imgDetail }) => {
   const heroRef = useRef(null);
-  const {deviceType, windowType} = usePageContext();
+  const { deviceType, windowType } = usePageContext();
   const wType = windowType !== 'xlarge' ? 0.5 : 0.6;
 
   useEffect(() => {
@@ -40,12 +40,12 @@ const SectionAnimation = ({ info: imgDetail }) => {
       hiddenElements.forEach((element) => {
         tl.from(element, {
           opacity: 1,
-          y: "130vh", 
-          ease: "power4.Out", 
+          y: "130vh",
+          ease: "power4.Out",
           scrollTrigger: {
-            trigger: "#livePhoneScrollTrigger", 
-            start: "top 90%", 
-            end: "top -50%", 
+            trigger: "#livePhoneScrollTrigger",
+            start: "top 90%",
+            end: "top -50%",
             scrub: true
           }
         });
@@ -55,12 +55,12 @@ const SectionAnimation = ({ info: imgDetail }) => {
       hiddenElements2.forEach((element) => {
         tl.from(element, {
           opacity: 1,
-          y: "250vh", 
-          ease: "power4.Out", 
+          y: "250vh",
+          ease: "power4.Out",
           scrollTrigger: {
-            trigger: "#photos", 
-            start: "top 0%", 
-            end: "top -200%", 
+            trigger: "#photos",
+            start: "top 0%",
+            end: "top -200%",
             scrub: true
           }
         });
@@ -70,12 +70,12 @@ const SectionAnimation = ({ info: imgDetail }) => {
       hiddenElements3.forEach((element) => {
         tl.from(element, {
           opacity: 1,
-          y: "400vh", 
-          ease: "power4.Out", 
+          y: "400vh",
+          ease: "power4.Out",
           scrollTrigger: {
-            trigger: "#photos", 
-            start: "top 0%", 
-            end: "top -400%", 
+            trigger: "#photos",
+            start: "top 0%",
+            end: "top -400%",
             scrub: true
           }
         });
@@ -85,24 +85,24 @@ const SectionAnimation = ({ info: imgDetail }) => {
       hiddenElements4.forEach((element) => {
         tl.from(element, {
           opacity: 1,
-          y: "540vh", 
-          ease: "power4.Out", 
+          y: "540vh",
+          ease: "power4.Out",
           scrollTrigger: {
-            trigger: "#photos", 
-            start: "top 0%", 
-            end: "top -540%", 
+            trigger: "#photos",
+            start: "top 0%",
+            end: "top -540%",
             scrub: true
           }
         });
       });
 
-      
+
       const images = gsap.utils.toArray("#photos .photo .imgEf");
 
       mod.ScrollTrigger.matchMedia({
         "(max-width: 768px)": function () {
           gsap.to("#photos .photo", {
-            xPercent: -110, 
+            xPercent: -110,
             duration: 1,
             ease: "none",
             scrollTrigger: {
@@ -119,7 +119,7 @@ const SectionAnimation = ({ info: imgDetail }) => {
 
         "(min-width: 769px)": function () {
           gsap.to("#photos .photo", {
-            xPercent: -100, 
+            xPercent: -100,
             ease: "none",
             scrollTrigger: {
               trigger: ".photo",
@@ -136,14 +136,14 @@ const SectionAnimation = ({ info: imgDetail }) => {
 
 
       images.forEach((imgEf, i) => {
-        if (i === 0) return; 
+        if (i === 0) return;
 
         if (i === images.length - 1) {
           gsap.to(imgEf, {
             scale: 1,
             ease: "none",
             scrollTrigger: {
-              trigger: images[images.length - 2], 
+              trigger: images[images.length - 2],
               start: "center center",
               end: "bottom center",
               scrub: 2,
@@ -177,8 +177,8 @@ const SectionAnimation = ({ info: imgDetail }) => {
         }
       });
 
-      
-      if(deviceType !== 'xlarge') {
+
+      if (deviceType !== 'xlarge') {
         tl.to(".photo .slideImg", {
           x: "60vw",
           y: "-35vh",
@@ -193,7 +193,7 @@ const SectionAnimation = ({ info: imgDetail }) => {
         });
         gsap.to(".section3", {
           opacity: 1,
-          x: "-40vw", 
+          x: "-40vw",
           y: "25vh",
           ease: "power2.inOut",
           scrollTrigger: {
@@ -207,7 +207,7 @@ const SectionAnimation = ({ info: imgDetail }) => {
 
         gsap.to(".lastImgEF", {
           opacity: 1,
-          x: "20vw", 
+          x: "20vw",
           y: "-40vh",
           ease: "power2.inOut",
           scrollTrigger: {
@@ -233,7 +233,7 @@ const SectionAnimation = ({ info: imgDetail }) => {
         });
         gsap.to(".section3", {
           opacity: 1,
-          x: "20vw", 
+          x: "20vw",
           y: "-55vh",
           ease: "power2.inOut",
           scrollTrigger: {
@@ -247,7 +247,7 @@ const SectionAnimation = ({ info: imgDetail }) => {
 
         gsap.to(".lastImgEF", {
           opacity: 1,
-          x: "30vw", 
+          x: "30vw",
           y: "-25vh",
           ease: "power2.inOut",
           scrollTrigger: {
@@ -267,7 +267,7 @@ const SectionAnimation = ({ info: imgDetail }) => {
       <div className="section1">
         <div className="uperText">
           <div className="uperText1">
-          <div className="module-head"><h2 className="module-title">Cutting edge Technology followed by <br />100% Digital and 100% Transparent Process.</h2><p className="module-subtitle">Draws on your personal context without allowing anyone else to access your personal data — not even ApplyUniNow.</p></div>
+            <div className="module-head"><h2 className="module-title">Cutting edge Technology followed by <br />100% Digital and transparent process.</h2><p className="module-subtitle">Draws on your personal context without allowing anyone else to access your personal data — not even ApplyUniNow.</p></div>
           </div>
         </div>
 
@@ -291,17 +291,17 @@ const SectionAnimation = ({ info: imgDetail }) => {
         </div>
 
       </div>
-      
+
       <div className="section2">
         <div id="photos">
-        
+
           <div className="photo">
-          {/* {deviceType == 'desktop' ? ( */}
-              <div id="livePhoneScrollTrigger">
-                <div className="livePhone imgEf"><Image src={firstImg} width={200} height={400} alt="" /> </div>
-              </div>
+            {/* {deviceType == 'desktop' ? ( */}
+            <div id="livePhoneScrollTrigger">
+              <div className="livePhone imgEf"><Image src={firstImg} width={200} height={400} alt="" /> </div>
+            </div>
             {/* ): null} */}
-            
+
             <div className="imgEf"><Image src={firstImg} width={200} height={400} alt="" /></div>
             <div className="imgEf"><Image src={firstImg} width={200} height={400} alt="" /></div>
             <div className="imgEf"><Image src={firstImg} width={200} height={400} alt="" /></div>

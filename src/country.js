@@ -237,8 +237,17 @@ export const enrichStudyDestination = (item) => {
 };
 
 export const normalizeStudyDestinations = (list) => {
-  if (!Array.isArray(list) || !list.length) return [];
-  return sortStudyDestinations(list.map((item) => enrichStudyDestination(item)));
+  const apiList = Array.isArray(list) ? list.map((item) => enrichStudyDestination(item)) : [];
+  const staticList = getStaticStudyDestinations();
+
+  const merged = staticList.map((staticItem) => {
+    const matchedApiItem = apiList.find(
+      (apiItem) => apiItem.name.toUpperCase() === staticItem.name.toUpperCase()
+    );
+    return matchedApiItem ? matchedApiItem : staticItem;
+  });
+
+  return sortStudyDestinations(merged);
 };
 
 export const sortStudyDestinations = (destinations) =>
