@@ -6,11 +6,12 @@ import { useAppContext } from "../../../context/Appcontext";
 import useRazorpay from '../Hooks/useRazorpay';
 import { HighlightOff, Close, HourglassTop } from '@mui/icons-material';
 import { motion, AnimatePresence } from 'framer-motion';
+import { toast } from 'react-toastify';
 
 
 const EnquiryModal = ({ isOpen, onClose, planTitle, planPrice }) => {
 
-  const { pageLabelName, prerequisiteData } = usePageContext();
+  const { pageLabelName } = usePageContext();
   const { BASE_URL } = useAppContext();
   const { loading: paymentLoading, paymentStatus, error: paymentError, initiatePayment, resetPayment } = useRazorpay();
 
@@ -60,27 +61,46 @@ const EnquiryModal = ({ isOpen, onClose, planTitle, planPrice }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const newErrors = await validate();
+    const newErrors = validate();
+    const hasErrors = Object.values(newErrors).some((value) => value !== '');
+    if (hasErrors) return;
 
-    let errorState = true;
-    let objectCount = 0;
-    Object.entries(newErrors).forEach(([key, value]) => {
-      objectCount = objectCount + 1;
-      if (value !== '' && errorState) {
-        errorState = false;
-      } else if (!errorState) {
-        setErrors(newErrors);
-        return false;
-      } else if (objectCount === Object.keys(newErrors).length) {
-        formData.pageLabelName = pageLabelName;
-        if (planPrice) {
-          startPayment();
-        } else {
-          setFormData(initialForm);
-          onClose();
-        }
-      }
-    })
+    if (planPrice) {
+      setSubmitting(true);
+      startPayment();
+      return;
+    }
+
+    contactUsSave(formData);
+  };
+
+  const contactUsSave = (data) => {
+    const obj = {
+      email: data.email,
+      phone: data.contact,
+      name: data.fullName,
+      country_id: data.country || '',
+      sourceType: pageLabelName || 'enquiry',
+    };
+
+    setSubmitting(true);
+    api
+      .post(`${BASE_URL}/contact-us`, obj)
+      .then(() => {
+        setFormData(initialForm);
+        onClose();
+        setShowModal(true);
+      })
+      .catch((err) => {
+        const message =
+          err?.response?.data?.message ||
+          err?.response?.data?.errors?.[Object.keys(err?.response?.data?.errors || {})[0]] ||
+          'Unable to submit your enquiry. Please try again.';
+        toast.error(message);
+      })
+      .finally(() => {
+        setSubmitting(false);
+      });
   };
 
   const startPayment = async () => {

@@ -3705,6 +3705,85 @@ h2.page-heading {
   text-decoration: underline;
 }
 
+.connect-us-embedded {
+  max-width: 500px;
+  margin: 60px auto 0;
+  width: 100%;
+}
+.connect-us-embedded .module-head {
+  margin-bottom: 0;
+}
+.connect-us-embedded .module-head .module-title {
+  font-size: 28px;
+  line-height: 38px;
+}
+.connect-us-embedded .connect-container {
+  width: 100%;
+  max-width: 100%;
+  margin-top: 24px;
+  gap: 12px;
+}
+.connect-us-embedded .connect-container__item {
+  padding: 16px;
+  gap: 14px;
+  border-radius: 18px;
+}
+.connect-us-embedded .connect-container__item h2 {
+  font-size: 15px;
+  line-height: 22px;
+}
+.connect-us-embedded .connect-container__item img:not(.before_hover) {
+  width: 45px !important;
+  height: 45px !important;
+  min-width: 45px;
+  max-width: 45px;
+}
+.connect-us-embedded .connect-container__item .before_hover {
+  height: 20px;
+  width: auto;
+}
+.connect-us-embedded .connect-container__item .controls {
+  min-height: 28px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+.connect-us-embedded .connect-container__item .btn {
+  display: block !important;
+  position: absolute;
+  opacity: 0;
+  visibility: hidden;
+  padding: 3px 12px;
+  font-size: 12px;
+  line-height: 18px;
+  pointer-events: none;
+}
+.connect-us-embedded .connect-container__item .before_hover {
+  transition: opacity 0.2s ease;
+}
+.connect-us-embedded .connect-container__item:hover,
+.connect-us-embedded .connect-container__item:focus {
+  box-shadow: 0 0 12px 0 rgba(238, 17, 19, 0.35);
+}
+.connect-us-embedded .connect-container__item:hover::before,
+.connect-us-embedded .connect-container__item:focus::before {
+  display: none;
+}
+.connect-us-embedded .connect-container__item:hover .controls .before_hover,
+.connect-us-embedded .connect-container__item:focus .controls .before_hover {
+  display: block !important;
+  opacity: 0;
+  visibility: hidden;
+}
+.connect-us-embedded .connect-container__item:hover .btn,
+.connect-us-embedded .connect-container__item:focus .btn {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: none;
+}
+
 .login-contact-section {
   max-width: 500px;
   margin: 40px auto 0;

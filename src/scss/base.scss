@@ -3626,6 +3626,92 @@ h2 {
     }
 }
 
+.connect-us-embedded {
+    max-width: functions.rem(500);
+    margin: functions.rem(60) auto 0;
+    width: 100%;
+
+    .module-head {
+        margin-bottom: 0;
+
+        .module-title {
+            font-size: functions.rem(28);
+            line-height: functions.rem(38);
+        }
+    }
+
+    .connect-container {
+        width: 100%;
+        max-width: 100%;
+        margin-top: functions.rem(24);
+        gap: functions.rem(12);
+    }
+
+    .connect-container__item {
+        padding: functions.rem(16);
+        gap: functions.rem(14);
+        border-radius: functions.rem(18);
+
+        h2 {
+            font-size: functions.rem(15);
+            line-height: functions.rem(22);
+        }
+
+        img:not(.before_hover) {
+            width: functions.rem(45) !important;
+            height: functions.rem(45) !important;
+            min-width: functions.rem(45);
+            max-width: functions.rem(45);
+        }
+
+        .before_hover {
+            height: functions.rem(20);
+            width: auto;
+            transition: opacity 0.2s ease;
+        }
+
+        .controls {
+            min-height: functions.rem(28);
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+        }
+
+        .btn {
+            display: block !important;
+            position: absolute;
+            opacity: 0;
+            visibility: hidden;
+            padding: functions.rem(3) functions.rem(12);
+            font-size: functions.rem(12);
+            line-height: functions.rem(18);
+            pointer-events: none;
+        }
+
+        @include mixins.hover() {
+            box-shadow: 0 0 12px 0 rgba(238, 17, 19, 0.35);
+
+            &::before {
+                display: none;
+            }
+
+            .controls .before_hover {
+                display: block !important;
+                opacity: 0;
+                visibility: hidden;
+            }
+
+            .btn {
+                opacity: 1;
+                visibility: visible;
+                pointer-events: none;
+            }
+        }
+    }
+}
+
 .country-detail-section {
     .country-map-sec {
         display: flex;

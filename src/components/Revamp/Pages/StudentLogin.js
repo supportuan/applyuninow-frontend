@@ -9,7 +9,7 @@ import { toast } from "react-toastify";
 import Validator from "validatorjs";
 import { environment } from "../../../environments/environment";
 import TopStrip from "../Common/TopStrip";
-import LoginContactUs from "../Common/LoginContactUs";
+import ConnectUs from "../Common/ConnectUs";
 const intialValues = {
   email: "",
   password: ""
@@ -175,7 +175,7 @@ const intialValues = {
               <Link href="/forget-password">Forget Password?</Link>
             </div>
           </form>
-          <LoginContactUs />
+          <ConnectUs embedded />
           <div className="module-head">
               <h2 className="module-title"></h2>
               <p className="module-subtitle footer-text marginT20">ApplyUniNow will utilize your data for the purpose of concentration of consents of usage. Rest assured that your data is secure with us, and we will never disclose your details to third parties for marketing purposes without your explicit consent. For further information, please refer to our privacy and cookies policies.</p>

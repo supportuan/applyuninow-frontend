@@ -6,6 +6,7 @@ import TechJourney from '../src/components/Revamp/Common/TechJourney'
 import TestPref from '../src/components/Revamp/TestPref'
 import AppProcess from '../src/components/Revamp/Common/AppProcess'
 import USPs from '../src/components/Revamp/Common/USPs'
+import ConnectUs from '../src/components/Revamp/Common/ConnectUs'
 import FAQs from '../src/components/Revamp/Common/FAQs';
 import Testimonials from '../src/components/Revamp/Common/Testimonials';
 import { uList } from "../src/components/Revamp/utils/helpers.js";
@@ -93,6 +94,7 @@ const Home = () => {
         <TestPref />
         {/* <AppProcess /> */}
         <USPs />
+        <ConnectUs />
         <FAQs />
         <Testimonials />
     </>

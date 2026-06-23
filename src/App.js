@@ -95,6 +95,7 @@ import UniversityList from './components/Revamp/Common/UniversityList';
 import TechJourney from './components/Revamp/Common/TechJourney';
 import TestPref from './components/Revamp/TestPref';
 import USPs from './components/Revamp/Common/USPs';
+import ConnectUs from './components/Revamp/Common/ConnectUs';
 import FAQs from './components/Revamp/Common/FAQs';
 import Testimonials from './components/Revamp/Common/Testimonials';
 import { uList } from './components/Revamp/utils/helpers';
@@ -193,6 +194,7 @@ const App = () => {
                   <TechJourney />
                   <TestPref />
                   <USPs />
+                  <ConnectUs />
                   <FAQs />
                   <Testimonials />
                 </>
@@ -206,6 +208,7 @@ const App = () => {
                   <TechJourney />
                   <TestPref />
                   <USPs />
+                  <ConnectUs />
                   <FAQs />
                   <Testimonials />
                 </>

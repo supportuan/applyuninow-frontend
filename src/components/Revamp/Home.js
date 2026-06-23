@@ -5,6 +5,7 @@ import UniversityList from './Common/UniversityList'
 import TechJourney from './Common/TechJourney'
 import TestPref from './TestPref'
 import AppProcess from './Common/AppProcess'
+import ConnectUs from './Common/ConnectUs'
 import USPs from './Common/USPs'
 import FAQs from './Common/FAQs';
 import Testimonials from './Common/Testimonials';
@@ -86,6 +87,7 @@ const Home = () => {
         <UniversityList infoList={uList} />
         <TechJourney />
         <TestPref />
+        <ConnectUs />
         <AppProcess />
         <USPs />
         <FAQs />
